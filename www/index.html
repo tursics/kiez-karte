@@ -7,10 +7,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
 
- 	<title>Mein Kiez</title>
-	<meta name="title" content="Mein Kiez" />
-	<meta property="og:title" content="Mein Kiez" />
-	<meta name="twitter:title" content="Mein Kiez">
+ 	<title>Kiez-Karte</title>
+	<meta name="title" content="Kiez-Karte" />
+	<meta property="og:title" content="Kiez-Karte" />
+	<meta name="twitter:title" content="Kiez-Karte">
 
 	<meta name="description" content="Die familienfreundliche Karte von Berlin-Lichtenberg." />
 	<meta property="og:description" content="Die familienfreundliche Karte von Berlin-Lichtenberg." />
@@ -51,6 +51,38 @@
 			margin-top:-2.7em;
 			padding:0px!important;
 		}
+		li.done:before, li.todo:before, li.none:before, li.work:before {
+			font-family:FontAwesome;
+			font-weight:normal;
+			font-style:normal;
+			display:inline-block;
+			text-decoration:inherit;
+			padding-right:0.3em;
+		}
+		li.done {
+			color:green !important;
+		}
+		li.done:before {
+			content:"\f05d";
+		}
+		li.todo {
+			color:gray !important;
+		}
+		li.todo:before {
+			content:"\f10c";
+		}
+		li.none {
+			color:brown !important;
+		}
+		li.none:before {
+			content:"\f05e";
+		}
+		li.work {
+			color:orange !important;
+		}
+		li.work:before {
+			content:"\f192";
+		}
 	.segmented-control { text-align:center; }
 	.segmented-control .ui-controlgroup { display:inline; margin:.2em 0px; }
 
@@ -79,51 +111,52 @@
 			</div>
 			<div data-role="popup" id="popupInfo" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
 				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-				<h1 style="margin-bottom:0;">Mein Kiez</h1>
-				<p style="margin-top:0;margin-bottom:1em;">(Lichtenberg)</p>
-				Von <a href="https://twitter.com/tursics" target="_blank">@tursics</a> für <a href="https://twitter.com/codeforde" target="_blank">@codeforde</a> OK Lab Berlin.
-
+				<h1 style="margin-bottom:0;">Kiez-Karte</h1>
+				<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
+				Von <a href="https://twitter.com/tursics" target="_blank"><i class="fa fa-twitter"></i>tursics</a> für <a href="https://twitter.com/codeforde" target="_blank"><i class="fa fa-twitter"></i>codeforde</a> OK Lab Berlin.<br>
+				Zu finden unter <a href="http://kiez-karte.berlin"><i class="fa fa-globe"></i>kiez-karte.berlin</a> und <a href="https://github.com/tursics/kiez-karte" target="_blank"><i class="fa fa-github"></i>GitHub</a>.<br>
+				<br>
 				<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
 					<div data-role="collapsible" data-collapsed="false">
 						<h3>To Do's</h3>
 						<ul data-role="listview" data-inset="false">
-							<li><i class="fa fa-check-square-o"></i> Webseite mit Karte aufsetzen</li>
-							<li><i class="fa fa-square-o"></i> Projektbeschreibung schreiben</li>
-							<li><i class="fa fa-square-o"></i> Auf github kopieren</li>
-							<li><i class="fa fa-square-o"></i> Als App verpacken</li>
+							<li class="done">Webseite mit Karte aufsetzen</li>
+							<li class="done">Auf github kopieren</li>
+							<li class="todo">Projektbeschreibung schreiben</li>
+							<li class="none">Als App verpacken</li>
 						</ul>
 					</div>
 					<div data-role="collapsible">
 						<h3>Karte</h3>
 						<ul data-role="listview" data-inset="false">
-							<li><i class="fa fa-square-o"></i> Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
-							<li><i class="fa fa-square-o"></i> Objektgruppen favorisieren</li>
-							<li><i class="fa fa-square-o"></i> Historische Landkarten einblenden</li>
-							<li><i class="fa fa-square-o"></i> Geocoder einbauen</li>
-							<li><i class="fa fa-square-o"></i> Drag'n'Drop von CSV- und SHP-Dateien</li>
+							<li class="work">Geocoder einbauen</li>
+							<li class="work">Drag'n'Drop von CSV- und SHP-Dateien</li>
+							<li class="todo">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
+							<li class="todo">Objektgruppen favorisieren</li>
+							<li class="none">Historische Landkarten einblenden</li>
 						</ul>
 					</div>
 					<div data-role="collapsible">
 						<h3>Daten</h3>
 						<ul data-role="listview" data-inset="false">
-							<li><i class="fa fa-square-o"></i> Basisdaten von daten.berlin.de</li>
-							<li><i class="fa fa-square-o"></i> Gesundheitsdaten von daten.berlin.de</li>
-							<li><i class="fa fa-square-o"></i> Energiedaten von daten.berlin.de</li>
-							<li><i class="fa fa-square-o"></i> Spielplätze vom FIS-Broker Berlin</li>
-							<li><i class="fa fa-square-o"></i> Nachfragen nach Kindergärten und Schulen</li>
-							<li><i class="fa fa-square-o"></i> Haltestellen und Fahrpläne der BVG</li>
-							<li><i class="fa fa-square-o"></i> Straßenlaternen von Vatenfall "borgen"</li>
-							<li><i class="fa fa-square-o"></i> Tankstellen und Benzinpreise (natürlich Livedaten)</li>
-							<li><i class="fa fa-square-o"></i> Haushaltsplanung für einzelne Objekte anzeigen</li>
+							<li class="work">Spielplätze vom FIS-Broker Berlin</li>
+							<li class="todo">Basisdaten von daten.berlin.de</li>
+							<li class="todo">Gesundheitsdaten von daten.berlin.de</li>
+							<li class="todo">Energiedaten von daten.berlin.de</li>
+							<li class="todo">Nachfragen nach Kindergärten und Schulen</li>
+							<li class="todo">Haltestellen und Fahrpläne der BVG und S-Bahn</li>
+							<li class="todo">Straßenlaternen von Vatenfall "borgen"</li>
+							<li class="todo">Haushaltsplanung für einzelne Objekte anzeigen</li>
+							<li class="none">Tankstellen und Benzinpreise (natürlich Livedaten)</li>
 						</ul>
 					</div>
 					<div data-role="collapsible">
 						<h3>Partizipation</h3>
 						<ul data-role="listview" data-inset="false">
-							<li><i class="fa fa-square-o"></i> Bürgerhaushalt einbinden</li>
-							<li><i class="fa fa-square-o"></i> Rating- und Kommentarsystem für jedes Objekt</li>
-							<li><i class="fa fa-square-o"></i> Schadensmeldung für Straßenlaternen</li>
-							<li><i class="fa fa-square-o"></i> buergermeldungen.com</li>
+							<li class="todo">Bürgerhaushalt einbinden</li>
+							<li class="todo">Rating- und Kommentarsystem für jedes Objekt</li>
+							<li class="todo">Schadensmeldung für Straßenlaternen</li>
+							<li class="todo">buergermeldungen.com</li>
 						</ul>
 					</div>
 				</div>
@@ -140,8 +173,8 @@
 			</div>
 			<div data-role="popup" id="popupCopyright" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
 				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-				<h1 style="margin-bottom:0;">Mein Kiez</h1>
-				<p style="margin-top:0;margin-bottom:1em;">(Lichtenberg)</p>
+				<h1 style="margin-bottom:0;">Kiez-Karte</h1>
+				<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
 				Diese Seite wird betrieben von<br>
 				<span style="color:gray;">Thomas Tursics<br>Frankfurter Allee 172<br>10365 Berlin</span><br>
 				<br>
@@ -151,6 +184,7 @@
 					<a href="https://twitter.com/tursics"                target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
 					<a href="https://www.facebook.com/thomas.tursics"    target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
 					<a href="https://google.com/+ThomasTursics"          target="_blank" class="ui-btn"><i class="fa fa-google-plus"></i></a>
+					<a href="https://github.com/tursics"                 target="_blank" class="ui-btn"><i class="fa fa-github"></i></a>
 					<a href="https://www.linkedin.com/in/thomastursics"  target="_blank" class="ui-btn"><i class="fa fa-linkedin"></i></a>
 					<a href="http://www.xing.com/profile/Thomas_Tursics" target="_blank" class="ui-btn"><i class="fa fa-xing"></i></a>
 				</div></center><br>
