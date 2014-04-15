@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
+
+ 	<title>Mein Kiez</title>
+	<meta name="title" content="Mein Kiez" />
+	<meta property="og:title" content="Mein Kiez" />
+	<meta name="twitter:title" content="Mein Kiez">
+
+	<meta name="description" content="Die familienfreundliche Karte von Berlin-Lichtenberg." />
+	<meta property="og:description" content="Die familienfreundliche Karte von Berlin-Lichtenberg." />
+	<meta name="twitter:description" content="Die familienfreundliche Karte von Berlin-Lichtenberg.">
+
+	<link rel="image_src" type="image/png" href="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png" />
+	<meta property="og:image" content="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png" />
+	<meta name="twitter:image:src" content="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png">
+
+	<meta property="og:url" content="http://www.tursics.de/sample/lichtenberg/">
+	<meta name="twitter:domain" content="http://www.tursics.de/sample/lichtenberg">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:creator" content="@tursics">
+
+	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+	<script src="http://js.api.here.com/se/2.5.4/jsl.js?with=maps,places,directions,positioning" type="text/javascript" charset="utf-8"></script>
+
+	<style type="text/css">
+		html {
+			overflow:hidden;
+		}
+		body {
+			margin:0;
+			padding:0;
+			position:absolute;
+			overflow:hidden;
+			width:100%;
+			height:100%;
+		}
+		#mapContainer {
+			width:100%;
+			height:100%;
+			left:0;
+			top:0;
+			margin-top:-2.7em;
+			padding:0px!important;
+		}
+	.segmented-control { text-align:center; }
+	.segmented-control .ui-controlgroup { display:inline; margin:.2em 0px; }
+
+	#pageMap { width:100%; height:100%; }
+	</style>
+	<script src="scripts/jquery.mobile-1.4.2/jquery-1.10.2.min.js"></script>
+	<script src="scripts/dragndrop.js"></script>
+	<script src="scripts/index.js"></script>
+	<script src="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.js"></script>
+</head>
+<body>
+	<div data-role="page" id="pageMap">
+		<div data-role="header" data-position="fixed">
+			<div class="segmented-control ui-bar-a">
+			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+				<input type="radio" name="mapDisplay" id="displayNormal" checked="true"><label for="displayNormal">Karte</label>
+				<input type="radio" name="mapDisplay" id="displayBus"><label for="displayBus">Bus</label>
+				<input type="radio" name="mapDisplay" id="displayCar"><label for="displayCar">Auto</label>
+				<input type="radio" name="mapDisplay" id="displaySatelite"><label for="displaySatelite">Satellit</label>
+			</fieldset>
+			</div>
+			<div data-role="controlgroup" data-type="horizontal" class="ui-mini ui-btn-right">
+				<a href="#popupInfo"      data-rel="popup" class="ui-btn ui-icon-bullets ui-btn-icon-notext">Info</a>
+				<a href="#popupShare"     data-rel="popup" class="ui-btn ui-icon-action  ui-btn-icon-notext">Info</a>
+				<a href="#popupCopyright" data-rel="popup" class="ui-btn ui-icon-info    ui-btn-icon-notext">Copyright</a>
+			</div>
+			<div data-role="popup" id="popupInfo" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
+				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+				<h1 style="margin-bottom:0;">Mein Kiez</h1>
+				<p style="margin-top:0;margin-bottom:1em;">(Lichtenberg)</p>
+				Von <a href="https://twitter.com/tursics" target="_blank">@tursics</a> für <a href="https://twitter.com/codeforde" target="_blank">@codeforde</a> OK Lab Berlin.
+
+				<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+					<div data-role="collapsible" data-collapsed="false">
+						<h3>To Do's</h3>
+						<ul data-role="listview" data-inset="false">
+							<li><i class="fa fa-check-square-o"></i> Webseite mit Karte aufsetzen</li>
+							<li><i class="fa fa-square-o"></i> Projektbeschreibung schreiben</li>
+							<li><i class="fa fa-square-o"></i> Auf github kopieren</li>
+							<li><i class="fa fa-square-o"></i> Als App verpacken</li>
+						</ul>
+					</div>
+					<div data-role="collapsible">
+						<h3>Karte</h3>
+						<ul data-role="listview" data-inset="false">
+							<li><i class="fa fa-square-o"></i> Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
+							<li><i class="fa fa-square-o"></i> Objektgruppen favorisieren</li>
+							<li><i class="fa fa-square-o"></i> Historische Landkarten einblenden</li>
+							<li><i class="fa fa-square-o"></i> Geocoder einbauen</li>
+							<li><i class="fa fa-square-o"></i> Drag'n'Drop von CSV- und SHP-Dateien</li>
+						</ul>
+					</div>
+					<div data-role="collapsible">
+						<h3>Daten</h3>
+						<ul data-role="listview" data-inset="false">
+							<li><i class="fa fa-square-o"></i> Basisdaten von daten.berlin.de</li>
+							<li><i class="fa fa-square-o"></i> Gesundheitsdaten von daten.berlin.de</li>
+							<li><i class="fa fa-square-o"></i> Energiedaten von daten.berlin.de</li>
+							<li><i class="fa fa-square-o"></i> Spielplätze vom FIS-Broker Berlin</li>
+							<li><i class="fa fa-square-o"></i> Nachfragen nach Kindergärten und Schulen</li>
+							<li><i class="fa fa-square-o"></i> Haltestellen und Fahrpläne der BVG</li>
+							<li><i class="fa fa-square-o"></i> Straßenlaternen von Vatenfall "borgen"</li>
+							<li><i class="fa fa-square-o"></i> Tankstellen und Benzinpreise (natürlich Livedaten)</li>
+							<li><i class="fa fa-square-o"></i> Haushaltsplanung für einzelne Objekte anzeigen</li>
+						</ul>
+					</div>
+					<div data-role="collapsible">
+						<h3>Partizipation</h3>
+						<ul data-role="listview" data-inset="false">
+							<li><i class="fa fa-square-o"></i> Bürgerhaushalt einbinden</li>
+							<li><i class="fa fa-square-o"></i> Rating- und Kommentarsystem für jedes Objekt</li>
+							<li><i class="fa fa-square-o"></i> Schadensmeldung für Straßenlaternen</li>
+							<li><i class="fa fa-square-o"></i> buergermeldungen.com</li>
+						</ul>
+					</div>
+				</div>
+				<center>
+					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">Schließen</a>
+				</center>
+			</div>
+			<div data-role="popup" id="popupShare" data-theme="a" data-position-to="origin" data-transition="slidedown">
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="https://twitter.com/intent/tweet?text=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+auf+http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg+von+@tursics" target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
+					<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg&t=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+(von+Thomas+Tursics)" target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
+					<a href="#" class="ui-btn" data-rel="back" data-transition="flow"><i class="fa fa-times "></i></a>
+				</div>
+			</div>
+			<div data-role="popup" id="popupCopyright" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
+				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+				<h1 style="margin-bottom:0;">Mein Kiez</h1>
+				<p style="margin-top:0;margin-bottom:1em;">(Lichtenberg)</p>
+				Diese Seite wird betrieben von<br>
+				<span style="color:gray;">Thomas Tursics<br>Frankfurter Allee 172<br>10365 Berlin</span><br>
+				<br>
+				Bei Fragen, Anmerkungen, Verbesserungsvorschlägen, schreibt mir<br>
+				<center><div data-role="controlgroup" data-type="horizontal">
+					<a href="http://www.tursics.de/support"              target="_blank" class="ui-btn"><i class="fa fa-envelope"></i></a>
+					<a href="https://twitter.com/tursics"                target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
+					<a href="https://www.facebook.com/thomas.tursics"    target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
+					<a href="https://google.com/+ThomasTursics"          target="_blank" class="ui-btn"><i class="fa fa-google-plus"></i></a>
+					<a href="https://www.linkedin.com/in/thomastursics"  target="_blank" class="ui-btn"><i class="fa fa-linkedin"></i></a>
+					<a href="http://www.xing.com/profile/Thomas_Tursics" target="_blank" class="ui-btn"><i class="fa fa-xing"></i></a>
+				</div></center><br>
+				<br>
+				Folgende Quellenvermerke sollte ich noch angeben<br>
+				- Geoportal Berlin / Spielplatzbestand Berlin (bearbeitet)<br>
+				<br>
+				<center>
+					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">Schließen</a>
+				</center>
+			</div>
+			<div data-role="popup" id="popupDrop" data-theme="a" data-position-to="window" data-transition="pop" style="background-color:#ffee44;color:#442200;">
+			</div>
+		</div>
+		<div role="main" class="ui-content" id="mapContainer"></div>
+	</div>
+</
