@@ -123,7 +123,7 @@
 							if( count( $rows) > 15) {
 								$dataHNR = mb_strtolower( $rows[9]);
 								$dataADZ = mb_strtolower( $rows[10]);
-								$dataLon = str_replace( ',', '.', $rows[11]);
+								$dataLng = str_replace( ',', '.', $rows[11]);
 								$dataLat = str_replace( ',', '.', $rows[12]);
 								$dataSTN = preg_replace( '/\s+/', '', mb_strtolower( $rows[13]));
 								$dataPLZ = $rows[14];
@@ -133,7 +133,7 @@
 									$ret[ street] = utf8_encode( $rows[13] . ' ' . $rows[9] . $rows[10]);
 									$ret[ zip] = utf8_encode( $dataPLZ);
 									$ret[ city] = utf8_encode( $dataONM);
-									$ret[ lon] = $dataLon;
+									$ret[ lng] = $dataLng;
 									$ret[ lat] = $dataLat;
 								}
 							}

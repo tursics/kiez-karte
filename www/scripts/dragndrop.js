@@ -10,7 +10,7 @@ function initDragnDrop()
 	dropZone.addEventListener( 'dragstart', dndHandleDragStart, false);
 	dropZone.addEventListener( 'dragenter', dndHandleDragEnter, false);
 	dropZone.addEventListener( 'dragover', dndHandleDragOver, false);
-	dropZone.addEventListener( 'dragleave', dndHandleDragLeave, false);
+//	dropZone.addEventListener( 'dragleave', dndHandleDragLeave, false);
 	dropZone.addEventListener( 'drop', dndHandleDrop, false);
 
 	document.body.addEventListener( 'dragover', dndHandleDragOver, false);
@@ -150,19 +150,31 @@ function dndReadUpdateProgress( evt)
 
 // -----------------------------------------------------------------------------
 
+var dndReadFileObject = null;
+var dndReadFileIndex = 0;
+var dndReadFileGeocodeSet = null;
+var dndReadFileChanged = false;
+var dndReadFileName = '';
+
 function dndReadTextFile( f)
 {
+	dndReadFileName = f.name;
+
 	var reader = new FileReader();
 	reader.onloadend = function( e) {
 		if( e.target.readyState == FileReader.DONE) {
 			if( '{' == e.target.result.substring( 0, 1)) {
 				dndReadFileJSON( e.target.result);
+			} else if( '[' == e.target.result.substring( 0, 1)) {
+				dndReadFileJSON( e.target.result);
+			} else {
+				dndReadFileError();
 			}
 		}
 	}
 
 	var str = '';
-	str += '<strong>' + escape( f.name) + '</strong><br>';
+	str += '<strong>' + escape( dndReadFileName) + '</strong><br>';
 	str += 'Lade jetzt ' + f.size + ' Bytes...<br>';
 
 	$( '#popupDrop').html(
@@ -179,48 +191,48 @@ function dndReadTextFile( f)
 
 // -----------------------------------------------------------------------------
 
-var dndReadFileObject = null;
-var dndReadFileIndex = 0;
-var dndReadFileGeocodeSet = null;
+function dndReadFileError()
+{
+	$( '#popupDrop').html(
+		'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
+		'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
+		'Diese Datei ist leider nicht lesbar.' +
+		'</div>');
+	$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+}
+
+// -----------------------------------------------------------------------------
 
 function dndReadFileJSON( stream)
 {
 	var obj = $.parseJSON( stream);
+	dndReadFileChanged = false;
 
 	if( typeof obj != 'undefined') {
 		if( typeof obj.index != 'undefined') {
-			dndReadFileObject = obj;
-			dndReadFileIndex = 0;
-
-			if( dndReadFileGeocodeSet) {
-				map.objects.remove( dndReadFileGeocodeSet);
-			}
-			dndReadFileGeocodeSet = new nokia.maps.map.Container();
-			map.objects.add( dndReadFileGeocodeSet);
-
-			$( '#popupDrop').html(
-				'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
-				'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
-				'Verteile die Punkte auf der Karte' +
-				'</div>');
-			$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
-
-			dndReadFileObjectFunc();
-		} else {
-			$( '#popupDrop').html(
-				'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
-				'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
-				'Diese Datei ist leider nicht lesbar.' +
-				'</div>');
-			$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+			obj = obj.index;
+			dndReadFileChanged = true;
 		}
-	} else {
+
+		dndReadFileObject = obj;
+		dndReadFileIndex = 0;
+
+		if( dndReadFileGeocodeSet) {
+			map.objects.remove( dndReadFileGeocodeSet);
+		}
+		dndReadFileGeocodeSet = new nokia.maps.map.Container();
+		map.objects.add( dndReadFileGeocodeSet);
+
 		$( '#popupDrop').html(
 			'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
 			'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
-			'Diese Datei ist leider nicht lesbar.' +
+			'Verteile die Punkte auf der Karte' +
 			'</div>');
 		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+
+		dndReadFileObjectFunc();
+	} else {
+		dndReadFileError();
 	}
 }
 
@@ -229,28 +241,43 @@ function dndReadFileJSON( stream)
 function dndReadFileObjectFunc()
 {
 	try {
-		if( typeof dndReadFileObject.index[dndReadFileIndex] == 'undefined') {
-			$( '#popupDrop').popup( 'close');
+		while(( typeof dndReadFileObject[dndReadFileIndex] != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].lat != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].lng != 'undefined')) {
+			marker = new nokia.maps.map.StandardMarker([parseFloat( dndReadFileObject[dndReadFileIndex].lat), parseFloat( dndReadFileObject[dndReadFileIndex].lng)], { text: dndReadFileIndex + 1 });
+			dndReadFileGeocodeSet.objects.add( marker);
+
+			++dndReadFileIndex;
+		}
+
+		if( typeof dndReadFileObject[dndReadFileIndex] == 'undefined') {
+			if( dndReadFileGeocodeSet.objects.getLength() > 0) {
+				map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
+			}
+
+			if( dndReadFileChanged) {
+				dndDownloadFile();
+			} else {
+				$( '#popupDrop').popup( 'close');
+			}
 		} else {
 			var street = '';
 			var zip = '';
 			var city = '';
 
-			if( typeof dndReadFileObject.index[dndReadFileIndex].anschrift != 'undefined') {
-				street = dndReadFileObject.index[dndReadFileIndex].anschrift;
+			if( typeof dndReadFileObject[dndReadFileIndex].anschrift != 'undefined') {
+				street = dndReadFileObject[dndReadFileIndex].anschrift;
 			}
-			if( typeof dndReadFileObject.index[dndReadFileIndex].strasse != 'undefined') {
-				street = dndReadFileObject.index[dndReadFileIndex].strasse;
+			if( typeof dndReadFileObject[dndReadFileIndex].strasse != 'undefined') {
+				street = dndReadFileObject[dndReadFileIndex].strasse;
 			}
-			if( typeof dndReadFileObject.index[dndReadFileIndex].plz != 'undefined') {
-				zip = dndReadFileObject.index[dndReadFileIndex].plz;
+			if( typeof dndReadFileObject[dndReadFileIndex].plz != 'undefined') {
+				zip = dndReadFileObject[dndReadFileIndex].plz;
 			}
-			if( typeof dndReadFileObject.index[dndReadFileIndex].ort != 'undefined') {
-				city = dndReadFileObject.index[dndReadFileIndex].ort;
+			if( typeof dndReadFileObject[dndReadFileIndex].ort != 'undefined') {
+				city = dndReadFileObject[dndReadFileIndex].ort;
 			}
-			if( typeof dndReadFileObject.index[dndReadFileIndex].plz_ort != 'undefined') {
-				zip = dndReadFileObject.index[dndReadFileIndex].plz_ort.substring( 0, 5);
-				city = dndReadFileObject.index[dndReadFileIndex].plz_ort.substring( 6);
+			if( typeof dndReadFileObject[dndReadFileIndex].plz_ort != 'undefined') {
+				zip = dndReadFileObject[dndReadFileIndex].plz_ort.substring( 0, 5);
+				city = dndReadFileObject[dndReadFileIndex].plz_ort.substring( 6);
 			}
 
 			var jqxhr = $.ajax( 'scripts/geocoding.php?street=' + encodeURIComponent( street) + '&zip=' + encodeURIComponent( zip) + '&city=' + encodeURIComponent( city))
@@ -285,7 +312,10 @@ function dndReadFileObjectFunc()
 				}
 
 				if( typeof result.lat != 'undefined') {
-					marker = new nokia.maps.map.StandardMarker([parseFloat( result.lat), parseFloat( result.lon)], { text: dndReadFileIndex + 1 });
+					dndReadFileChanged = true;
+					dndReadFileObject[dndReadFileIndex].lat = result.lat;
+					dndReadFileObject[dndReadFileIndex].lng = result.lng;
+					marker = new nokia.maps.map.StandardMarker([parseFloat( result.lat), parseFloat( result.lng)], { text: dndReadFileIndex + 1 });
 					dndReadFileGeocodeSet.objects.add( marker);
 					map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
 				}
@@ -301,6 +331,29 @@ function dndReadFileObjectFunc()
 //			})
 			;
 		}
+	} catch( e) {
+		alert( e);
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+function dndDownloadFile()
+{
+	try {
+		var fileName = dndReadFileName;
+		var fileExtension = fileName.split( '.').pop();
+
+		fileName = fileName.substring( 0, fileName.length - fileExtension.length);
+		fileName += 'geo.json';
+
+		$( '#popupDrop').html(
+			'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
+			'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
+			'Die Daten wurden um GPS-Koordinaten ergänzt.<br>Bitte laden sie sich die neue Datei herunter.<br>' +
+			'<br><center><a href="data:text/plain;charset=utf-8,' + encodeURIComponent( JSON.stringify( dndReadFileObject)) + '" download="' + fileName + '" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a">Datei herunterladen</a></center>' +
+			'</div>');
+		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
 	} catch( e) {
 		alert( e);
 	}

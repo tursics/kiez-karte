@@ -54,7 +54,7 @@ https://docs.google.com/spreadsheet/ccc?key=0AuAvveqPUgQ8dFZsbk5OeDUzUkIyUnRvN2p
 */
 // -----------------------------------------------------------------------------
 
-function initNokiaMap( elementName, lat, lon, zoom)
+function initNokiaMap( elementName, lat, lng, zoom)
 {
 	// test key for
 	// url: http://tursics.de/sample/lichtenberg
@@ -71,7 +71,7 @@ function initNokiaMap( elementName, lat, lon, zoom)
 				// ScaleBar Overview ZoomRectangle Positioning ContextMenu InfoBubbles PublicTransport Traffic
 			],
 			zoomLevel: zoom,
-			center: [lat, lon],
+			center: [lat, lng],
 			baseMapType: nokia.maps.map.Display.NORMAL // NORMAL NORMAL_COMMUNITY SATELLITE SATELLITE_COMMUNITY  SMARTMAP SMART_PT TERRAIN TRAFFIC
 	});
 //	map.removeComponent( map.getComponentById( "zoom.MouseWheel"));
