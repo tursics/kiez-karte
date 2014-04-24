@@ -81,7 +81,8 @@ function initNokiaMap( elementName, lat, lng, zoom)
 
 $( document).on( "pagecreate", "#pageMap", function()
 {
-	initNokiaMap( 'mapContainer', 52.516, 13.4795, 16);
+	// center the city hall
+	initNokiaMap( 'mapContainer', 52.515807, 13.479470, 16);
 
 	$( '#displayNormal').on( 'click', function( e) {
 		map.setBaseMapType( map.NORMAL, 'default');
@@ -98,7 +99,7 @@ $( document).on( "pagecreate", "#pageMap", function()
 
 	initDragnDrop();
 
-	var marker1 = new nokia.maps.map.StandardMarker([52.516, 13.4795], {
+	var marker1 = new nokia.maps.map.StandardMarker([52.515807, 13.479470], {
 		text: "Hi"
 	});
 	map.objects.add( marker1);
