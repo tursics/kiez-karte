@@ -1,0 +1,20 @@
+[
+{"id":"425","name":"Dr. Dewey, Sabine","plz":"10315","strasse":"Rummelsburger Str. 13","telefon":"+49 30 5351321","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.504143","lng":"13.512342"},
+{"id":"427","name":"Dr. Sedlaczek, Nicolai Peter","plz":"10318","strasse":"Rheinsteinstr. 1","telefon":"+49 30 5090406","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.482866","lng":"13.526362"},
+{"id":"429","name":"Dr. Lierow, Anne","plz":"10365","strasse":"Frankfurter Allee 231A","telefon":"+49 30 55184245","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.512704","lng":"13.495888"},
+{"id":"431","name":"Ronneburger, Grit","plz":"10365","strasse":"Frankfurter Allee 231A","telefon":"+49 30 55184262","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.512704","lng":"13.495888"},
+{"id":"433","name":"Dr. Herrmann, Simone","plz":"10365","strasse":"Schottstr. 2","telefon":"+49 30 5578371","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.514972","lng":"13.490761"},
+{"id":"435","name":"Lüth, Gabriele","plz":"10365","strasse":"Ruschestr. 103","telefon":"+49 30 5529256","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.515343","lng":"13.485473"},
+{"id":"437","name":"Trachte, Heidemarie","plz":"10369","strasse":"Franz-Jacob-Str. 10","telefon":"+49 30 86204680","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.528035","lng":"13.467313"},
+{"id":"439","name":"Berschadski, Marina","plz":"10369","strasse":"Franz-Jacob-Str. 10","telefon":"+49 30 86204680","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.528035","lng":"13.467313"},
+{"id":"441","name":"Dr. Michalzik, Else","plz":"13051","strasse":"Prerower Platz 4","telefon":"+49 30 96204357","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.565061","lng":"13.507276"},
+{"id":"443","name":"Beßler, Hans-Hasso","plz":"13055","strasse":"Große-Leege-Str. 43a","telefon":"+49 30 97608158","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.539472","lng":"13.490460"},
+{"id":"445","name":"Schilling, Christiane","plz":"13055","strasse":"Hauptstr. 9","telefon":"+49 30 9351120","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.548279","lng":"13.503457"},
+{"id":"447","name":"Rachfall, Heike","plz":"13055","strasse":"Weißenseer Weg 35","telefon":"+49 30 97104482","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.535590","lng":"13.474541"},
+{"id":"449","name":"Richter, Anke","plz":"13055","strasse":"Weißenseer Weg 35","telefon":"+49 30 97104482","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.535590","lng":"13.474541"},
+{"id":"451","name":"Dr. Krause, Timea","plz":"13055","strasse":"Landsberger Allee 277","telefon":"+49 30 97104461","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.534701","lng":"13.495934"},
+{"id":"453","name":"Dr. Schippel, Maria","plz":"13055","strasse":"Landsberger Allee 277","telefon":"+49 30 97104461","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.534701","lng":"13.495934"},
+{"id":"455","name":"Fehland, Peter","plz":"13055","strasse":"Reichenberger Str. 3","telefon":"+49 30 9715209","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.540486","lng":"13.486846"},
+{"id":"457","name":"Dr. Hippke, Elke","plz":"13057","strasse":"Falkenberger Chaussee 134","telefon":"+49 30 92092511","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.567701","lng":"13.525326"},
+{"id":"459","name":"Dr. Wiedenhaupt, Regina","plz":"13059","strasse":"Egon-Erwin-Kisch-Str. 41","telefon":"+49 30 9290282","fachrichtung":"Hals-Nasen-Ohrenheilkunde","lat":"52.572881","lng":"13.506792"}
+]

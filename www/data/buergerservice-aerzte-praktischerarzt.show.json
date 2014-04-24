@@ -1,0 +1,14 @@
+[
+{"id":"201","name":"Dr. Laude, Wolfgang","plz":"10315","strasse":"Seddiner Str. 22","telefon":"+49 30 5436688","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.513749","lng":"13.519656"},
+{"id":"203","name":"Dr. Wolf, Joachim","plz":"10317","strasse":"Geusenstr. 16","telefon":"+49 30 5556877","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.503076","lng":"13.479236"},
+{"id":"205","name":"Brehme, Sabine","plz":"10318","strasse":"Gundelfinger Str. 43","telefon":"+49 30 5099408","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.484936","lng":"13.524382"},
+{"id":"207","name":"Dr. Fricke, Regina","plz":"10365","strasse":"Gotlindestr. 49","telefon":"+49 30 55498892","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.518111","lng":"13.496787"},
+{"id":"209","name":"Dr. Kliche, Norbert","plz":"10365","strasse":"Herzbergstr. 128-139","telefon":"+49 30 54719999","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.526734","lng":"13.489498"},
+{"id":"211","name":"Heim, Ilona","plz":"10367","strasse":"Paul-Zobel-Str. 27","telefon":"+49 30 5539030","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.526104","lng":"13.484438"},
+{"id":"213","name":"Hinzer, Galina","plz":"10369","strasse":"Rudolf-Seiffert-Str. 11","telefon":"+49 30 9757513","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.527254","lng":"13.468464"},
+{"id":"215","name":"Dr. Janert, Ulrich","plz":"13051","strasse":"Ribnitzer Str. 24","telefon":"+49 30 96204888","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.569964","lng":"13.496239"},
+{"id":"217","name":"Schaller, Roswitha","plz":"13053","strasse":"Gehrenseestr. 100","telefon":"+49 30 9865401","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.550667","lng":"13.510285"},
+{"id":"219","name":"Dr. Kindler, Manfred","plz":"13055","strasse":"Landsberger Allee 277A","telefon":"+49 30 9710810","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.534609","lng":"13.496893"},
+{"id":"221","name":"Paetzel, Hansjörg","plz":"13055","strasse":"Reichenberger Str. 3","telefon":"+49 30 9714737","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.540486","lng":"13.486846"},
+{"id":"223","name":"Singer, Ilona","plz":"13055","strasse":"Schalkauer Str. 33","telefon":"+49 30 98695397","fachrichtung":"Arzt/Praktischer Arzt","lat":"52.538032","lng":"13.508937"}
+]
