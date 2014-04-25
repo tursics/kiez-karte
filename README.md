@@ -5,7 +5,14 @@ Die Kiez-Karte zeigt alle möglichen Open Data zu Berlin-Lichtenberg an plus ein
 
 Schauen sie sich die Karte live an:
 
-http://kiez-karte.berlin
+http://www.kiez-karte.berlin
+
+Daten
+=====
+
+Oh ja. Jede Menge Daten. Die Rohdaten befinden sich in /rawdata/
+
+https://github.com/tursics/kiez-karte/blob/master/rawdata/README.md
 
 Lizenz
 ======
