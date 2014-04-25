@@ -115,20 +115,20 @@ $( document).on( "pagecreate", "#pageMap", function()
 
 	initDragnDrop();
 
-	var marker1 = new nokia.maps.map.StandardMarker([52.515807, 13.479470], {
-		text: "Hi"
-	});
-	map.objects.add( marker1);
+//	var marker1 = new nokia.maps.map.StandardMarker([52.515807, 13.479470], {
+//		text: "Hi"
+//	});
+//	map.objects.add( marker1);
 
-	var marker2 = new nokia.maps.map.Marker(
-		new nokia.maps.geo.Coordinate(52.515, 13.481), {
-			title: "marker",
-			visibility: true,
-			icon: "images/pin_restaurant.png",
-			anchor: new nokia.maps.util.Point(16, 36)
-		}
-	);
-	map.objects.add( marker2);
+//	var marker2 = new nokia.maps.map.Marker(
+//		new nokia.maps.geo.Coordinate(52.515, 13.481), {
+//			title: "marker",
+//			visibility: true,
+//			icon: "images/pin_restaurant.png",
+//			anchor: new nokia.maps.util.Point(16, 36)
+//		}
+//	);
+//	map.objects.add( marker2);
 
 /*	map.objects.add( new nokia.maps.map.Circle(
 		[52.51, 13.49],
@@ -284,6 +284,14 @@ function setAge( age)
 	$( '#displayPregnant').checkboxradio( 'refresh'); 
 	$( '#displayAdult').checkboxradio( 'refresh'); 
 	$( '#displaySenior').checkboxradio( 'refresh'); 
+
+	str += '<br>';
+	var ageStr = 'age' + age;
+	for( var i = 0; i < dataVec.length; ++i) {
+		if( dataVec[i][ageStr]) {
+			str += '<i class="fa fa-map-marker"></i> ' + dataVec[i].title + '<br>';
+		}
+	}
 
 	$( '#mapSelectInfo').html( str);
 }
