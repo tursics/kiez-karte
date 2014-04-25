@@ -4,35 +4,36 @@ kiez-karte.berlin - row data
 All this data sources are used in this project. Listed data sets can be displayed on a map. Each entry have an postal address - but no GPS location. How to geocode?
 
 1. Open the data set page in the open data portal
-2. Download the foodata**.json** file
-3. Correct postal addresses if needed and save the modified file to foodata**.mod.json**
-4. Drag'n'drop the file on to the map and save the geolocated result in foodata**.geo.json**
-5. Remove data outside destination region and ungeolocatable addresses and save the result in foodata**.show.json**
+2. Download the foodata.json file
+3. Correct postal addresses if needed and save the modified file to foodata.mod.json
+4. Drag'n'drop the file on to the map and save the geolocated result in foodata.geo.json
+5. Remove data outside destination region and ungeolocatable addresses and save the result in foodata.show.json
 6. Move foodata.show.json to path /www/data/
 7. Contact the data holder and send your corrections!
 
-HKO_Lichtenberg_Geographisch_140416.txt
----------------------------------------
+Geocoding basics
+----------------
 
     HKO_Lichtenberg_Geographisch_140416.txt
     2013-07-01_Datenformatbeschreibung-HK-Version 3.1-1.pdf
 
-Angebote der schulbezogenen Jugendarbeit und Jugendsozialarbeit
----------------------------------------------------------------
+Uses data sets
+--------------
 
-* Url: http://daten.berlin.de/datensaetze/angebote-der-schulbezogenen-jugendarbeit-und-jugendsozialarbeit
-* License: CC BY 3.0 DE
+ |Angebote der schulbezogenen Jugendarbeit und Jugendsozialarbeit
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/angebote-der-schulbezogenen-jugendarbeit-und-jugendsozialarbeit
+License|CC BY 3.0 DE
 
     freizeit-sport-ja-jsa.json
     freizeit-sport-ja-jsa.mod.json
     freizeit-sport-ja-jsa.geo.json
     freizeit-sport-ja-jsa.show.json
 
-Ärzte im Bezirk Lichtenberg
----------------------------
-
-* Url: http://daten.berlin.de/datensaetze/%C3%A4rzte-im-bezirk-lichtenberg
-* License: CC BY 3.0 DE
+ |Ärzte im Bezirk Lichtenberg
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/%C3%A4rzte-im-bezirk-lichtenberg
+License|CC BY 3.0 DE
 
     buergerservice-aerzte.json
     buergerservice-aerzte.mod.json
@@ -75,99 +76,90 @@ Angebote der schulbezogenen Jugendarbeit und Jugendsozialarbeit
     buergerservice-aerzte-urologie.show.json
     buergerservice-aerzte-zahnaerzte.show.json
 
-Berliner und Brandenburger Volks- und Straßenfeste 2013 
--------------------------------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/berliner-und-brandenburger-volks-und-stra%C3%9Fenfeste-2013
-* License: CC BY 3.0 DE
+ |Berliner und Brandenburger Volks- und Straßenfeste 2013 
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/berliner-und-brandenburger-volks-und-stra%C3%9Fenfeste-2013
+License|CC BY 3.0 DE
 
     maerkte-strassenfeste.json
     maerkte-strassenfeste.mod.json
     maerkte-strassenfeste.geo.json
     maerkte-strassenfeste.show.json
 
-Berliner Weihnachtsmärkte 2013
-------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/berliner-weihnachtsm%C3%A4rkte-2013
-* License: CC BY 3.0 DE
+ |Berliner Weihnachtsmärkte 2013
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/berliner-weihnachtsm%C3%A4rkte-2013
+License|CC BY 3.0 DE
 
     maerkte-xmas.json
     maerkte-xmas.mod.json
     maerkte-xmas.geo.json
     maerkte-xmas.show.json
 
-Berliner Wochen- und Trödelmärkte 2013 
---------------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/berliner-wochen-und-tr%C3%B6delm%C3%A4rkte-2013
-* License: CC BY-SA 3.0 DE
+ |Berliner Wochen- und Trödelmärkte 2013 
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/berliner-wochen-und-tr%C3%B6delm%C3%A4rkte-2013
+License|CC BY-SA 3.0 DE
 
     maerkte-wochen-antik.json
     maerkte-wochen-antik.mod.json
     maerkte-wochen-antik.geo.json
     maerkte-wochen-antik.show.json
 
-Einrichtungen und Projekte für Kinder, Jugendliche und Familien
----------------------------------------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/einrichtungen-und-projekte-f%C3%BCr-kinder-jugendliche-und-familien
-* License: CC BY 3.0 DE
+ |Einrichtungen und Projekte für Kinder, Jugendliche und Familien
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/einrichtungen-und-projekte-f%C3%BCr-kinder-jugendliche-und-familien
+License|CC BY 3.0 DE
 
     freizeit-sport-jfe.json
     freizeit-sport-jfe.mod.json
     freizeit-sport-jfe.geo.json
     freizeit-sport-jfe.show.json
 
-Mietbare Veranstaltungsräume im Bezirk Lichtenberg
---------------------------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/mietbare-veranstaltungsr%C3%A4ume-im-bezirk-lichtenberg
-* License: CC BY 3.0 DE
+ |Mietbare Veranstaltungsräume im Bezirk Lichtenberg
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/mietbare-veranstaltungsr%C3%A4ume-im-bezirk-lichtenberg
+License|CC BY 3.0 DE
 
     wirtschaft-mietraum.json
     wirtschaft-mietraum.mod.json
     wirtschaft-mietraum.geo.json
     wirtschaft-mietraum.show.json
 
-Prüfberichte der Berliner Heimaufsicht
---------------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/pr%C3%BCfberichte-der-berliner-heimaufsicht
-* License: CC BY-SA 3.0 DE
+ |Prüfberichte der Berliner Heimaufsicht
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/pr%C3%BCfberichte-der-berliner-heimaufsicht
+License|CC BY-SA 3.0 DE
 
     heimaufsicht-pruefberichte.json
     heimaufsicht-pruefberichte.mod.json
     heimaufsicht-pruefberichte.geo.json
     heimaufsicht-pruefberichte.show.json
 
-Stadtführer Entwicklungspolitik
--------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/stadtf%C3%BChrer-entwicklungspolitik
-* License: CC BY 3.0 DE
+ |Stadtführer Entwicklungspolitik
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/stadtf%C3%BChrer-entwicklungspolitik
+License|CC BY 3.0 DE
 
     euro-inter-lez-stadtfuehrer-lez.json
     euro-inter-lez-stadtfuehrer-lez.mod.json
     euro-inter-lez-stadtfuehrer-lez.geo.json
     euro-inter-lez-stadtfuehrer-lez.show.json
 
-Tagespflegestellen im Bezirk Lichtenberg
-----------------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/tagespflegestellen-im-bezirk-lichtenberg
-* License: CC BY 3.0 DE
+ |Tagespflegestellen im Bezirk Lichtenberg
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/tagespflegestellen-im-bezirk-lichtenberg
+License|CC BY 3.0 DE
 
     buergerservice-familie-tagespflege.json
     buergerservice-familie-tagespflege.mod.json
     buergerservice-familie-tagespflege.geo.json
     buergerservice-familie-tagespflege.show.json
 
-Veranstaltungsangebote der Seniorenbegegnungsstätten
-----------------------------------------------------
-
-* Url: http://daten.berlin.de/datensaetze/veranstaltungsangebote-der-seniorenbegegnungsst%C3%A4tten
-* License: CC BY 3.0 DE
+ |Veranstaltungsangebote der Seniorenbegegnungsstätten
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/veranstaltungsangebote-der-seniorenbegegnungsst%C3%A4tten
+License|CC BY 3.0 DE
 
     buergerservice-familie-sbst.json
     buergerservice-familie-sbst.mod.json
