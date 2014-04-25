@@ -67,7 +67,7 @@ function initNokiaMap( elementName, lat, lng, zoom)
 			components: [
 				new nokia.maps.map.component.Behavior(),
 				new nokia.maps.map.component.ZoomBar(),
-				new nokia.maps.map.component.TypeSelector(),
+//				new nokia.maps.map.component.TypeSelector(),
 				// ScaleBar Overview ZoomRectangle Positioning ContextMenu InfoBubbles PublicTransport Traffic
 			],
 			zoomLevel: zoom,
@@ -83,6 +83,22 @@ $( document).on( "pagecreate", "#pageMap", function()
 {
 	// center the city hall
 	initNokiaMap( 'mapContainer', 52.515807, 13.479470, 16);
+
+	$( '#displayBaby').on( 'click', function( e) {
+		setAge( 0);
+	});
+	$( '#displayChild').on( 'click', function( e) {
+		setAge( 6);
+	});
+	$( '#displayPregnant').on( 'click', function( e) {
+		setAge( 18);
+	});
+	$( '#displayAdult').on( 'click', function( e) {
+		setAge( 30);
+	});
+	$( '#displaySenior').on( 'click', function( e) {
+		setAge( 65);
+	});
 
 	$( '#displayNormal').on( 'click', function( e) {
 		map.setBaseMapType( map.NORMAL, 'default');
@@ -132,6 +148,7 @@ $( document).on( "pagecreate", "#pageMap", function()
 		$( '#popupInfo').popup( 'open');
 //		sample1();
 //		geocode( "Hönower Weg / Mellenseestr. 9-12 /, berlin");
+		setAge( 30);
 	});
 });
 
@@ -234,6 +251,42 @@ var geocodeResults = function( data, requestStatus, requestId)
 		alert( "The search request failed");
 	}
 };
+
+// -----------------------------------------------------------------------------
+
+function setAge( age)
+{
+	$( '#displayBaby').prop( 'checked', false);
+	$( '#displayChild').prop( 'checked', false);
+	$( '#displayPregnant').prop( 'checked', false);
+	$( '#displayAdult').prop( 'checked', false);
+	$( '#displaySenior').prop( 'checked', false);
+
+	var str = '';
+	if( age < 6) {
+		$( '#displayBaby').prop( 'checked', true).checkboxradio( 'refresh');
+		str += '<i class="fa fa-bug"></i> Baby und Kleinkind<br>';
+	} else if( age < 18) {
+		$( '#displayChild').prop( 'checked', true).checkboxradio( 'refresh');
+		str += '<i class="fa fa-user"></i> Kind und Teenie<br>';
+	} else if( age < 30) {
+		$( '#displayPregnant').prop( 'checked', true).checkboxradio( 'refresh');
+		str += '<i class="fa fa-female"></i> Familienplanung<br>';
+	} else if( age < 65) {
+		$( '#displayAdult').prop( 'checked', true).checkboxradio( 'refresh');
+		str += '<i class="fa fa-male"></i> Erwachsener<br>';
+	} else {
+		$( '#displaySenior').prop( 'checked', true).checkboxradio( 'refresh');
+		str += '<i class="fa fa-wheelchair"></i> Ruheständler<br>';
+	}
+	$( '#displayBaby').checkboxradio( 'refresh'); 
+	$( '#displayChild').checkboxradio( 'refresh'); 
+	$( '#displayPregnant').checkboxradio( 'refresh'); 
+	$( '#displayAdult').checkboxradio( 'refresh'); 
+	$( '#displaySenior').checkboxradio( 'refresh'); 
+
+	$( '#mapSelectInfo').html( str);
+}
 
 // -----------------------------------------------------------------------------
 //	map.addListener( "basemapchangestart", function () {});

@@ -41,15 +41,34 @@
 			position:absolute;
 			overflow:hidden;
 			width:100%;
-			height:100%;
+			height:100% !important;
 		}
 		#mapContainer {
 			width:100%;
 			height:100%;
 			left:0;
 			top:0;
-			margin-top:-2.7em;
 			padding:0px!important;
+		}
+		#mapSelect {
+			position:absolute;
+			top:10px;
+			left:20px;
+		}
+		#mapSelectInfo {
+			background-color:#fff;
+			font-weight:300;
+			padding:0.5em;
+		}
+		#mapInfo {
+			position:absolute;
+			top:10px;
+			right:20px;
+		}
+		#mapType {
+			position:absolute;
+			bottom:10px;
+			right:20px;
 		}
 		li.done:before, li.todo:before, li.none:before, li.work:before {
 			font-family:FontAwesome;
@@ -86,7 +105,10 @@
 	.segmented-control { text-align:center; }
 	.segmented-control .ui-controlgroup { display:inline; margin:.2em 0px; }
 
-	#pageMap { width:100%; height:100%; }
+	/*nokia maps*/
+	.nm_crnode, .nm_crnode a, .nm_crnode a:link, .nm_crnode a:visited, .nm_crnode a:focus, .nm_crnode a:hover, .nm_crnode a:active { background-color:rgba(34,34,34,.9) !important; color:#bbb !important; font-weight:500 !important; }
+
+	#pageMap { width:100%; height:100%; text-shadow:none !important;}
 	</style>
 	<script src="scripts/jquery.mobile-1.4.2/jquery-1.10.2.min.js"></script>
 	<script src="scripts/dragndrop.js"></script>
@@ -95,114 +117,105 @@
 </head>
 <body>
 	<div data-role="page" id="pageMap">
-		<div data-role="header" data-position="fixed">
-			<div class="segmented-control ui-bar-a">
+		<div role="main" class="ui-content" id="mapContainer"></div>
+		<div id="mapSelect">
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-				<input type="radio" name="mapDisplay" id="displayNormal" checked="true"><label for="displayNormal">Karte</label>
-				<input type="radio" name="mapDisplay" id="displayBus"><label for="displayBus">Bus</label>
-				<input type="radio" name="mapDisplay" id="displayCar"><label for="displayCar">Auto</label>
-				<input type="radio" name="mapDisplay" id="displaySatelite"><label for="displaySatelite">Satellit</label>
+				<input type="radio" name="mapSelect" id="displayBaby"><label for="displayBaby"><i class="fa fa-bug"></i></label></input>
+				<input type="radio" name="mapSelect" id="displayChild"><label for="displayChild"><i class="fa fa-user"></i></label></input>
+				<input type="radio" name="mapSelect" id="displayPregnant"><label for="displayPregnant"><i class="fa fa-female"></i></label></input>
+				<input type="radio" name="mapSelect" id="displayAdult" checked="true"><label for="displayAdult"><i class="fa fa-male"></i></label></input>
+				<input type="radio" name="mapSelect" id="displaySenior"><label for="displaySenior"><i class="fa fa-wheelchair"></i></label></input>
 			</fieldset>
-			</div>
-			<div data-role="controlgroup" data-type="horizontal" class="ui-mini ui-btn-right">
-				<a href="#popupInfo"      data-rel="popup" class="ui-btn ui-icon-bullets ui-btn-icon-notext">Info</a>
-				<a href="#popupShare"     data-rel="popup" class="ui-btn ui-icon-action  ui-btn-icon-notext">Info</a>
-				<a href="#popupCopyright" data-rel="popup" class="ui-btn ui-icon-info    ui-btn-icon-notext">Copyright</a>
-			</div>
-			<div data-role="popup" id="popupInfo" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
-				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-				<h1 style="margin-bottom:0;">Kiez-Karte</h1>
-				<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
-				Von <a href="https://twitter.com/tursics" target="_blank"><i class="fa fa-twitter"></i>tursics</a> für <a href="https://twitter.com/codeforde" target="_blank"><i class="fa fa-twitter"></i>codeforde</a> OK Lab Berlin.<br>
-				Zu finden unter <a href="http://kiez-karte.berlin"><i class="fa fa-globe"></i>kiez-karte.berlin</a> und <a href="https://github.com/tursics/kiez-karte" target="_blank"><i class="fa fa-github"></i>GitHub</a>.<br>
-				<br>
-				<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
-					<div data-role="collapsible" data-collapsed="false">
-						<h3>In Arbeit</h3>
-						<ul data-role="listview" data-inset="false">
-							<li class="work">Basisdaten von daten.berlin.de</li>
-							<li class="work">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
-							<li class="work">Spielplätze vom FIS-Broker Berlin</li>
-						</ul>
-					</div>
-					<div data-role="collapsible">
-						<h3>Fertig</h3>
-						<ul data-role="listview" data-inset="false">
-							<li class="done">Webseite mit Karte aufsetzen</li>
-							<li class="done">github einrichten</li>
-							<li class="done">Geocoder einbauen</li>
-							<li class="done">Drag'n'Drop von JSON-Dateien</li>
-						</ul>
-					</div>
-					<div data-role="collapsible">
-						<h3>Noch offen</h3>
-						<ul data-role="listview" data-inset="false">
-							<li class="todo">Projektbeschreibung schreiben</li>
-							<li class="todo">Objektgruppen favorisieren</li>
-							<li class="todo">Nachfragen nach Kindergärten und Schulen</li>
-							<li class="todo">Haltestellen und Fahrpläne der BVG und S-Bahn</li>
-							<li class="todo">Bürgerhaushalt einbinden</li>
-							<li class="todo">Rating- und Kommentarsystem für jedes Objekt</li>
-							<li class="todo">buergermeldungen.com</li>
-						</ul>
-					</div>
-					<div data-role="collapsible">
-						<h3>Verschoben</h3>
-						<ul data-role="listview" data-inset="false">
-							<li class="none">Als App verpacken</li>
-							<li class="none">Historische Landkarten einblenden</li>
-							<li class="none">Drag'n'Drop von CSV- und SHP-Dateien</li>
-							<li class="none">Gesundheitsdaten von daten.berlin.de</li>
-							<li class="none">Energiedaten von daten.berlin.de</li>
-							<li class="none">LOR-Gebiete von statistik-berlin-brandenburg.de</li>
-							<li class="none">Straßenlaternen von Vatenfall "borgen"</li>
-							<li class="none">Schadensmeldung für Straßenlaternen</li>
-							<li class="none">Haushaltsplanung für einzelne Objekte anzeigen</li>
-							<li class="none">Tankstellen und Benzinpreise (natürlich Livedaten)</li>
-						</ul>
-					</div>
+			<div id="mapSelectInfo"></div>
+		</div>
+		<div id="mapInfo" data-role="controlgroup" data-type="horizontal" class="ui-mini">
+			<a href="#popupInfo"      data-rel="popup" class="ui-btn ui-icon-bullets ui-btn-icon-notext">Info</a>
+			<a href="#popupShare"     data-rel="popup" class="ui-btn ui-icon-action  ui-btn-icon-notext">Share</a>
+			<a href="#popupCopyright" data-rel="popup" class="ui-btn ui-icon-info    ui-btn-icon-notext">Copyright</a>
+		</div>
+		<div id="mapType">
+			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+				<input type="radio" name="mapDisplay" id="displayNormal" checked="true"><label for="displayNormal">Karte</label></input>
+				<input type="radio" name="mapDisplay" id="displayBus"><label for="displayBus">Bus</label></input>
+				<input type="radio" name="mapDisplay" id="displayCar"><label for="displayCar">Auto</label></input>
+				<input type="radio" name="mapDisplay" id="displaySatelite"><label for="displaySatelite">Satellit</label></input>
+			</fieldset>
+		</div>
+		<div data-role="popup" id="popupInfo" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
+			<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+			<h1 style="margin-bottom:0;">Kiez-Karte</h1>
+			<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
+			Von <a href="https://twitter.com/tursics" target="_blank"><i class="fa fa-twitter"></i>tursics</a> für <a href="https://twitter.com/codeforde" target="_blank"><i class="fa fa-twitter"></i>codeforde</a> OK Lab Berlin.<br>
+			Zu finden unter <a href="http://kiez-karte.berlin"><i class="fa fa-globe"></i>kiez-karte.berlin</a> und <a href="https://github.com/tursics/kiez-karte" target="_blank"><i class="fa fa-github"></i>GitHub</a>.<br>
+			<br>
+			<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+				<div data-role="collapsible" data-collapsed="false">
+					<h3>In Arbeit</h3>
+					<ul data-role="listview" data-inset="false">
+						<li class="work">Basisdaten von daten.berlin.de</li>
+						<li class="work">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
+						<li class="work">Spielplätze vom FIS-Broker Berlin</li>
+					</ul>
 				</div>
-				<center>
-					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">Schließen</a>
-				</center>
-			</div>
-			<div data-role="popup" id="popupShare" data-theme="a" data-position-to="origin" data-transition="slidedown">
-				<div data-role="controlgroup" data-type="horizontal">
-					<a href="https://twitter.com/intent/tweet?text=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+auf+http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg+von+@tursics" target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
-					<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg&t=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+(von+Thomas+Tursics)" target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
-					<a href="#" class="ui-btn" data-rel="back" data-transition="flow"><i class="fa fa-times "></i></a>
+				<div data-role="collapsible">
+					<h3>Fertig</h3>
+					<ul data-role="listview" data-inset="false">
+						<li class="done">Webseite mit Karte aufsetzen</li>
+						<li class="done">github einrichten</li>
+						<li class="done">Geocoder einbauen</li>
+						<li class="done">Drag'n'Drop von JSON-Dateien</li>
+					</ul>
+				</div>
+				<div data-role="collapsible">
+					<h3>Noch offen</h3>
+					<ul data-role="listview" data-inset="false">
+						<li class="todo">Projektbeschreibung schreiben</li>
+						<li class="todo">Objektgruppen favorisieren</li>
+						<li class="todo">Nachfragen nach Kindergärten und Schulen</li>
+						<li class="todo">Haltestellen und Fahrpläne der BVG und S-Bahn</li>
+						<li class="todo">Bürgerhaushalt einbinden</li>
+						<li class="todo">Rating- und Kommentarsystem für jedes Objekt</li>
+						<li class="todo">buergermeldungen.com</li>
+					</ul>
+				</div>
+				<div data-role="collapsible">
+					<h3>Verschoben</h3>
+					<ul data-role="listview" data-inset="false">
+						<li class="none">Als App verpacken</li>
+						<li class="none">Historische Landkarten einblenden</li>
+						<li class="none">Drag'n'Drop von CSV- und SHP-Dateien</li>
+						<li class="none">Gesundheitsdaten von daten.berlin.de</li>
+						<li class="none">Energiedaten von daten.berlin.de</li>
+						<li class="none">LOR-Gebiete von statistik-berlin-brandenburg.de</li>
+						<li class="none">Straßenlaternen von Vatenfall "borgen"</li>
+						<li class="none">Schadensmeldung für Straßenlaternen</li>
+						<li class="none">Haushaltsplanung für einzelne Objekte anzeigen</li>
+						<li class="none">Tankstellen und Benzinpreise (natürlich Livedaten)</li>
+					</ul>
 				</div>
 			</div>
-			<div data-role="popup" id="popupCopyright" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
-				<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-				<h1 style="margin-bottom:0;">Kiez-Karte</h1>
-				<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
-				Diese Seite wird betrieben von<br>
-				<span style="color:gray;">Thomas Tursics<br>Frankfurter Allee 172<br>10365 Berlin</span><br>
-				<br>
-				Bei Fragen, Anmerkungen, Verbesserungsvorschlägen, schreibt mir<br>
-				<center><div data-role="controlgroup" data-type="horizontal">
-					<a href="http://www.tursics.de/support"              target="_blank" class="ui-btn"><i class="fa fa-envelope"></i></a>
-					<a href="https://twitter.com/tursics"                target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
-					<a href="https://www.facebook.com/thomas.tursics"    target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
-					<a href="https://google.com/+ThomasTursics"          target="_blank" class="ui-btn"><i class="fa fa-google-plus"></i></a>
-					<a href="https://github.com/tursics"                 target="_blank" class="ui-btn"><i class="fa fa-github"></i></a>
-					<a href="https://www.linkedin.com/in/thomastursics"  target="_blank" class="ui-btn"><i class="fa fa-linkedin"></i></a>
-					<a href="http://www.xing.com/profile/Thomas_Tursics" target="_blank" class="ui-btn"><i class="fa fa-xing"></i></a>
-				</div></center><br>
-				<br>
-				Folgende Quellenvermerke sollte ich noch angeben<br>
-				- Geoportal Berlin / Hauskoordinaten Berlin (bearbeitet)<br>
-				- Geoportal Berlin / Spielplatzbestand Berlin (bearbeitet)<br>
-				- Datenquelle: Amt für Statistik Berlin-Brandenburg, Abgestimmter Datenpool<br>
-				<br>
-				<center>
-					<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">Schließen</a>
-				</center>
-			</div>
-			<div data-role="popup" id="popupDrop" data-theme="a" data-position-to="window" data-transition="pop" style="background-color:#ffee44;color:#442200;">
+			<center>
+				<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">Schließen</a>
+			</center>
+		</div>
+		<div data-role="popup" id="popupShare" data-theme="a" data-position-to="origin" data-transition="slidedown">
+			<div data-role="controlgroup" data-type="horizontal">
+				<a href="https://twitter.com/intent/tweet?text=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+auf+http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg+von+@tursics" target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
+				<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg&t=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+(von+Thomas+Tursics)" target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
 			</div>
 		</div>
-		<div role="main" class="ui-content" id="mapContainer"></div>
-	</div>
-</
+		<div data-role="popup" id="popupCopyright" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
+			<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+			<h1 style="margin-bottom:0;">Kiez-Karte</h1>
+			<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
+			Diese Seite wird betrieben von<br>
+			<span style="color:gray;">Thomas Tursics<br>Frankfurter Allee 172<br>10365 Berlin</span><br>
+			<br>
+			Bei Fragen, Anmerkungen, Verbesserungsvorschlägen, schreibt mir<br>
+			<center><div data-role="controlgroup" data-type="horizontal">
+				<a href="http://www.tursics.de/support"              target="_blank" class="ui-btn"><i class="fa fa-envelope"></i></a>
+				<a href="https://twitter.com/tursics"                target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
+				<a href="https://www.facebook.com/thomas.tursics"    target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
+				<a href="https://google.com/+ThomasTursics"          target="_blank" class="ui-btn"><i class="fa fa-google-plus"></i></a>
+				<a href="https://github.com/tursics"                 target="_blank" class="ui-btn"><i class="fa fa-github"></i></a>
+				<a href="https://ww
