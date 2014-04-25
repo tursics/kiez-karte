@@ -287,6 +287,18 @@ function dndReadFileObjectFunc()
 				zip = dndReadFileObject[dndReadFileIndex].plz_ort.substring( 0, 5);
 				city = dndReadFileObject[dndReadFileIndex].plz_ort.substring( 6);
 			}
+			if(( street == '') && (typeof dndReadFileObject[dndReadFileIndex].kontakt != 'undefined')) {
+				var contact = dndReadFileObject[dndReadFileIndex].kontakt.split( '\n');
+				for( var i = 0 ; i < contact.length; ++i) {
+					var entry = contact[ i].split( ',');
+					if(( entry.length == 2) && (entry[1].trim().length == 12) && (' Berlin' == entry[1].substring( 6))) {
+						street = entry[ 0].trim();
+						zip = entry[ 1].trim().split( ' ')[0].trim();
+						city = entry[ 1].trim().split( ' ')[1].trim();
+						break;
+					}
+				}
+			}
 
 			var jqxhr = $.ajax( 'scripts/geocoding.php?street=' + encodeURIComponent( street) + '&zip=' + encodeURIComponent( zip) + '&city=' + encodeURIComponent( city))
 			.done( function( data) {
