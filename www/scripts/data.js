@@ -11,11 +11,11 @@ dataVec.push({
 	url:'freizeit-sport-ja-jsa.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Jugendamt Lichtenberg',
-	age0:false,
-	age6:true,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'',
+	age6:'Angebote der schulbezogenen Jugendarbeit und Jugendsozialarbeit',
+	age18:'',
+	age30:'',
+	age65:''
 });
 
 /*
@@ -24,11 +24,11 @@ dataVec.push({
 	url:'',
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
-	age0:false,
-	age6:false,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'',
+	age65:''
 });
     buergerservice-aerzte-allgemeinmedizin.show.json
     buergerservice-aerzte-anaesthesiologie.show.json
@@ -42,11 +42,11 @@ dataVec.push({
 	url:'buergerservice-aerzte-frauenheilkundeundgeburtshilfe.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
-	age0:false,
-	age6:true,
-	age18:true,
-	age30:true,
-	age65:true
+	age0:'',
+	age6:'Frauenarzt',
+	age18:'Frauenarzt und Geburtshilfe',
+	age30:'Frauenarzt',
+	age65:'Frauenarzt'
 });
 //    buergerservice-aerzte-halsnasenohrenheilkunde.show.json
 //    buergerservice-aerzte-hautundgeschlechtskrankheiten.show.json
@@ -55,11 +55,11 @@ dataVec.push({
 	url:'buergerservice-aerzte-hebammen.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
-	age0:false,
-	age6:false,
-	age18:true,
-	age30:false,
-	age65:false
+	age0:'',
+	age6:'',
+	age18:'Hebammen',
+	age30:'',
+	age65:''
 });
 //    buergerservice-aerzte-heilpraktiker.show.json
 //    buergerservice-aerzte-humangenetik.show.json
@@ -70,44 +70,44 @@ dataVec.push({
 	url:'buergerservice-aerzte-kinderchirurgie.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
-	age0:true,
-	age6:true,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'Kinderchirurg',
+	age6:'Kinderchirurg',
+	age18:'',
+	age30:'',
+	age65:''
 });
 dataVec.push({
 	title:'Kinder- und Jugendmedizin, Kinderheilkunde',
 	url:'buergerservice-aerzte-kinderundjugendmedizinkinderheilkunde.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
-	age0:true,
-	age6:true,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'Kinderarzt',
+	age6:'Kinderarzt',
+	age18:'',
+	age30:'',
+	age65:''
 });
 dataVec.push({
 	title:'Kinder- und Jugendpsychiatrie und -Psychotherapie',
 	url:'buergerservice-aerzte-kinderundjugendpsychiatrieundpsychotherapie.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
-	age0:true,
-	age6:true,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'Kinderpsychiatrie und Kinderpsychotherapeut',
+	age6:'Kinderpsychiatrie und Kinderpsychotherapeut',
+	age18:'',
+	age30:'',
+	age65:''
 });
 dataVec.push({
 	title:'Kinder- und Jugendpsychotherapeuten',
 	url:'buergerservice-aerzte-kinderundjugendpsychotherapeuten.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
-	age0:true,
-	age6:true,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'Kinderpsychotherapeut',
+	age6:'Kinderpsychotherapeut',
+	age18:'',
+	age30:'',
+	age65:''
 });
 /*    buergerservice-aerzte-logopaeden.show.json
     buergerservice-aerzte-lungenundbronchialheilkunde.show.json
@@ -133,11 +133,11 @@ dataVec.push({
 	url:'maerkte-strassenfeste.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Senatsverwaltung für Wirtschaft, Technologie und Forschung',
-	age0:true,
-	age6:true,
-	age18:true,
-	age30:true,
-	age65:true
+	age0:'Volks- und Straßenfeste',
+	age6:'Volks- und Straßenfeste',
+	age18:'Volks- und Straßenfeste',
+	age30:'Volks- und Straßenfeste',
+	age65:'Volks- und Straßenfeste'
 });
 
 dataVec.push({
@@ -145,11 +145,11 @@ dataVec.push({
 	url:'maerkte-xmas.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Senatsverwaltung für Wirtschaft, Technologie und Forschung',
-	age0:true,
-	age6:true,
-	age18:true,
-	age30:true,
-	age65:true
+	age0:'Weihnachtsmärkte',
+	age6:'Weihnachtsmärkte',
+	age18:'Weihnachtsmärkte',
+	age30:'Weihnachtsmärkte',
+	age65:'Weihnachtsmärkte'
 });
 
 dataVec.push({
@@ -157,11 +157,11 @@ dataVec.push({
 	url:'maerkte-wochen-antik.show.json',
 	license:'CC BY-SA 3.0 DE',
 	contribute:'Senatsverwaltung für Wirtschaft, Technologie und Forschung ',
-	age0:false,
-	age6:true,
-	age18:true,
-	age30:true,
-	age65:false
+	age0:'',
+	age6:'Wochen- und Trödelmärkte',
+	age18:'Wochen- und Trödelmärkte',
+	age30:'Wochen- und Trödelmärkte',
+	age65:''
 });
 
 dataVec.push({
@@ -169,11 +169,11 @@ dataVec.push({
 	url:'freizeit-sport-jfe.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Jugendamt Lichtenberg',
-	age0:false,
-	age6:true,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'',
+	age6:'Einrichtungen und Projekte für Kinder, Jugendliche und Familien',
+	age18:'',
+	age30:'',
+	age65:''
 });
 
 dataVec.push({
@@ -181,11 +181,11 @@ dataVec.push({
 	url:'wirtschaft-mietraum.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Facility Management Lichtenberg',
-	age0:false,
-	age6:true,
-	age18:true,
-	age30:true,
-	age65:true
+	age0:'',
+	age6:'Räume für die Einschulungsfeier und Jugendweihe',
+	age18:'Mietbare Veranstaltungsräume',
+	age30:'Mietbare Veranstaltungsräume',
+	age65:'Mietbare Veranstaltungsräume'
 });
 
 dataVec.push({
@@ -193,11 +193,11 @@ dataVec.push({
 	url:'heimaufsicht-pruefberichte.show.json',
 	license:'CC BY-SA 3.0 DE',
 	contribute:'Landesamt für Gesundheit und Soziales',
-	age0:false,
-	age6:false,
-	age18:false,
-	age30:false,
-	age65:true
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'',
+	age65:'Prüfberichte der Heimaufsicht'
 });
 
 dataVec.push({
@@ -205,11 +205,11 @@ dataVec.push({
 	url:'euro-inter-lez-stadtfuehrer-lez.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Senatsverwaltung für Wirtschaft, Technologie und Forschung / Landesstelle für Entwicklungszusammenarbeit',
-	age0:false,
-	age6:false,
-	age18:false,
-	age30:true,
-	age65:false
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'Stadtführer Entwicklungspolitik',
+	age65:''
 });
 
 dataVec.push({
@@ -217,11 +217,11 @@ dataVec.push({
 	url:'buergerservice-familie-tagespflege.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Jugendamt Lichtenberg',
-	age0:true,
-	age6:false,
-	age18:false,
-	age30:false,
-	age65:false
+	age0:'Tagespflegestellen',
+	age6:'',
+	age18:'',
+	age30:'',
+	age65:''
 });
 
 dataVec.push({
@@ -229,11 +229,11 @@ dataVec.push({
 	url:'buergerservice-familie-sbst.show.json',
 	license:'CC BY 3.0 DE',
 	contribute:'Amt für Soziales Lichtenberg',
-	age0:false,
-	age6:false,
-	age18:false,
-	age30:false,
-	age65:true
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'',
+	age65:'Veranstaltungen der Seniorenbegegnungsstätten',
 });
 
 // -----------------------------------------------------------------------------

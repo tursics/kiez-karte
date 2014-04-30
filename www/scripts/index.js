@@ -274,7 +274,7 @@ function setAge( age)
 		str += '<i class="fa fa-female"></i> Familienplanung<br>';
 	} else if( age < 65) {
 		$( '#displayAdult').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-male"></i> Erwachsener<br>';
+		str += '<i class="fa fa-male"></i> Familie<br>';
 	} else {
 		$( '#displaySenior').prop( 'checked', true).checkboxradio( 'refresh');
 		str += '<i class="fa fa-wheelchair"></i> Ruheständler<br>';
@@ -288,8 +288,8 @@ function setAge( age)
 	str += '<br>';
 	var ageStr = 'age' + age;
 	for( var i = 0; i < dataVec.length; ++i) {
-		if( dataVec[i][ageStr]) {
-			str += '<i class="fa fa-map-marker"></i> ' + dataVec[i].title + '<br>';
+		if( dataVec[i][ageStr].length > 0) {
+			str += '<i class="fa fa-map-marker"></i> ' + dataVec[i][ageStr] + '<br>';
 		}
 	}
 
