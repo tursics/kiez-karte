@@ -286,14 +286,19 @@ function setAge( age)
 	$( '#displaySenior').checkboxradio( 'refresh'); 
 
 	str += '<br>';
+	str += '<fieldset data-role="controlgroup" data-mini="true" id="ageSet">';
+
 	var ageStr = 'age' + age;
 	for( var i = 0; i < dataVec.length; ++i) {
 		if( dataVec[i][ageStr].length > 0) {
-			str += '<i class="fa fa-map-marker"></i> ' + dataVec[i][ageStr] + '<br>';
+			str += '<input type="checkbox" name="cbage' + i + '" id="cbage' + i + '"><label for="cbage' + i + '"><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</label></input>';
 		}
 	}
 
+	str += '</fieldset>';
+
 	$( '#mapSelectInfo').html( str);
+	$( '#ageSet').trigger( 'create');
 }
 
 // -----------------------------------------------------------------------------
