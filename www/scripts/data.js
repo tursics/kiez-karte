@@ -253,4 +253,17 @@ dataVec.push({
 	age65:'Veranstaltungen der Seniorenbegegnungsstätten',
 });
 
+dataVec.push({
+	title:'Berliner Stadtbaumkampagne',
+	url:'stadtbaum-baumstandort-20140508.csv',
+	license:'???',
+	contribute:'Senatsverwaltung für Stadtentwicklung und Umwelt',
+	icon:'fa-leaf',
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'Stadtbäume',
+	age65:'',
+});
+
 // -----------------------------------------------------------------------------
