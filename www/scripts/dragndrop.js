@@ -105,8 +105,7 @@ function dndHandleNewFile( f)
 		$( '#popupDrop').html(
 			'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
 			'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa ' + errorImg + '"></i></div>' +
-//			errorTxt + ' Bitte nur CSV-Dateien hier her ziehen.' +
-			errorTxt + ' Bitte nur JSON-Dateien hier her ziehen.' +
+			errorTxt + ' Bitte nur CSV- und JSON-Dateien hier her ziehen.' +
 			'</div>');
 		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
 
@@ -168,7 +167,18 @@ function dndReadTextFile( f)
 			} else if( '[' == e.target.result.substring( 0, 1)) {
 				dndReadFileJSON( e.target.result);
 			} else {
-				dndReadFileError();
+				var rows = e.target.result.split( "\n");
+				if( rows.length > 2) {
+//					var col = rows[0].split( ';');
+					var col = rows[0].split( ',');
+					if( col.length > 2) {
+						dndReadFileCSV( rows, ',');
+					} else {
+						dndReadFileError();
+					}
+				} else {
+					dndReadFileError();
+				}
 			}
 		}
 	}
@@ -231,6 +241,40 @@ function dndReadFileJSON( stream)
 		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
 
 		dndReadFileObjectFunc();
+	} else {
+		dndReadFileError();
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+function dndReadFileCSV( rows, separator)
+{
+	var vec = [];
+	$.each( rows, function() {
+		var cols = this.split( separator);
+		var colvec = [];
+		$.each( cols, function() {
+			colvec.push( this);
+		});
+		vec.push( colvec);
+	});
+
+	if( dndReadFileGeocodeSet) {
+		map.objects.remove( dndReadFileGeocodeSet);
+	}
+	dndReadFileGeocodeSet = new nokia.maps.map.Container();
+	map.objects.add( dndReadFileGeocodeSet);
+
+	if(( vec.length > 0) && (vec[0][9] == "'l_geogr'") && (vec[0][10] == "'b_geogr'")) {
+		$( '#popupDrop').html(
+			'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
+			'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
+			'Verteile die Punkte auf der Karte' +
+			'</div>');
+		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+
+		dndReadFileCSVStadtbaum( vec);
 	} else {
 		dndReadFileError();
 	}
@@ -354,6 +398,49 @@ function dndReadFileObjectFunc()
 	} catch( e) {
 		alert( e);
 	}
+}
+
+// -----------------------------------------------------------------------------
+
+function dndReadFileCSVStadtbaum( vec)
+{
+	var colLat = -1;
+	var colLng = -1;
+	var colZip = -1;
+	var row = 0;
+
+	var col = 0;
+	$.each( vec[ row], function() {
+		if( this == "'l_geogr'") {
+			colLng = col;
+		} else if( this == "'b_geogr'") {
+			colLat = col;
+		} else if( this == "'plz'") {
+			colZip = col;
+		}
+		++col;
+	});
+
+	if(( -1 == colLat) || (-1 == colLng) || (-1 == colZip)) {
+		dndReadFileError();
+		return;
+	}
+
+	var zipArray = [ 10315, 10317, 10318, 10319, 10365, 10367, 10369, 13051, 13053, 13055, 13057, 13059 ];
+	for( ++row; row < vec.length; ++row) {
+		if( vec[ row].length > 1) {
+			if( -1 < $.inArray( parseInt( vec[ row][ colZip].replace (/'/g, "")), zipArray)) {
+				marker = new nokia.maps.map.StandardMarker([parseFloat( vec[ row][ colLat]), parseFloat( vec[ row][ colLng])]);
+				dndReadFileGeocodeSet.objects.add( marker);
+			}
+		}
+	}
+
+	if( dndReadFileGeocodeSet.objects.getLength() > 0) {
+		map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
+	}
+
+	$( '#popupDrop').popup( 'close');
 }
 
 // -----------------------------------------------------------------------------
