@@ -145,7 +145,7 @@ $( document).on( "pagecreate", "#pageMap", function()
 	));*/
 
 	map.addListener( "displayready", function () {
-		$( '#popupInfo').popup( 'open');
+		$( '#popupWelcome').popup( 'open');
 //		sample1();
 //		geocode( "Hönower Weg / Mellenseestr. 9-12 /, berlin");
 		setAge( 30);

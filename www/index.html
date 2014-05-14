@@ -42,6 +42,7 @@
 			overflow:hidden;
 			width:100%;
 			height:100% !important;
+			font-weight:300;
 		}
 		#mapContainer {
 			width:100%;
@@ -57,7 +58,6 @@
 		}
 		#mapSelectInfo {
 			background-color:#fff;
-			font-weight:300;
 			padding:0.5em;
 		}
 		#mapInfo {
@@ -141,6 +141,12 @@
 				<input type="radio" name="mapDisplay" id="displayCar"><label for="displayCar">Auto</label></input>
 				<input type="radio" name="mapDisplay" id="displaySatelite"><label for="displaySatelite">Satellit</label></input>
 			</fieldset>
+		</div>
+		<div data-role="popup" id="popupWelcome" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="pop">
+			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
+			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
+			<div style="font-size:1.1em;padding:0 1.5em 1.5em 1.5em;">Herzlich willkommen! Entdecke deinen Kiez neu. Entdecke dein Berlin-Lichtenberg.</div>
+			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Weiter zur Karte</a></div>
 		</div>
 		<div data-role="popup" id="popupInfo" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
 			<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
