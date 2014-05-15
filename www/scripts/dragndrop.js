@@ -250,14 +250,27 @@ function dndReadFileJSON( stream)
 
 function dndReadFileCSV( rows, separator)
 {
-	var vec = [];
+	var header = rows[0].split( separator);
+	var names = [];
+	$.each( header, function() {
+		if(( "'" == this.substring( 0, 1)) && ("'" == this.substring( this.length - 1))) {
+			names.push( this.substring( 1, this.length - 1));
+		} else {
+			names.push( this);
+		}
+	});
+	rows.shift();
+
+	dndReadFileObject = [];
 	$.each( rows, function() {
-		var cols = this.split( separator);
-		var colvec = [];
-		$.each( cols, function() {
-			colvec.push( this);
-		});
-		vec.push( colvec);
+		if( this.length > 1) {
+			var cols = this.split( separator);
+			var colvec = {};
+			for( var i = 0; i < cols.length; ++i) {
+				colvec[ names[ i]] = cols[ i];
+			}
+			dndReadFileObject.push( colvec);
+		}
 	});
 
 	if( dndReadFileGeocodeSet) {
@@ -266,7 +279,7 @@ function dndReadFileCSV( rows, separator)
 	dndReadFileGeocodeSet = new nokia.maps.map.Container();
 	map.objects.add( dndReadFileGeocodeSet);
 
-	if(( vec.length > 0) && (vec[0][9] == "'l_geogr'") && (vec[0][10] == "'b_geogr'")) {
+	if(( names.length > 10) && (names[9] == 'l_geogr') && (names[10] == 'b_geogr')) {
 		$( '#popupDrop').html(
 			'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
 			'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
@@ -274,7 +287,7 @@ function dndReadFileCSV( rows, separator)
 			'</div>');
 		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
 
-		dndReadFileCSVStadtbaum( vec);
+		dndReadFileCSVStadtbaum();
 	} else {
 		dndReadFileError();
 	}
@@ -402,45 +415,46 @@ function dndReadFileObjectFunc()
 
 // -----------------------------------------------------------------------------
 
-function dndReadFileCSVStadtbaum( vec)
+function dndReadFileCSVStadtbaum()
 {
-	var colLat = -1;
-	var colLng = -1;
-	var colZip = -1;
-	var row = 0;
+	var zipArray = [ 10315, 10317, 10318, 10319, 10365, 10367, 10369, 13051, 13053, 13055, 13057, 13059 ];
 
-	var col = 0;
-	$.each( vec[ row], function() {
-		if( this == "'l_geogr'") {
-			colLng = col;
-		} else if( this == "'b_geogr'") {
-			colLat = col;
-		} else if( this == "'plz'") {
-			colZip = col;
+	var tmpReadFileObject = [];
+
+	$.each( dndReadFileObject, function( index, value) {
+		this.lat = this[ 'b_geogr'];
+		this.lng = this[ 'l_geogr'];
+		var zip = $.inArray( parseInt( this[ 'plz'].replace (/'/g, "")), zipArray);
+		var area = this[ 'schluessel'].substring( 1, 3);
+		if(( -1 < zip) && ('11' == area)) {
+			marker = new nokia.maps.map.StandardMarker([parseFloat( this[ 'b_geogr']), parseFloat( this[ 'l_geogr'])]);
+			dndReadFileGeocodeSet.objects.add( marker);
+			tmpReadFileObject.push( this);
+		} else if( -1 < zip) {
+			$( '#popupDrop').html(
+				'<div style="margin:0;text-shadow:none;">' +
+				'Wrong area code in ' + this[ 'schluessel'] + ' (' + area + ')' +
+				'</div>');
+			$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+			return;
+		} else if( '11' == area) {
+			$( '#popupDrop').html(
+				'<div style="margin:0;text-shadow:none;">' +
+				'Wrong ZIP code in ' + this[ 'schluessel'] + ' (' + zip + ')' +
+				'</div>');
+			$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+			return;
 		}
-		++col;
 	});
 
-	if(( -1 == colLat) || (-1 == colLng) || (-1 == colZip)) {
-		dndReadFileError();
-		return;
-	}
-
-	var zipArray = [ 10315, 10317, 10318, 10319, 10365, 10367, 10369, 13051, 13053, 13055, 13057, 13059 ];
-	for( ++row; row < vec.length; ++row) {
-		if( vec[ row].length > 1) {
-			if( -1 < $.inArray( parseInt( vec[ row][ colZip].replace (/'/g, "")), zipArray)) {
-				marker = new nokia.maps.map.StandardMarker([parseFloat( vec[ row][ colLat]), parseFloat( vec[ row][ colLng])]);
-				dndReadFileGeocodeSet.objects.add( marker);
-			}
-		}
-	}
+	dndReadFileObject = tmpReadFileObject;
 
 	if( dndReadFileGeocodeSet.objects.getLength() > 0) {
 		map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
 	}
 
-	$( '#popupDrop').popup( 'close');
+//	$( '#popupDrop').popup( 'close');
+	dndDownloadFile();
 }
 
 // -----------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 */
 
 var map = null;
+var showWelcome = false;
 
 // -----------------------------------------------------------------------------
 /*
@@ -144,12 +145,22 @@ $( document).on( "pagecreate", "#pageMap", function()
 		}
 	));*/
 
-	map.addListener( "displayready", function () {
+	setAge( 30);
+
+//	showWelcome = true;
+});
+
+// -----------------------------------------------------------------------------
+
+$( document).on( "pageshow", "#pageMap", function()
+{
+	if( showWelcome) {
+		showWelcome = false;
+		$( '#welcomeClose').on( 'click', function( e) {
+			$( '#popupWelcome').popup( 'close');
+		});
 		$( '#popupWelcome').popup( 'open');
-//		sample1();
-//		geocode( "Hönower Weg / Mellenseestr. 9-12 /, berlin");
-		setAge( 30);
-	});
+	}
 });
 
 // -----------------------------------------------------------------------------
@@ -214,17 +225,17 @@ $( document).on( "pagecreate", "#pageMap", function()
 
 // -----------------------------------------------------------------------------
 
-function geocode( term)
+/*function geocode( term)
 {
 	nokia.places.search.manager.geoCode({
 		searchTerm: term,
 		onComplete: geocodeResults
 	});
-}
+}*/
 
 // -----------------------------------------------------------------------------
 
-var geocodeResultSet;
+/*var geocodeResultSet;
 var geocodeResults = function( data, requestStatus, requestId)
 {
 	var i, len, locations, marker;
@@ -250,7 +261,7 @@ var geocodeResults = function( data, requestStatus, requestId)
 	} else {
 		alert( "The search request failed");
 	}
-};
+};*/
 
 // -----------------------------------------------------------------------------
 
