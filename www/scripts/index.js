@@ -280,7 +280,7 @@ function setAge( age)
 		str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
 	} else if( age < 18) {
 		$( '#displayChild').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Kinder und Teenies<br>';
+		str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Schulkinder<br>';
 	} else if( age < 30) {
 		$( '#displayPregnant').prop( 'checked', true).checkboxradio( 'refresh');
 		str += '<i class="fa fa-female" style="padding-right:0.7em;"></i>Angebote für die Familienplanung<br>';
@@ -303,7 +303,7 @@ function setAge( age)
 	var ageStr = 'age' + age;
 	for( var i = 0; i < dataVec.length; ++i) {
 		if( dataVec[i][ageStr].length > 0) {
-			str += '<li><a href="#"><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
+			str += '<li><a href="#" onClick="onShowData(' + i + ');" border=0><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
 		}
 	}
 
@@ -311,6 +311,38 @@ function setAge( age)
 
 	$( '#mapSelectInfo').html( str);
 	$( '#ageList').listview();
+}
+
+// -----------------------------------------------------------------------------
+
+var dataGeoSet = null;
+
+function onShowData( dataId)
+{
+	if( dataId < dataVec.length) {
+		if( dataGeoSet) {
+			map.objects.remove( dataGeoSet);
+		}
+		dataGeoSet = new nokia.maps.map.Container();
+		map.objects.add( dataGeoSet);
+
+		$.getJSON( 'data/' + dataVec[ dataId].url, function( data) {
+			try {
+				$.each( data, function( key, val) {
+					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+						marker = new nokia.maps.map.StandardMarker([parseFloat( val.lat), parseFloat( val.lng)]);
+						dataGeoSet.objects.add( marker);
+					}
+				});
+
+				if( dataGeoSet.objects.getLength() > 0) {
+					map.zoomTo( dataGeoSet.getBoundingBox(), false);
+				}
+			} catch( e) {
+				alert( e);
+			}
+		});
+	}
 }
 
 // -----------------------------------------------------------------------------
