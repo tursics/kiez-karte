@@ -12,16 +12,16 @@
 	<meta property="og:title" content="Kiez-Karte" />
 	<meta name="twitter:title" content="Kiez-Karte">
 
-	<meta name="description" content="Die familienfreundliche Karte von Berlin-Lichtenberg." />
-	<meta property="og:description" content="Die familienfreundliche Karte von Berlin-Lichtenberg." />
-	<meta name="twitter:description" content="Die familienfreundliche Karte von Berlin-Lichtenberg.">
+	<meta name="description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
+	<meta property="og:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
+	<meta name="twitter:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez.">
 
 	<link rel="image_src" type="image/png" href="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png" />
 	<meta property="og:image" content="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png" />
 	<meta name="twitter:image:src" content="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png">
 
-	<meta property="og:url" content="http://www.tursics.de/sample/lichtenberg/">
-	<meta name="twitter:domain" content="http://www.tursics.de/sample/lichtenberg">
+	<meta property="og:url" content="http://kiez-karte.berlin/">
+	<meta name="twitter:domain" content="http://kiez-karte.berlin/">
 
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:creator" content="@tursics">
@@ -165,22 +165,59 @@
 			<div style="font-size:1.1em;padding:0 1.5em 1.5em 1.5em;">Herzlich willkommen! Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez.<br>Dein Berlin-Lichtenberg</div>
 			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Weiter zur Karte</a></div>
 		</div>
-		<div data-role="popup" id="popupInfo" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
-			<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-			<h1 style="margin-bottom:0;">Kiez-Karte</h1>
-			<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
-			Von <a href="https://twitter.com/tursics" target="_blank"><i class="fa fa-twitter"></i>tursics</a> für <a href="https://twitter.com/codeforde" target="_blank"><i class="fa fa-twitter"></i>codeforde</a> OK Lab Berlin.<br>
-			Zu finden unter <a href="http://kiez-karte.berlin"><i class="fa fa-globe"></i>kiez-karte.berlin</a> und <a href="https://github.com/tursics/kiez-karte" target="_blank"><i class="fa fa-github"></i>GitHub</a>.<br>
+		<div data-role="popup" id="popupCopyright" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
+			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
+			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
+			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
+			Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez.<br><hr><br>
+			Bei Fragen, Anmerkungen, Verbesserungsvorschlägen, schreibt mir.<br>
 			<br>
+			<center><div data-role="controlgroup" data-type="horizontal">
+				<a href="http://www.tursics.de/support"              target="_blank" class="ui-btn"><i class="fa fa-envelope"></i></a>
+				<a href="https://twitter.com/tursics"                target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
+				<a href="https://www.facebook.com/thomas.tursics"    target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
+				<a href="https://google.com/+ThomasTursics"          target="_blank" class="ui-btn"><i class="fa fa-google-plus"></i></a>
+				<a href="https://github.com/tursics"                 target="_blank" class="ui-btn"><i class="fa fa-github"></i></a>
+				<a href="https://www.linkedin.com/in/thomastursics"  target="_blank" class="ui-btn"><i class="fa fa-linkedin"></i></a>
+				<a href="http://www.xing.com/profile/Thomas_Tursics" target="_blank" class="ui-btn"><i class="fa fa-xing"></i></a>
+			</div></center>
+			</div>
+			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
+			<div style="padding:1em 1.5em 1em 1.5em;border-top:solid 1px gray;">
+			Folgende Quellenvermerke sollte ich noch angeben<br>
+			- Geoportal Berlin / Hauskoordinaten Berlin (bearbeitet)<br>
+			- Geoportal Berlin / Spielplatzbestand Berlin (bearbeitet)<br>
+			- Datenquelle: Amt für Statistik Berlin-Brandenburg, Abgestimmter Datenpool
+			</div>
+			<div style="color:gray;text-align:center;border-top:solid 1px gray;padding:0.5em;">Thomas Tursics • Frankfurter Allee 172 • 10365 Berlin</div>
+		</div>
+		<div data-role="popup" id="popupShare" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
+			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
+			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
+			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
+			Erzähl deinen Freunden von der Kiez-Karte.
+			<center><div data-role="controlgroup" data-type="horizontal">
+				<a href="https://twitter.com/intent/tweet?text=Entdecke+deinen+Kiez.+Verändere+deinen+Kiez.+Gestalte+deinen+Kiez+auf+http%3A%2F%2Fkiez-karte.berlin+von+@tursics" target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
+				<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fkiez-karte.berlin%2F&t=Entdecke+deinen+Kiez.+Verändere+deinen+Kiez.+Gestalte+deinen+Kiez.+(von+Thomas+Tursics)" target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
+			</div></center>
+			</div>
+			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
+		</div>
+		<div data-role="popup" id="popupInfo" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
+			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
+			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
+			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
+			Dieses OpenData-Projekt ist im Zuge von <a href="http://codefor.de/" target="_blank"><i class="fa fa-globe"></i>Code for Germany</a> entstanden. Forkt es auf <a href="https://github.com/tursics/kiez-karte" target="_blank"><i class="fa fa-github"></i>GitHub</a>.<br>
+			<br>
+			Das ist der aktuelle Entwicklungsstand:
+			</div>
 			<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
 				<div data-role="collapsible" data-collapsed="false">
 					<h3>In Arbeit</h3>
 					<ul data-role="listview" data-inset="false">
-						<li class="work">Basisdaten von daten.berlin.de</li>
-						<li class="work">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
+						<li class="work">Einzelobjekte auswählen und Infos anzeigen</li>
 						<li class="work">Spielplätze vom FIS-Broker Berlin</li>
 						<li class="work">Nachfragen nach Kindergärten und Schulen</li>
-						<li class="work">Berliner Stadtbaumkampagne einbinden</li>
 					</ul>
 				</div>
 				<div data-role="collapsible">
@@ -190,11 +227,15 @@
 						<li class="done">github einrichten</li>
 						<li class="done">Geocoder einbauen</li>
 						<li class="done">Drag'n'Drop von JSON-Dateien</li>
+						<li class="done">Basisdaten von daten.berlin.de</li>
+						<li class="done">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
+						<li class="done">Berliner Stadtbaumkampagne einbinden</li>
 					</ul>
 				</div>
 				<div data-role="collapsible">
 					<h3>Noch offen</h3>
 					<ul data-role="listview" data-inset="false">
+						<li class="todo">Mehr Daten von daten.berlin.de</li>
 						<li class="todo">Projektbeschreibung schreiben</li>
 						<li class="todo">Bürgerhaushalt einbinden</li>
 						<li class="todo">Objektgruppen favorisieren</li>
@@ -219,43 +260,6 @@
 					</ul>
 				</div>
 			</div>
-			<center>
-				<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">Schließen</a>
-			</center>
+			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
 		</div>
-		<div data-role="popup" id="popupShare" data-theme="a" data-position-to="origin" data-transition="slidedown">
-			<div data-role="controlgroup" data-type="horizontal">
-				<a href="https://twitter.com/intent/tweet?text=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+auf+http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg+von+@tursics" target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
-				<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Ftursics.de%2Fsample%2Flichtenberg&t=Eine+%23OpenData-Karte+von+Berlin-Lichtenberg+(von+Thomas+Tursics)" target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
-			</div>
-		</div>
-		<div data-role="popup" id="popupCopyright" data-theme="a" data-position-to="window" data-transition="slidedown" class="ui-corner-all ui-content">
-			<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-			<h1 style="margin-bottom:0;">Kiez-Karte</h1>
-			<p style="margin-top:0;margin-bottom:1em;">(Berlin-Lichtenberg)</p>
-			Bei Fragen, Anmerkungen, Verbesserungsvorschlägen, schreibt mir<br>
-			<center><div data-role="controlgroup" data-type="horizontal">
-				<a href="http://www.tursics.de/support"              target="_blank" class="ui-btn"><i class="fa fa-envelope"></i></a>
-				<a href="https://twitter.com/tursics"                target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
-				<a href="https://www.facebook.com/thomas.tursics"    target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
-				<a href="https://google.com/+ThomasTursics"          target="_blank" class="ui-btn"><i class="fa fa-google-plus"></i></a>
-				<a href="https://github.com/tursics"                 target="_blank" class="ui-btn"><i class="fa fa-github"></i></a>
-				<a href="https://www.linkedin.com/in/thomastursics"  target="_blank" class="ui-btn"><i class="fa fa-linkedin"></i></a>
-				<a href="http://www.xing.com/profile/Thomas_Tursics" target="_blank" class="ui-btn"><i class="fa fa-xing"></i></a>
-			</div></center><br>
-			<br>
-			Folgende Quellenvermerke sollte ich noch angeben<br>
-			- Geoportal Berlin / Hauskoordinaten Berlin (bearbeitet)<br>
-			- Geoportal Berlin / Spielplatzbestand Berlin (bearbeitet)<br>
-			- Datenquelle: Amt für Statistik Berlin-Brandenburg, Abgestimmter Datenpool<br>
-			<br>
-			<center>
-				<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a" data-rel="back" data-transition="flow">Schließen</a>
-			</center>
-			<div style="color:gray;text-align:center;border-top:solid 1px gray;margin-top:0.5em;padding-top:0.5em;">Betreiber: Thomas Tursics • Frankfurter Allee 172 • 10365 Berlin</div>
-		</div>
-		<div data-role="popup" id="popupDrop" data-theme="a" data-position-to="window" data-transition="pop" style="background-color:#ffee44;color:#442200;">
-		</div>
-	</div>
-</body>
-</html>
+		<div data-role="popup" id="popupDrop" data-theme="a" data-position-to="window" data-transition="pop" style="bac
