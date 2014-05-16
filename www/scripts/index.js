@@ -274,21 +274,22 @@ function setAge( age)
 	$( '#displaySenior').prop( 'checked', false);
 
 	var str = '';
+	str += '<div style="padding:0.7em 1em;font-weight:normal;background-color:#38c;color:#fff;">';
 	if( age < 6) {
 		$( '#displayBaby').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-bug"></i> Baby und Kleinkind<br>';
+		str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
 	} else if( age < 18) {
 		$( '#displayChild').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-user"></i> Kind und Teenie<br>';
+		str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Kinder und Teenies<br>';
 	} else if( age < 30) {
 		$( '#displayPregnant').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-female"></i> Familienplanung<br>';
+		str += '<i class="fa fa-female" style="padding-right:0.7em;"></i>Angebote für die Familienplanung<br>';
 	} else if( age < 65) {
 		$( '#displayAdult').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-male"></i> Familie<br>';
+		str += '<i class="fa fa-male" style="padding-right:0.7em;"></i>Angebote für Familien<br>';
 	} else {
 		$( '#displaySenior').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-wheelchair"></i> Ruheständler<br>';
+		str += '<i class="fa fa-wheelchair" style="padding-right:0.7em;"></i>Angebote für ältere Bürger<br>';
 	}
 	$( '#displayBaby').checkboxradio( 'refresh'); 
 	$( '#displayChild').checkboxradio( 'refresh'); 
@@ -296,20 +297,20 @@ function setAge( age)
 	$( '#displayAdult').checkboxradio( 'refresh'); 
 	$( '#displaySenior').checkboxradio( 'refresh'); 
 
-	str += '<br>';
-	str += '<fieldset data-role="controlgroup" data-mini="true" id="ageSet">';
+	str += '</div>';
+	str += '<ul data-role="listview" data-inset="false" id="ageList">';
 
 	var ageStr = 'age' + age;
 	for( var i = 0; i < dataVec.length; ++i) {
 		if( dataVec[i][ageStr].length > 0) {
-			str += '<input type="checkbox" name="cbage' + i + '" id="cbage' + i + '"><label for="cbage' + i + '"><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</label></input>';
+			str += '<li><a href="#"><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
 		}
 	}
 
-	str += '</fieldset>';
+	str += '</ul>';
 
 	$( '#mapSelectInfo').html( str);
-	$( '#ageSet').trigger( 'create');
+	$( '#ageList').listview();
 }
 
 // -----------------------------------------------------------------------------

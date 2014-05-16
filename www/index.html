@@ -27,7 +27,7 @@
 	<meta name="twitter:creator" content="@tursics">
 
 	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
 
 	<script src="http://js.api.here.com/se/2.5.4/jsl.js?with=maps,places,directions,positioning" type="text/javascript" charset="utf-8"></script>
 
@@ -56,9 +56,26 @@
 			top:10px;
 			left:20px;
 		}
+		#mapSelect fieldset{
+			margin:0 !important;
+		}
+		#mapSelect fieldset label{
+			background-color:#fff;
+			border-color:#38c;
+			border-radius:0;
+			color:#1b496e;
+			padding:0.5em 0.7em !important;
+		}
+		#mapSelect fieldset label.ui-btn-active{
+			background-color:#38c;
+			color:#fff;
+		}
 		#mapSelectInfo {
 			background-color:#fff;
-			padding:0.5em;
+		}
+		#mapSelectInfo a {
+			background-color:#fff !important;
+			font-weight:300 !important;
 		}
 		#mapInfo {
 			position:absolute;
@@ -120,9 +137,9 @@
 	<div data-role="page" id="pageMap">
 		<div role="main" class="ui-content" id="mapContainer"></div>
 		<div id="mapSelect">
-			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+			<fieldset data-role="controlgroup" data-type="horizontal">
 				<input type="radio" name="mapSelect" id="displayBaby"><label for="displayBaby"><i class="fa fa-bug"></i></label></input>
-				<input type="radio" name="mapSelect" id="displayChild"><label for="displayChild"><i class="fa fa-user"></i></label></input>
+				<input type="radio" name="mapSelect" id="displayChild"><label for="displayChild"><i class="fa fa-child"></i></label></input>
 				<input type="radio" name="mapSelect" id="displayPregnant"><label for="displayPregnant"><i class="fa fa-female"></i></label></input>
 				<input type="radio" name="mapSelect" id="displayAdult" checked="true"><label for="displayAdult"><i class="fa fa-male"></i></label></input>
 				<input type="radio" name="mapSelect" id="displaySenior"><label for="displaySenior"><i class="fa fa-wheelchair"></i></label></input>
@@ -130,16 +147,16 @@
 			<div id="mapSelectInfo"></div>
 		</div>
 		<div id="mapInfo" data-role="controlgroup" data-type="horizontal" class="ui-mini">
-			<a href="#popupInfo"      data-rel="popup" class="ui-btn ui-icon-bullets ui-btn-icon-notext">Info</a>
-			<a href="#popupShare"     data-rel="popup" class="ui-btn ui-icon-action  ui-btn-icon-notext">Share</a>
-			<a href="#popupCopyright" data-rel="popup" class="ui-btn ui-icon-info    ui-btn-icon-notext">Copyright</a>
+			<a href="#popupInfo"      data-rel="popup" class="ui-btn"><i class="fa fa-bullhorn"></i></a>
+			<a href="#popupShare"     data-rel="popup" class="ui-btn"><i class="fa fa-share-alt"></i></a>
+			<a href="#popupCopyright" data-rel="popup" class="ui-btn"><i class="fa fa-info"></i></a>
 		</div>
 		<div id="mapType">
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
 				<input type="radio" name="mapDisplay" id="displayNormal" checked="true"><label for="displayNormal">Karte</label></input>
 				<input type="radio" name="mapDisplay" id="displayBus"><label for="displayBus">Bus</label></input>
-				<input type="radio" name="mapDisplay" id="displayCar"><label for="displayCar">Auto</label></input>
-				<input type="radio" name="mapDisplay" id="displaySatelite"><label for="displaySatelite">Satellit</label></input>
+				<input type="radio" name="mapDisplay" id="displayCar"><label for="displayCar"><i class="fa fa-car"></i> Auto</label></input>
+				<input type="radio" name="mapDisplay" id="displaySatelite"><label for="displaySatelite"><i class="fa fa-globe"></i> Satellit</label></input>
 			</fieldset>
 		</div>
 		<div data-role="popup" id="popupWelcome" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="pop">
