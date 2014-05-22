@@ -256,8 +256,8 @@ dataVec.push({
 dataVec.push({
 	title:'Berliner Stadtbaumkampagne',
 	url:'stadtbaum-baumstandort-20140508.show.json',
-	license:'???',
-	contribute:'Senatsverwaltung für Stadtentwicklung und Umwelt',
+	license:'Quelle',
+	contribute:'Senatsverwaltung für Stadtentwicklung und Umwelt Berlin',
 	icon:'fa-leaf',
 	age0:'',
 	age6:'',
