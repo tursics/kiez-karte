@@ -3,6 +3,15 @@ kiez-karte.berlin - row data
 
 All this data sources are used in this project. Listed data sets can be displayed on a map. Each entry have an postal address - but no GPS location. How to geocode?
 
+Geocoding basics
+----------------
+
+    HKO_Lichtenberg_Geographisch_140416.txt
+    2013-07-01_Datenformatbeschreibung-HK-Version 3.1-1.pdf
+
+Import data from daten.berlin.de
+--------------------------------
+
 1. Open the data set page in the open data portal
 2. Download the foodata.json file
 3. Correct postal addresses if needed and save the modified file to foodata.mod.json
@@ -11,11 +20,28 @@ All this data sources are used in this project. Listed data sets can be displaye
 6. Move foodata.show.json to path /www/data/
 7. Contact the data holder and send your corrections!
 
-Geocoding basics
-----------------
+Import data from FIS-Broker
+---------------------------
 
-    HKO_Lichtenberg_Geographisch_140416.txt
-    2013-07-01_Datenformatbeschreibung-HK-Version 3.1-1.pdf
+Thanks to https://github.com/MagdaN/BuergerbautStadt for sharing results of freeing the data: http://pad.okfn.org/p/bbs
+
+1. Start the FIS-Broker http://fbinter.stadt-berlin.de/fb/index.jsp
+2. Switch to the HTML version
+3. Open [Icon:Karten] "Spielplatzbestand Berlin"
+4. Open "zum Downloaddienst (WFS)"
+5. Copy the "Rechneradresse" -> "http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz"
+6. Use ogr2ogr command line tool from http://gdal.org/
+7. ogr2ogr -s_srs EPSG:25833 -t_srs WGS84 -f geoJSON spielplan.geojson WFS:"http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz" re_spielplatz
+
+http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_bplan?service=wfs&version=1.1.0&request=GetFeature&typeName=fis:re_bplan
+http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz?service=wfs&version=1.1.0&request=GetFeature&typeName=fis:re_spielplatz
+http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz?service=wfs&version=1.1.0&request=GetCapabilities
+
+github - gist
+
+http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz?service=wfs&version=1.1.0&request=GetCapabilities
+
+ogr2ogr -s_srs EPSG:25833 -t_srs EPSG:4326 -f GeoJSON plan2.geojson re_spielplatz.xml
 
 Uses data sets
 --------------
