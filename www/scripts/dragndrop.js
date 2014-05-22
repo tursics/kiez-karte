@@ -95,7 +95,15 @@ function dndHandleNewFile( f)
 		errorTxt = 'Eine PDF-Datei, so, so. Was soll ich damit?';
 	} else if( f.type.match( 'application/json')) {
 		// accepted
-	} else if( !f.type.match( 'text.*')) {
+	} else if( f.type.match( 'text.*')) {
+		// accepted
+	} else if(( f.type == '') && (f.name.match( '.*webloc'))) {
+		// accepted
+	} else if(( f.type == '') && (f.name.match( '.*url'))) {
+		// accepted
+	} else if(( f.type == '') && (f.name.match( '.*URL'))) {
+		// accepted
+	} else {
 		errorImg = 'fa-file-o';
 		errorTxt = 'Ist diese Datei Open Data freundlich?';
 //		errorTxt += ' (' + f.type + ')';
@@ -165,7 +173,12 @@ function dndReadTextFile( f)
 			if( '{' == e.target.result.substring( 0, 1)) {
 				dndReadFileJSON( e.target.result);
 			} else if( '[' == e.target.result.substring( 0, 1)) {
-				dndReadFileJSON( e.target.result);
+				if( '[InternetShortcut]' == e.target.result.substring( 0, 18)) {
+					var rows = e.target.result.split( "\n");
+					dndReadURL( rows[1].substr( 4));
+				} else {
+					dndReadFileJSON( e.target.result);
+				}
 			} else {
 				var rows = e.target.result.split( "\n");
 				if( rows.length > 2) {
@@ -173,6 +186,8 @@ function dndReadTextFile( f)
 					var col = rows[0].split( ',');
 					if( col.length > 2) {
 						dndReadFileCSV( rows, ',');
+					} else if( rows[0] == '<?xml version="1.0" encoding="UTF-8"?>') {
+						dndReadFileXML( e.target.result);
 					} else {
 						dndReadFileError();
 					}
@@ -455,6 +470,32 @@ function dndReadFileCSVStadtbaum()
 
 //	$( '#popupDrop').popup( 'close');
 	dndDownloadFile();
+}
+
+// -----------------------------------------------------------------------------
+
+function dndReadFileXML( xmlFile)
+{
+	var xmlDoc = $.parseXML( xmlFile);
+	var xml = $( xmlDoc);
+	var title = xml.find( "string");
+
+	dndReadURL( title.text());
+}
+
+// -----------------------------------------------------------------------------
+
+function dndReadURL( url)
+{
+	if( url.match( 'http://fbinter.stadt-berlin.de/*')) {
+		$( '#popupDrop').html(
+			'<div style="margin:0;text-shadow:none;">' +
+			url +
+			'</div>');
+		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+	} else {
+		dndReadFileError();
+	}
 }
 
 // -----------------------------------------------------------------------------
