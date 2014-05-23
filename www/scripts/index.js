@@ -47,11 +47,6 @@ Sachdaten, 1354 Daten
 Nutzungsbedingungen noch nicht abschließend formuliert
 http://fbinter.stadt-berlin.de/fb/gisbroker.do;jsessionid=8327EAA7A1442FD8EA33B1D195F90868?cmd=navigationShowResult&mid=S.s_spielver_oepr_ve%40senstadt
 
-Ärzte
-http://daten.berlin.de/datensaetze/%C3%A4rzte-im-bezirk-lichtenberg
-http://blog.zeit.de/open-data/2014/04/07/aerzte-berlin-ifg-open-data/
-https://docs.google.com/spreadsheet/ccc?key=0AuAvveqPUgQ8dFZsbk5OeDUzUkIyUnRvN2pVT0paY0E&usp=sharing#gid=6
-
 */
 // -----------------------------------------------------------------------------
 
