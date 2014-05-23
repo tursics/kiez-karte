@@ -29,19 +29,15 @@ Thanks to https://github.com/MagdaN/BuergerbautStadt for sharing results of free
 2. Switch to the HTML version
 3. Open [Icon:Karten] "Spielplatzbestand Berlin"
 4. Open "zum Downloaddienst (WFS)"
-5. Copy the "Rechneradresse" -> "http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz"
-6. Use ogr2ogr command line tool from http://gdal.org/
-7. ogr2ogr -s_srs EPSG:25833 -t_srs WGS84 -f geoJSON spielplan.geojson WFS:"http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz" re_spielplatz
+5. Create a link file of the page on your desktop, e.g., http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=re_spielplatz@senstadt&type=WFS&themeType=spatial
+6. Drag'n'drop the link file on to the map
 
-http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_bplan?service=wfs&version=1.1.0&request=GetFeature&typeName=fis:re_bplan
-http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz?service=wfs&version=1.1.0&request=GetFeature&typeName=fis:re_spielplatz
-http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz?service=wfs&version=1.1.0&request=GetCapabilities
+Next? It's work in progress...
 
-github - gist
-
-http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz?service=wfs&version=1.1.0&request=GetCapabilities
-
-ogr2ogr -s_srs EPSG:25833 -t_srs EPSG:4326 -f GeoJSON plan2.geojson re_spielplatz.xml
+1. Use ogr2ogr command line tool from http://gdal.org/
+2. ogr2ogr -s_srs EPSG:25833 -t_srs WGS84 -f geoJSON spielplan.geojson WFS:"http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz" re_spielplatz
+2. ogr2ogr -s_srs EPSG:25833 -t_srs EPSG:4326 -f GeoJSON plan2.geojson re_spielplatz.xml
+3. github - gist
 
 Uses data sets
 --------------
