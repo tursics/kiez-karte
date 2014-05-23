@@ -493,9 +493,58 @@ function dndReadURL( url)
 			url +
 			'</div>');
 		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+
+		dndReadURLFISBroker( url);
 	} else {
 		dndReadFileError();
 	}
+}
+
+// -----------------------------------------------------------------------------
+
+function dndReadURLFISBroker( url)
+{
+	var params = url.split( '?')[1].split( '&');
+	var line;
+
+	var name = '';
+	line = params[0].split( '=');
+	if( 'id' == line[0]) {
+		name = line[1].split( '@')[0];
+	}
+
+	var type = '';
+	line = params[1].split( '=');
+	if( 'type' == line[0]) {
+		type = line[1];
+	}
+
+	var dataURL = '';
+	if( 'WFS' == type) {
+		dataURL = 'http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/' + name;
+	} else if( 'WMS' == type) {
+		dataURL = 'http://fbinter.stadt-berlin.de/fb/wms/senstadt/' + name;
+	} else if( 'FEED' == type) {
+		dataURL = 'http://fbinter.stadt-berlin.de/fb/feed/senstadt/' + name;
+	}
+
+	// XMLHttpRequest cannot load [dataURL]. No 'Access-Control-Allow-Origin' header is present on the requested resource.
+	// Origin 'http://www.tursics.de' is therefore not allowed access.
+
+	$( '#popupDrop').html(
+		'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
+		'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-cloud-download"></i></div>' +
+		'Einen Augenblick noch. Lade gerade die Daten herunter.<br>' +
+		'</div>');
+	$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+
+	$.getJSON( 'scripts/fisbroker.php?type=' + type + '&name=' + name, function( data) {
+		$( '#popupDrop').html(
+			'<div style="margin:0;text-shadow:none;">' +
+			data.obj.gml_featureMember.length +
+			'</div>');
+		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+	});
 }
 
 // -----------------------------------------------------------------------------
