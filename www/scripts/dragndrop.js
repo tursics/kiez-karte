@@ -540,10 +540,34 @@ function dndReadURLFISBroker( url)
 
 	$.getJSON( 'scripts/fisbroker.php?type=' + type + '&name=' + name, function( data) {
 		$( '#popupDrop').html(
-			'<div style="margin:0;text-shadow:none;">' +
-			data.obj.gml_featureMember.length +
+			'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
+			'<div style="font-size:3em;text-align:center;margin-bottom:0.5em;"><i class="fa fa-table"></i></div>' +
+			'Verteile die Punkte auf der Karte' +
 			'</div>');
 		$( '#popupDrop').popup( 'reposition', {positionTo: "window"});
+
+		dndReadURLFISBrokerObject( data);
+	});
+}
+
+// -----------------------------------------------------------------------------
+
+function dndReadURLFISBrokerObject( data)
+{
+	// gml_featureMember
+	$.each( data.obj.gml_featureMember, function() {
+		// fis_re_spielplatz
+		$.each( this, function() {
+			if( 'Lichtenberg' == this.fis_bezirk) {
+				// fis_name: Upstallweg / Erich-Kurz-Str. 9-11 / Spielplatz
+				// gml_pos: 32776.666 18993.843 (EPSG:3068 Name:DHDN / Soldner Berlin)
+				// 13.519064 , 52.498044 (WGS84)
+				// ETRS89 -> Gabon
+				// EPSG:25833
+				// https://gist.github.com/yetzt/b18528b6063660d718f3#file-gistfile1-js
+				console.log( this.fis_name + ' - ' + this.fis_spatial_geometry.gml_Polygon.gml_exterior.gml_LinearRing.gml_pos[0]);
+			}
+		});
 	});
 }
 
