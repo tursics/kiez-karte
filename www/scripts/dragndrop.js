@@ -554,21 +554,58 @@ function dndReadURLFISBroker( url)
 
 function dndReadURLFISBrokerObject( data)
 {
-	// gml_featureMember
-	$.each( data.obj.gml_featureMember, function() {
-		// fis_re_spielplatz
-		$.each( this, function() {
-			if( 'Lichtenberg' == this.fis_bezirk) {
-				// fis_name: Upstallweg / Erich-Kurz-Str. 9-11 / Spielplatz
-				// gml_pos: 32776.666 18993.843 (EPSG:3068 Name:DHDN / Soldner Berlin)
-				// 13.519064 , 52.498044 (WGS84)
-				// ETRS89 -> Gabon
-				// EPSG:25833
-				// https://gist.github.com/yetzt/b18528b6063660d718f3#file-gistfile1-js
-				console.log( this.fis_name + ' - ' + this.fis_spatial_geometry.gml_Polygon.gml_exterior.gml_LinearRing.gml_pos[0]);
-			}
+	// EPSG:3068: Soldner Berlin
+	var soldner = "+proj=cass +lat_0=52.41864827777778 +lon_0=13.62720366666667 +x_0=40000 +y_0=10000 +ellps=bessel +datum=potsdam +units=m +no_defs";
+
+	dndReadFileObject = [];
+
+	if( dndReadFileGeocodeSet) {
+		map.objects.remove( dndReadFileGeocodeSet);
+	}
+	dndReadFileGeocodeSet = new nokia.maps.map.Container();
+	map.objects.add( dndReadFileGeocodeSet);
+
+	try {
+		// gml_featureMember
+		$.each( data.obj.gml_featureMember, function() {
+			// fis_object
+			$.each( this, function() {
+				if( 'Lichtenberg' == this.fis_bezirk) {
+					var obj = {};
+
+					$.each( this, function( key, value) {
+						if( key == 'fis_spatial_geometry') {
+							var polygon = null;
+							if( typeof value.gml_Polygon != 'undefined') {
+								polygon = value.gml_Polygon;
+							} else {
+								polygon = value.gml_MultiPolygon.gml_polygonMember[0].gml_Polygon;
+							}
+
+							var wgs84 = proj4( soldner, proj4.WGS84, polygon.gml_exterior.gml_LinearRing.gml_pos[0].split(' '));
+							obj.lat = wgs84[1];
+							obj.lng = wgs84[0];
+						} else if( 'fis_' == key.substring( 0, 4)) {
+							obj[ key.substring( 4)] = value;
+						}
+					});
+
+					marker = new nokia.maps.map.StandardMarker([parseFloat( obj.lat), parseFloat( obj.lng)]);
+					dndReadFileGeocodeSet.objects.add( marker);
+					dndReadFileObject.push( obj);
+				}
+			});
 		});
-	});
+	} catch( e) {
+		alert( e);
+	}
+
+	if( dndReadFileGeocodeSet.objects.getLength() > 0) {
+		map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
+	}
+
+//	$( '#popupDrop').popup( 'close');
+	dndDownloadFile();
 }
 
 // -----------------------------------------------------------------------------
