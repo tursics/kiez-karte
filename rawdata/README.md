@@ -15,10 +15,12 @@ Import data from daten.berlin.de
 1. Open the data set page in the open data portal
 2. Download the foodata.json file
 3. Correct postal addresses if needed and save the modified file to foodata.mod.json
-4. Drag'n'drop the file on to the map and save the geolocated result in foodata.geo.json
-5. Remove data outside destination region and ungeolocatable addresses and save the result in foodata.show.json
-6. Move foodata.show.json to path /www/data/
-7. Contact the data holder and send your corrections!
+4. Drag'n'drop the file on to the map
+5. Wait (it download and geocode the data)
+6. Save the geolocated result in foodata.geo.json
+7. Remove data outside destination region and ungeolocatable addresses and save the result in foodata.show.json
+8. Move foodata.show.json to path /www/data/
+9. Contact the data holder and send your corrections!
 
 Import data from FIS-Broker
 ---------------------------
@@ -31,13 +33,10 @@ Thanks to https://github.com/MagdaN/BuergerbautStadt for sharing results of free
 4. Open "zum Downloaddienst (WFS)"
 5. Create a link file of the page on your desktop, e.g., http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=re_spielplatz@senstadt&type=WFS&themeType=spatial
 6. Drag'n'drop the link file on to the map
-
-Next? It's work in progress...
-
-1. Use ogr2ogr command line tool from http://gdal.org/
-2. ogr2ogr -s_srs EPSG:25833 -t_srs WGS84 -f geoJSON spielplan.geojson WFS:"http://fbinter.stadt-berlin.de/fb/wfs/geometry/senstadt/re_spielplatz" re_spielplatz
-2. ogr2ogr -s_srs EPSG:25833 -t_srs EPSG:4326 -f GeoJSON plan2.geojson re_spielplatz.xml
-3. github - gist
+7. Wait (it download and geocode the data)
+8. Save the geolocated result in foodata.geo.json
+9. Remove data outside destination region and ungeolocatable addresses and save the result in foodata.show.json
+10. Move foodata.show.json to path /www/data/
 
 Uses data sets
 --------------
@@ -187,4 +186,11 @@ License|CC BY 3.0 DE
     buergerservice-familie-sbst.mod.json
     buergerservice-familie-sbst.geo.json
     buergerservice-familie-sbst.show.json
+
+ |Spielplatzbestand Berlin
+-------|-------
+Url    |http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=re_spielplatz@senstadt&type=WFS&themeType=spatial
+License|nutzIII.pdf "Geoportal Berlin / [Titel des Datensatzes]"
+
+    tbd.json
 
