@@ -266,4 +266,56 @@ dataVec.push({
 	age65:'',
 });
 
+dataVec.push({
+	title:'Spielplatzbestand Berlin',
+	url:'re-spielplatz.aelterekinderjugendliche.show.json',
+	license:'nutzIII.pdf',
+	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
+	icon:'fa-smile-o',
+	age0:'',
+	age6:'Jugendspielplatz',
+	age18:'',
+	age30:'',
+	age65:''
+});
+
+dataVec.push({
+	title:'Spielplatzbestand Berlin',
+	url:'re-spielplatz.allgemeinerspielplatz.show.json',
+	license:'nutzIII.pdf',
+	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
+	icon:'fa-smile-o',
+	age0:'Spielplatz',
+	age6:'Spielplatz',
+	age18:'',
+	age30:'',
+	age65:''
+});
+
+dataVec.push({
+	title:'Spielplatzbestand Berlin',
+	url:'re-spielplatz.kleinkinderspielplatz.show.json',
+	license:'nutzIII.pdf',
+	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
+	icon:'fa-smile-o',
+	age0:'Kleinkinder-Spielplatz',
+	age6:'',
+	age18:'',
+	age30:'',
+	age65:''
+});
+
+dataVec.push({
+	title:'Spielplatzbestand Berlin',
+	url:'re-spielplatz.zeitlichbegrenzt.show.json',
+	license:'nutzIII.pdf',
+	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
+	icon:'fa-smile-o',
+	age0:'Spielplatz (zeitlich begrenzt)',
+	age6:'Spielplatz (zeitlich begrenzt)',
+	age18:'',
+	age30:'',
+	age65:''
+});
+
 // -----------------------------------------------------------------------------

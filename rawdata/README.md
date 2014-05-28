@@ -190,7 +190,10 @@ License|CC BY 3.0 DE
  |Spielplatzbestand Berlin
 -------|-------
 Url    |http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=re_spielplatz@senstadt&type=WFS&themeType=spatial
-License|nutzIII.pdf "Geoportal Berlin / [Titel des Datensatzes]"
+License|nutzIII.pdf "Geoportal Berlin / Spielplatzbestand Berlin"
 
-    tbd.json
-
+    re-spielplatz.geo.json
+	re-spielplatz.aelterekinderjugendliche.show.json
+	re-spielplatz.allgemeinerspielplatz.show.json
+	re-spielplatz.kleinkinderspielplatz.show.json
+	re-spielplatz.zeitlichbegrenzt.show.json
