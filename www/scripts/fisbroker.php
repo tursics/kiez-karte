@@ -33,10 +33,15 @@
 
 				$obj = simplexml_load_string( $content);
 
-				$ret[ title] = trim( $obj->ows_ServiceIdentification->ows_Title);
-				$ret[ fees] = trim( $obj->ows_ServiceIdentification->ows_Fees);
-				$ret[ provider] = trim( $obj->ows_ServiceProvider->ows_ProviderName);
-				$ret[ wfs] = trim( $obj->wfs_FeatureTypeList->wfs_FeatureType->wfs_Name);
+				if( 'WFS' == $type) {
+					$ret[ title] = trim( $obj->ows_ServiceIdentification->ows_Title);
+					$ret[ fees] = trim( $obj->ows_ServiceIdentification->ows_Fees);
+					$ret[ provider] = trim( $obj->ows_ServiceProvider->ows_ProviderName);
+					$ret[ wfs] = trim( $obj->wfs_FeatureTypeList->wfs_FeatureType->wfs_Name);
+				} else if( 'WMS' == $type) {
+					$ret[ title] = trim( $obj->Service->Title);
+					$ret[ fees] = trim( $obj->Service->Fees);
+				}
 
 //				$ows_Value = '';
 //				foreach( $obj->ows_OperationsMetadata->ows_Parameter->ows_Value as $value) {
@@ -44,11 +49,20 @@
 //				}
 //				$ret[ ows] = trim( $ows_Value, ',');
 
-				// describe feature type
-				$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=DescribeFeatureType&TYPENAME=' . $ret[ wfs];
-
 				// get feature
-				$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=' . $ret[ wfs];
+				if( 'WFS' == $type) {
+					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=DescribeFeatureType&TYPENAME=' . $ret[ wfs];
+
+					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=' . $ret[ wfs];
+				} else if( 'WMS' == $type) {
+					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetCapabilities';
+					$content = file_get_contents( $dataURL . $addons);
+					$obj = simplexml_load_string( $content);
+
+					$ret[ layer] = $obj->Capability->Layer->Title;
+
+					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetFeatureInfo&query_layers=' . urlencode( /*$ret[ layer]*/ $ret[ title]) . '&x=0&y=0';
+				}
 
 				$content = file_get_contents( $dataURL . $addons);
 				$content = str_replace( 'gml:', 'gml_', $content);
