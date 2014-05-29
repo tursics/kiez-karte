@@ -565,40 +565,40 @@ function dndReadURLFISBrokerObject( data)
 	dndReadFileGeocodeSet = new nokia.maps.map.Container();
 	map.objects.add( dndReadFileGeocodeSet);
 
-	try {
-		// gml_featureMember
-		$.each( data.obj.gml_featureMember, function() {
-			// fis_object
-			$.each( this, function() {
-				if( 'Lichtenberg' == this.fis_bezirk) {
-					var obj = {};
-
-					$.each( this, function( key, value) {
-						if( key == 'fis_spatial_geometry') {
-							var polygon = null;
-							if( typeof value.gml_Polygon != 'undefined') {
-								polygon = value.gml_Polygon;
-							} else {
-								polygon = value.gml_MultiPolygon.gml_polygonMember[0].gml_Polygon;
-							}
-
-							var wgs84 = proj4( soldner, proj4.WGS84, polygon.gml_exterior.gml_LinearRing.gml_pos[0].split(' '));
-							obj.lat = wgs84[1];
-							obj.lng = wgs84[0];
-						} else if( 'fis_' == key.substring( 0, 4)) {
-							obj[ key.substring( 4)] = value;
-						}
-					});
-
-					marker = new nokia.maps.map.StandardMarker([parseFloat( obj.lat), parseFloat( obj.lng)]);
-					dndReadFileGeocodeSet.objects.add( marker);
-					dndReadFileObject.push( obj);
-				}
-			});
-		});
-	} catch( e) {
-		alert( e);
+	if( typeof data.obj.gml_featureMember == 'undefined') {
+		dndReadFileError();
 	}
+
+	// gml_featureMember
+	$.each( data.obj.gml_featureMember, function() {
+		// fis_object
+		$.each( this, function() {
+			if( 'Lichtenberg' == this.fis_bezirk) {
+				var obj = {};
+
+				$.each( this, function( key, value) {
+					if( key == 'fis_spatial_geometry') {
+						var polygon = null;
+						if( typeof value.gml_Polygon != 'undefined') {
+							polygon = value.gml_Polygon;
+						} else {
+							polygon = value.gml_MultiPolygon.gml_polygonMember[0].gml_Polygon;
+						}
+
+						var wgs84 = proj4( soldner, proj4.WGS84, polygon.gml_exterior.gml_LinearRing.gml_pos[0].split(' '));
+						obj.lat = wgs84[1];
+						obj.lng = wgs84[0];
+					} else if( 'fis_' == key.substring( 0, 4)) {
+						obj[ key.substring( 4)] = value;
+					}
+				});
+
+				marker = new nokia.maps.map.StandardMarker([parseFloat( obj.lat), parseFloat( obj.lng)]);
+				dndReadFileGeocodeSet.objects.add( marker);
+				dndReadFileObject.push( obj);
+			}
+		});
+	});
 
 	if( dndReadFileGeocodeSet.objects.getLength() > 0) {
 		map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
