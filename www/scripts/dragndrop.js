@@ -565,7 +565,7 @@ function dndReadURLFISBrokerObject( data)
 	dndReadFileGeocodeSet = new nokia.maps.map.Container();
 	map.objects.add( dndReadFileGeocodeSet);
 
-	if( typeof data.obj.gml_featureMember == 'undefined') {
+	if(( typeof data.obj == 'undefined') || (typeof data.obj.gml_featureMember == 'undefined')) {
 		dndReadFileError();
 	}
 
@@ -573,7 +573,7 @@ function dndReadURLFISBrokerObject( data)
 	$.each( data.obj.gml_featureMember, function() {
 		// fis_object
 		$.each( this, function() {
-			if( 'Lichtenberg' == this.fis_bezirk) {
+			if(( 'Lichtenberg' == this.fis_bezirk) || ('Lichtenberg' == this.fis_BEZIRK)) {
 				var obj = {};
 
 				$.each( this, function( key, value) {

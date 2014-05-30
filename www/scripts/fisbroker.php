@@ -69,9 +69,17 @@
 				$content = str_replace( 'fis:', 'fis_', $content);
 				$content = str_replace( 'wfs:', 'wfs_', $content);
 
-				$obj = simplexml_load_string( $content);
+				if( strlen( $content) > 8000000) {
+					$ret[ error] = "Too many data. Unable to parse.";
+				} else {
+					try {
+						$obj = simplexml_load_string( $content, 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_PARSEHUGE);
 
-				$ret[ obj] = $obj;
+						$ret[ obj] = $obj;
+					} catch (Exception $e) {
+						$ret[ error] = 'XML error: ' . $e->getMessage();
+					}
+				}
 			}
 		}
 	}
