@@ -197,3 +197,11 @@ License|nutzIII.pdf "Geoportal Berlin / Spielplatzbestand Berlin"
 	re-spielplatz.allgemeinerspielplatz.show.json
 	re-spielplatz.kleinkinderspielplatz.show.json
 	re-spielplatz.zeitlichbegrenzt.show.json
+
+ |Friedhofsbestand Berlin
+-------|-------
+Url    |http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=re_friedh@senstadt&type=WFS&themeType=spatial
+License|nutzIII.pdf "Geoportal Berlin / Friedhofsbestand Berlin"
+
+    re-friedh.geo.json
+	re-friedh.show.json

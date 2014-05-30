@@ -318,4 +318,17 @@ dataVec.push({
 	age65:''
 });
 
+dataVec.push({
+	title:'Friedhofsbestand Berlin',
+	url:'re-friedh.show.json',
+	license:'nutzIII.pdf',
+	contribute:'Geoportal Berlin / Friedhofsbestand Berlin',
+	icon:'fa-square',
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'',
+	age65:'Friedhof'
+});
+
 // -----------------------------------------------------------------------------
