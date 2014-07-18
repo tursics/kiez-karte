@@ -56,17 +56,17 @@
 			top:10px;
 			left:20px;
 		}
-		#mapSelect fieldset{
+		#mapSelect fieldset, #mapType fieldset {
 			margin:0 !important;
 		}
-		#mapSelect fieldset label{
+		#mapSelect fieldset label, #mapType fieldset label {
 			background-color:#fff;
 			border-color:#38c;
 			border-radius:0;
 			color:#1b496e;
 			padding:0.5em 0.7em !important;
 		}
-		#mapSelect fieldset label.ui-btn-active{
+		#mapSelect fieldset label.ui-btn-active, #mapType fieldset label.ui-btn-active {
 			background-color:#38c;
 			color:#fff;
 		}
@@ -77,10 +77,32 @@
 			background-color:#fff !important;
 			font-weight:300 !important;
 		}
+		#banner {
+			background:#fff;
+			padding:2em 0 0 0;
+			position:absolute;
+			right:-4.9em;
+			top:-1.2em;
+			text-align:center;
+			width:15em;
+			-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);
+		}
 		#mapInfo {
 			position:absolute;
-			top:10px;
-			right:20px;
+			top:5em;
+			right:2.7em;
+			-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);
+		}
+		#mapInfo a {
+			background-color:#fff;
+			border-color:#38c;
+			border-radius:0;
+			color:#1b496e;
+			padding:0.5em 0.7em !important;
+			width:1em;
+		}
+		#mapInfo a i {
+			-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-o-transform:rotate(-45deg);transform:rotate(-45deg);
 		}
 		#mapType {
 			position:absolute;
@@ -147,7 +169,8 @@
 			</fieldset>
 			<div id="mapSelectInfo"></div>
 		</div>
-		<div id="mapInfo" data-role="controlgroup" data-type="horizontal" class="ui-mini">
+		<div id="banner">Diese<br>Webseite ist<br>aktuell im Aufbau!<div style="background-color:#38c;color:#fff;padding:.2em 0 .2em 0;">Zur Zeit nur Lichtenberg</div></div>
+		<div id="mapInfo" data-role="controlgroup" data-type="horizontal">
 			<a href="#popupInfo"      data-rel="popup" class="ui-btn"><i class="fa fa-bullhorn"></i></a>
 			<a href="#popupShare"     data-rel="popup" class="ui-btn"><i class="fa fa-share-alt"></i></a>
 			<a href="#popupCopyright" data-rel="popup" class="ui-btn"><i class="fa fa-info"></i></a>
@@ -209,7 +232,7 @@
 			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
 			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
 			<div style="text-align:center;">
-				Dieses Projekt ist entstanden im Zuge von<br>
+				Dieses Projekt entsteht im Zuge von<br>
 				<a href="http://codefor.de/berlin/" target="_blank"><img src="images/cfg_berlin.svg" style="height:3em;"></a>
 			</div>
 			<br>
@@ -221,6 +244,8 @@
 					<ul data-role="listview" data-inset="false">
 						<li class="work">Einzelobjekte auswählen und Infos anzeigen</li>
 						<li class="work">Nachfragen nach Kindergärten und Schulen</li>
+						<li class="work">Maerker einbinden</li>
+						<li class="work">Bürgerhaushalt einbinden</li>
 					</ul>
 				</div>
 				<div data-role="collapsible">
@@ -241,7 +266,6 @@
 					<ul data-role="listview" data-inset="false">
 						<li class="todo">Mehr Daten von daten.berlin.de</li>
 						<li class="todo">Projektbeschreibung schreiben</li>
-						<li class="todo">Bürgerhaushalt einbinden</li>
 						<li class="todo">Objektgruppen favorisieren</li>
 						<li class="todo">Haltestellen und Fahrpläne der BVG und S-Bahn</li>
 						<li class="todo">Rating- und Kommentarsystem für jedes Objekt</li>
