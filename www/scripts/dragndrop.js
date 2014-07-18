@@ -186,7 +186,7 @@ function dndReadTextFile( f)
 					var col = rows[0].split( ',');
 					if( col.length > 2) {
 						dndReadFileCSV( rows, ',');
-					} else if( rows[0] == '<?xml version="1.0" encoding="UTF-8"?>') {
+					} else if( 0 <= rows[0].search( '<?xml version="1.0" encoding="UTF-8"')) {
 						dndReadFileXML( e.target.result);
 					} else {
 						dndReadFileError();
@@ -319,6 +319,12 @@ function dndReadFileObjectFunc()
 
 			++dndReadFileIndex;
 		}
+//		while(( typeof dndReadFileObject[dndReadFileIndex] != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].latitude != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].longitude != 'undefined')) {
+//			marker = new nokia.maps.map.StandardMarker([parseFloat( dndReadFileObject[dndReadFileIndex].latitude), parseFloat( dndReadFileObject[dndReadFileIndex].longitude)], { text: dndReadFileIndex + 1 });
+//			dndReadFileGeocodeSet.objects.add( marker);
+//
+//			++dndReadFileIndex;
+//		}
 
 		if( typeof dndReadFileObject[dndReadFileIndex] == 'undefined') {
 			if( dndReadFileGeocodeSet.objects.getLength() > 0) {
@@ -480,7 +486,61 @@ function dndReadFileXML( xmlFile)
 	var xml = $( xmlDoc);
 	var title = xml.find( "string");
 
-	dndReadURL( title.text());
+	if( !title.empty) {
+		dndReadURL( title.text());
+	} else {
+		dndReadFileObject = dndReadFileXMLtoObject( xml[0]);
+		dndDownloadFile();
+
+//		$( '#popupDrop').popup( 'close');
+//		console.log( JSON.stringify( dndReadFileObject));
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+function dndReadFileXMLtoObject( node)
+{
+	var data = {};
+
+	function pushVal( name, value) {
+		if( data[ name]) {
+			if( data[ name].constructor != Array) {
+				data[ name] = [data[ name]];
+			}
+			data[ name][data[ name].length] = value;
+		} else {
+			data[ name] = value;
+		}
+	};
+
+	var i, val;
+	if( node.attributes) {
+		for( i = 0; i < node.attributes.length; ++i) {
+			val = node.attributes[ i];
+			pushVal( val.name, val.value);
+		}
+	}
+
+	if( node.childNodes) {
+		for( i = 0; i < node.childNodes.length; ++i) {
+			val = node.childNodes[ i];
+
+			if( val.nodeType == 1) {
+				if(( val.childNodes.length == 1) && (val.firstChild.nodeType == 3)) {
+					// TEXT_NODE
+					pushVal( val.nodeName, val.firstChild.nodeValue);
+				} else if(( val.childNodes.length == 1) && (val.firstChild.nodeType == 4)) {
+					// CDATA_SECTION_NODE
+					pushVal( val.nodeName, val.firstChild.nodeValue);
+				} else {
+					pushVal( val.nodeName, dndReadFileXMLtoObject( val));
+				}
+			}
+		}
+	}
+
+	return data;
 }
 
 // -----------------------------------------------------------------------------
