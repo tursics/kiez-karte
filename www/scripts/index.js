@@ -315,17 +315,25 @@ var dataGeoSet = null;
 function onShowData( dataId)
 {
 	if( dataId < dataVec.length) {
+		var TOUCH = nokia.maps.dom.Page.browser.touch;
+		var CLICK = TOUCH ? 'tap' : 'click';
+
 		if( dataGeoSet) {
 			map.objects.remove( dataGeoSet);
 		}
 		dataGeoSet = new nokia.maps.map.Container();
+		dataGeoSet.addListener( CLICK, function( evt) {
+			console.log( evt.target.data);
+		}, false);
 		map.objects.add( dataGeoSet);
 
 		$.getJSON( 'data/' + dataVec[ dataId].url, function( data) {
 			try {
 				$.each( data, function( key, val) {
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
-						marker = new nokia.maps.map.StandardMarker([parseFloat( val.lat), parseFloat( val.lng)]);
+						marker = new nokia.maps.map.StandardMarker([parseFloat( val.lat), parseFloat( val.lng)], {
+							data: val
+						});
 						dataGeoSet.objects.add( marker);
 					}
 				});

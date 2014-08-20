@@ -108,7 +108,7 @@ body {
 #mapType {
 	position:absolute;
 	bottom:13px;
-	right:0px;
+	right:10px;
 }
 
 li.done:before, li.todo:before, li.none:before, li.work:before {
@@ -180,9 +180,9 @@ li.work:before {
 #bottomBarInfo{
 	background-color:/*cLight*/#8C9C88 !important;
 	bottom:0;
-	padding:0 1em 0 1em;
+	padding:0 10px 0 10px;
 	position:absolute;
-	right:0;
+	right:0px;
 }
 
 #bottomBarInfo a{
