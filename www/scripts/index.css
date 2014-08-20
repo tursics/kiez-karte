@@ -1,0 +1,203 @@
+/**/
+/* color scheme: https://kuler.adobe.com/de/Vintage---Blue-to-yellow-color-theme-4109337/ */
+/* cDark   #012744 */
+/* cDim    #155764 */
+/* cMedium #588681 */
+/* cLight  #8C9C88 */
+/* cBright #F2DBAE */
+/* cWhite  #FFF    */
+
+html {
+	overflow:hidden;
+}
+
+body {
+	margin:0;
+	padding:0;
+	position:absolute;
+	overflow:hidden;
+	width:100%;
+	height:100% !important;
+	font-weight:300;
+}
+
+#mapContainer {
+	width:100%;
+	height:100%;
+	left:0;
+	top:0;
+	padding:0px!important;
+}
+
+#mapSelect {
+	position:absolute;
+	top:10px;
+	left:20px;
+}
+
+#mapSelect fieldset, #mapType fieldset {
+	margin:0 !important;
+}
+
+#mapSelect fieldset label, #mapType fieldset label {
+	background-color:/*cWhite*/#FFF;
+	border-color:/*cDim*/#155764;
+	border-radius:0;
+	color:/*cDim*/#155764;
+	padding:0.5em 0.7em !important;
+}
+
+#mapSelect fieldset label.ui-btn-active, #mapType fieldset label.ui-btn-active {
+	background-color:/*cDim*/#155764;
+	color:/*cWhite*/#FFF;
+}
+
+#mapSelectInfo {
+	background-color:/*cWhite*/#FFF;
+}
+
+#mapSelectInfo a {
+	background-color:/*cWhite*/#FFF !important;
+	font-weight:300 !important;
+}
+
+#mapSelectInfo div{
+	padding:0.7em 1em;
+	font-weight:normal;
+	background-color:/*cDim*/#155764;
+	color:/*cWhite*/#FFF;
+}
+
+
+#banner {
+	background:/*cWhite*/#FFF;
+	padding:2em 0 0 0;
+	position:absolute;
+	right:-4.9em;
+	top:-1.2em;
+	text-align:center;
+	width:15em;
+	-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);
+}
+#banner div{
+	background-color:/*cDim*/#155764;
+	color:/*cWhite*/#FFF;
+	padding:.2em 0 .2em 0;
+}
+
+#mapInfo {
+	position:absolute;
+	top:5em;
+	right:2.7em;
+	-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);
+}
+
+#mapInfo a {
+	background-color:/*cWhite*/#FFF;
+	border-color:/*cDim*/#155764;
+	border-radius:0;
+	color:/*cDim*/#155764;
+	padding:0.5em 0.7em !important;
+	width:1em;
+}
+
+#mapInfo a i {
+	-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-ms-transform:rotate(-45deg);-o-transform:rotate(-45deg);transform:rotate(-45deg);
+}
+
+#mapType {
+	position:absolute;
+	bottom:13px;
+	right:0px;
+}
+
+li.done:before, li.todo:before, li.none:before, li.work:before {
+	font-family:FontAwesome;
+	font-weight:normal;
+	font-style:normal;
+	display:inline-block;
+	text-decoration:inherit;
+	padding-right:0.3em;
+}
+
+li.done {
+	color:green !important;
+}
+
+li.done:before {
+	content:"\f05d";
+}
+
+li.todo {
+	color:gray !important;
+}
+
+li.todo:before {
+	content:"\f10c";
+}
+
+li.none {
+	color:brown !important;
+}
+
+li.none:before {
+	content:"\f05e";
+}
+
+li.work {
+	color:orange !important;
+}
+
+li.work:before {
+	content:"\f192";
+}
+
+.segmented-control {
+	text-align:center;
+}
+
+.segmented-control .ui-controlgroup {
+	display:inline;
+	margin:.2em 0px;
+}
+
+/* bottom bar */
+
+#bottomBar{
+	background-color:/*cLight*/#8C9C88 !important;
+	bottom:0px;
+	color:/*cDark*/#012744 !important;
+	font-size:10px;
+	font-weight:500 !important;
+	height:50px;
+/*	overflow:hidden;*/
+	position:absolute;
+	right:0px;
+	width:30em;
+	z-index:499;
+}
+
+#bottomBarInfo{
+	background-color:/*cLight*/#8C9C88 !important;
+	bottom:0;
+	padding:0 1em 0 1em;
+	position:absolute;
+	right:0;
+}
+
+#bottomBarInfo a{
+	color:/*cDark*/#012744 !important;
+}
+
+/* nokia maps */
+.nm_crnode, .nm_crnode a, .nm_crnode a:link, .nm_crnode a:visited, .nm_crnode a:focus, .nm_crnode a:hover, .nm_crnode a:active {
+	background-color:/*cLight*/#8C9C88 !important;
+	color:/*cDark*/#012744 !important;
+	font-weight:500 !important;
+}
+
+#pageMap {
+	width:100%;
+	height:100%;
+	text-shadow:none !important;
+}

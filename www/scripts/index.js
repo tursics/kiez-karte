@@ -269,7 +269,7 @@ function setAge( age)
 	$( '#displaySenior').prop( 'checked', false);
 
 	var str = '';
-	str += '<div style="padding:0.7em 1em;font-weight:normal;background-color:#38c;color:#fff;">';
+	str += '<div>';
 	if( age < 6) {
 		$( '#displayBaby').prop( 'checked', true).checkboxradio( 'refresh');
 		str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
