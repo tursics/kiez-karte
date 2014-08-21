@@ -317,6 +317,8 @@ function onShowData( dataId)
 	if( dataId < dataVec.length) {
 		var TOUCH = nokia.maps.dom.Page.browser.touch;
 		var CLICK = TOUCH ? 'tap' : 'click';
+		var colorOut = {color: '#588681'};
+		var colorOver = {color: '#155764'};
 
 		if( dataGeoSet) {
 			map.objects.remove( dataGeoSet);
@@ -325,6 +327,14 @@ function onShowData( dataId)
 		dataGeoSet.addListener( CLICK, function( evt) {
 			console.log( evt.target.data);
 		}, false);
+		dataGeoSet.addListener( 'mouseover', function( evt) {
+			evt.target.set( 'brush', colorOver);
+			map.update( -1, 0);
+		}, false);
+		dataGeoSet.addListener( 'mouseout', function( evt) {
+			evt.target.set( 'brush', colorOut);
+			map.update( -1, 0);
+		}, false);
 		map.objects.add( dataGeoSet);
 
 		$.getJSON( 'data/' + dataVec[ dataId].url, function( data) {
@@ -332,6 +342,7 @@ function onShowData( dataId)
 				$.each( data, function( key, val) {
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 						marker = new nokia.maps.map.StandardMarker([parseFloat( val.lat), parseFloat( val.lng)], {
+							brush: colorOut,
 							data: val
 						});
 						dataGeoSet.objects.add( marker);
