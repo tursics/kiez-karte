@@ -33,6 +33,8 @@ body {
 	position:absolute;
 	top:10px;
 	left:20px;
+	width:20em;
+	max-width:20em;
 }
 
 #mapSelect fieldset, #mapType fieldset {
@@ -52,13 +54,23 @@ body {
 	color:/*cWhite*/#FFF;
 }
 
-#mapSelectInfo {
-	background-color:/*cWhite*/#FFF;
+#mapSelectGroup {
+	margin:0;
 }
 
-#mapSelectInfo a {
-	background-color:/*cWhite*/#FFF !important;
-	font-weight:300 !important;
+#mapSelectData {
+	margin-top:3px;
+}
+
+#mapSelectDataEmpty {
+	background-color:/*cWhite*/#FFF;
+	border:1px solid /*cDim*/#155764;
+	color:/*cMedium*/#588681;
+	padding:0.5em 0.7em !important;
+}
+
+#mapSelectInfo {
+	margin-top:3px;
 }
 
 #mapSelectInfo div{
@@ -90,15 +102,6 @@ body {
 	top:5em;
 	right:2.7em;
 	-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);-o-transform:rotate(45deg);transform:rotate(45deg);
-}
-
-#mapInfo a {
-	background-color:/*cWhite*/#FFF;
-	border-color:/*cDim*/#155764;
-	border-radius:0;
-	color:/*cDim*/#155764;
-	padding:0.5em 0.7em !important;
-	width:1em;
 }
 
 #mapInfo a i {
@@ -159,6 +162,67 @@ li.work:before {
 .segmented-control .ui-controlgroup {
 	display:inline;
 	margin:.2em 0px;
+}
+
+/* listview */
+
+.ui-listview {
+	border:1px solid /*cDim*/#155764;
+}
+
+.ui-listview a {
+	background-color:/*cWhite*/#FFF !important;
+	font-weight:300 !important;
+	text-shadow:none !important;
+	-webkit-box-shadow:none !important;
+	-moz-box-shadow:none !important;
+	box-shadow:none !important;
+}
+
+.ui-listview a:active {
+	font-weight:300 !important;
+	background-color:/*cDim*/#155764 !important;
+	border-color:/*cDim*/#155764 !important;
+	color:/*cWhite*/#FFF !important;
+}
+
+.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {
+	background-color:/*cDim*/#155764;
+}
+
+.ui-btn.ui-btn-d, .ui-btn.ui-btn-d:hover {
+	background-color:/*cDim-lightred*/#D7A398  !important;
+	border-color:/*cDim-lightred*/#D7A398;
+}
+
+.ui-btn.ui-btn-d:active {
+	background-color:/*cDim-red*/#712344 !important;
+	border-color:/*cDim-red*/#712344 !important;
+	color:/*cWhite*/#FFF !important;
+}
+
+.ui-btn-icon-left.ui-btn-d:after, .ui-btn-icon-right.ui-btn-d:after, .ui-btn-icon-top.ui-btn-d:after, .ui-btn-icon-bottom.ui-btn-d:after, .ui-btn-icon-notext.ui-btn-d:after {
+	background-color:/*cDim-red*/#712344;
+}
+
+/* controlgroup button */
+
+.ui-controlgroup-controls a.ui-btn, .ui-controlgroup-controls a.ui-btn:hover {
+	background-color:/*cWhite*/#FFF;
+	border-color:/*cDim*/#155764;
+	border-radius:0 !important;
+	color:/*cDim*/#155764;
+	padding:0.5em 0.7em !important;
+	width:1em;
+	text-shadow:none !important;
+	-webkit-box-shadow:none !important;
+	-moz-box-shadow:none !important;
+	box-shadow:none !important;
+}
+
+.ui-controlgroup-controls a.ui-btn:active {
+	background-color:/*cDim*/#155764;
+	color:/*cWhite*/#FFF;
 }
 
 /* bottom bar */

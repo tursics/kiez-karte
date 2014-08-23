@@ -4,6 +4,9 @@
 var map = null;
 var showWelcome = false;
 
+var dataAge = -1;
+var dataGeoSet = new Array();
+
 // -----------------------------------------------------------------------------
 /*
 Spielplatzbestand Berlin
@@ -140,7 +143,7 @@ $( document).on( "pagecreate", "#pageMap", function()
 		}
 	));*/
 
-	setAge( 30);
+	updateMapSelectData();
 
 //	showWelcome = true;
 });
@@ -260,82 +263,123 @@ var geocodeResults = function( data, requestStatus, requestId)
 
 // -----------------------------------------------------------------------------
 
-function setAge( age)
+function updateMapSelectData()
 {
-	$( '#displayBaby').prop( 'checked', false);
-	$( '#displayChild').prop( 'checked', false);
-	$( '#displayPregnant').prop( 'checked', false);
-	$( '#displayAdult').prop( 'checked', false);
-	$( '#displaySenior').prop( 'checked', false);
-
 	var str = '';
-	str += '<div>';
-	if( age < 6) {
-		$( '#displayBaby').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
-	} else if( age < 18) {
-		$( '#displayChild').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Schulkinder<br>';
-	} else if( age < 30) {
-		$( '#displayPregnant').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-female" style="padding-right:0.7em;"></i>Angebote für die Familienplanung<br>';
-	} else if( age < 65) {
-		$( '#displayAdult').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-male" style="padding-right:0.7em;"></i>Angebote für Familien<br>';
-	} else {
-		$( '#displaySenior').prop( 'checked', true).checkboxradio( 'refresh');
-		str += '<i class="fa fa-wheelchair" style="padding-right:0.7em;"></i>Angebote für ältere Bürger<br>';
-	}
-	$( '#displayBaby').checkboxradio( 'refresh'); 
-	$( '#displayChild').checkboxradio( 'refresh'); 
-	$( '#displayPregnant').checkboxradio( 'refresh'); 
-	$( '#displayAdult').checkboxradio( 'refresh'); 
-	$( '#displaySenior').checkboxradio( 'refresh'); 
 
-	str += '</div>';
-	str += '<ul data-role="listview" data-inset="false" id="ageList">';
-
-	var ageStr = 'age' + age;
-	for( var i = 0; i < dataVec.length; ++i) {
-		if( dataVec[i][ageStr].length > 0) {
-			str += '<li><a href="#" onClick="onShowData(' + i + ');" border=0><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
+	if( dataGeoSet.length > 0) {
+		str += '<ul data-role="listview" data-inset="false" data-split-icon="minus" data-split-theme="d" id="mapSelectDataList">';
+		for( var i = 0; i < dataGeoSet.length; ++i) {
+			var idx = dataGeoSet[ i].id;
+			var ageStr = 'age' + dataGeoSet[ i].age;
+			str += '<li><a href="#" border=0><i class="fa ' + dataVec[idx].icon + '"></i> ' + dataVec[idx][ageStr] + '</a>';
+			str += '<a href="#" onClick="onRemoveData(' + i + ');" border=0>Entfernen</a></li>';
 		}
+		str += '</ul>';
+	} else {
+		str += '<div id="mapSelectDataEmpty">Entdecke deinen Kiez</div>';
 	}
 
-	str += '</ul>';
-
-	$( '#mapSelectInfo').html( str);
-	$( '#ageList').listview();
+	$( '#mapSelectData').html( str);
+	$( '#mapSelectDataList').listview();
 }
 
 // -----------------------------------------------------------------------------
 
-var dataGeoSet = null;
+function updateMapSelectInfo()
+{
+	var str = '';
 
-function onShowData( dataId)
+	if( dataAge >= 0) {
+		str += '<div>';
+		if( dataAge < 6) {
+			str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
+		} else if( dataAge < 18) {
+			str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Schulkinder<br>';
+		} else if( dataAge < 30) {
+			str += '<i class="fa fa-female" style="padding-right:0.7em;"></i>Angebote für die Familienplanung<br>';
+		} else if( dataAge < 65) {
+			str += '<i class="fa fa-male" style="padding-right:0.7em;"></i>Angebote für Familien<br>';
+		} else {
+			str += '<i class="fa fa-wheelchair" style="padding-right:0.7em;"></i>Angebote für ältere Bürger<br>';
+		}
+
+		str += '</div>';
+		str += '<ul data-role="listview" data-inset="false" data-icon="plus" id="mapSelectInfoList">';
+
+		var ageStr = 'age' + dataAge;
+		for( var i = 0; i < dataVec.length; ++i) {
+			if( dataVec[i][ageStr].length > 0) {
+				str += '<li><a href="#" onClick="onShowData(' + i + ',' + dataAge + ');" border=0><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
+			}
+		}
+
+		str += '</ul>';
+	}
+
+	$( '#mapSelectInfo').html( str);
+	$( '#mapSelectInfoList').listview();
+}
+
+// -----------------------------------------------------------------------------
+
+function setAge( age)
+{
+	if( dataAge != age) {
+		dataAge = age;
+	} else {
+		dataAge = -1;
+	}
+
+	updateMapSelectInfo();
+	updateMapSelectData();
+}
+
+// -----------------------------------------------------------------------------
+
+function onShowData( dataId, ageId)
 {
 	if( dataId < dataVec.length) {
 		var TOUCH = nokia.maps.dom.Page.browser.touch;
 		var CLICK = TOUCH ? 'tap' : 'click';
-		var colorOut = {color: '#588681'};
-		var colorOver = {color: '#155764'};
+		var colorOut = {color: '#155764'};
+		var colorOver = {color: '#8C9C88'};
 
-		if( dataGeoSet) {
-			map.objects.remove( dataGeoSet);
+		setAge( -1);
+
+		for( var i = 0; i < dataGeoSet.length; ++i) {
+			if( dataId == dataGeoSet[ i].id) {
+				dataGeoSet[ i].age = ageId;
+				dataGeoSet.push( dataGeoSet[ i]);
+				dataGeoSet.splice( i, 1);
+
+				updateMapSelectData();
+				return;
+			}
 		}
-		dataGeoSet = new nokia.maps.map.Container();
-		dataGeoSet.addListener( CLICK, function( evt) {
+
+		dataGeoSet.push({
+			id: dataId,
+			age: ageId,
+			container: new nokia.maps.map.Container()
+		});
+
+		var container = dataGeoSet[ dataGeoSet.length - 1].container;
+
+		container.addListener( CLICK, function( evt) {
 			console.log( evt.target.data);
 		}, false);
-		dataGeoSet.addListener( 'mouseover', function( evt) {
+		container.addListener( 'mouseover', function( evt) {
 			evt.target.set( 'brush', colorOver);
 			map.update( -1, 0);
 		}, false);
-		dataGeoSet.addListener( 'mouseout', function( evt) {
+		container.addListener( 'mouseout', function( evt) {
 			evt.target.set( 'brush', colorOut);
 			map.update( -1, 0);
 		}, false);
-		map.objects.add( dataGeoSet);
+		map.objects.add( container);
+
+		updateMapSelectData();
 
 		$.getJSON( 'data/' + dataVec[ dataId].url, function( data) {
 			try {
@@ -345,18 +389,31 @@ function onShowData( dataId)
 							brush: colorOut,
 							data: val
 						});
-						dataGeoSet.objects.add( marker);
+						container.objects.add( marker);
 					}
 				});
 
-				if( dataGeoSet.objects.getLength() > 0) {
-					map.zoomTo( dataGeoSet.getBoundingBox(), false);
+				if( container.objects.getLength() > 0) {
+					map.zoomTo( container.getBoundingBox(), false);
 				}
 			} catch( e) {
-				alert( e);
+//				alert( e);
 			}
 		});
 	}
+}
+
+// -----------------------------------------------------------------------------
+
+function onRemoveData( dataId)
+{
+	if( dataId < dataGeoSet.length) {
+		map.objects.remove( dataGeoSet[ dataId].container);
+		dataGeoSet.splice( dataId, 1);
+	}
+
+	setAge( -1);
+	updateMapSelectData();
 }
 
 // -----------------------------------------------------------------------------
