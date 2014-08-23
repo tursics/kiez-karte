@@ -13,7 +13,7 @@ dataVec.push({
 	contribute:'Jugendamt Lichtenberg',
 	icon:'fa-smile-o',
 	age0:'',
-	age6:'Angebote der schulbezogenen Jugendarbeit und Jugendsozialarbeit',
+	age6:'Schulstationen und Hilfe',
 	age18:'',
 	age30:'',
 	age65:''
@@ -46,10 +46,10 @@ dataVec.push({
 	contribute:'Gesundheitsamt Lichtenberg',
 	icon:'fa-medkit',
 	age0:'',
-	age6:'Frauenarzt',
-	age18:'Frauenarzt und Geburtshilfe',
-	age30:'Frauenarzt',
-	age65:'Frauenarzt'
+	age6:'',
+	age18:'Frauenärzte und Geburtshilfe',
+	age30:'',
+	age65:''
 });
 //    buergerservice-aerzte-halsnasenohrenheilkunde.show.json
 //    buergerservice-aerzte-hautundgeschlechtskrankheiten.show.json
@@ -75,8 +75,8 @@ dataVec.push({
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
 	icon:'fa-medkit',
-	age0:'Kinderchirurg',
-	age6:'Kinderchirurg',
+	age0:'Kinderchirurgen',
+	age6:'Kinderchirurgen',
 	age18:'',
 	age30:'',
 	age65:''
@@ -87,8 +87,8 @@ dataVec.push({
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
 	icon:'fa-medkit',
-	age0:'Kinderarzt',
-	age6:'Kinderarzt',
+	age0:'Kinderärzte',
+	age6:'Kinderärzte',
 	age18:'',
 	age30:'',
 	age65:''
@@ -99,8 +99,8 @@ dataVec.push({
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
 	icon:'fa-medkit',
-	age0:'Kinderpsychiatrie und Kinderpsychotherapeut',
-	age6:'Kinderpsychiatrie und Kinderpsychotherapeut',
+	age0:'Kinderpsychiatrie',
+	age6:'Kinderpsychiatrie',
 	age18:'',
 	age30:'',
 	age65:''
@@ -111,8 +111,8 @@ dataVec.push({
 	license:'CC BY 3.0 DE',
 	contribute:'Gesundheitsamt Lichtenberg',
 	icon:'fa-medkit',
-	age0:'Kinderpsychotherapeut',
-	age6:'Kinderpsychotherapeut',
+	age0:'Kinderpsychotherapeuten',
+	age6:'Kinderpsychotherapeuten',
 	age18:'',
 	age30:'',
 	age65:''
@@ -144,7 +144,7 @@ dataVec.push({
 	icon:'fa-calendar',
 	age0:'Volks- und Straßenfeste',
 	age6:'Volks- und Straßenfeste',
-	age18:'Volks- und Straßenfeste',
+	age18:'',
 	age30:'Volks- und Straßenfeste',
 	age65:'Volks- und Straßenfeste'
 });
@@ -157,7 +157,7 @@ dataVec.push({
 	icon:'fa-calendar',
 	age0:'Weihnachtsmärkte',
 	age6:'Weihnachtsmärkte',
-	age18:'Weihnachtsmärkte',
+	age18:'',
 	age30:'Weihnachtsmärkte',
 	age65:'Weihnachtsmärkte'
 });
@@ -182,7 +182,7 @@ dataVec.push({
 	contribute:'Jugendamt Lichtenberg',
 	icon:'fa-smile-o',
 	age0:'',
-	age6:'Einrichtungen und Projekte für Kinder, Jugendliche und Familien',
+	age6:'Jugendclubs',
 	age18:'',
 	age30:'',
 	age65:''
@@ -195,7 +195,7 @@ dataVec.push({
 	contribute:'Facility Management Lichtenberg',
 	icon:'fa-coffee',
 	age0:'',
-	age6:'Räume für die Einschulungsfeier und Jugendweihe',
+	age6:'Räume für Familienfeiern',
 	age18:'Mietbare Veranstaltungsräume',
 	age30:'Mietbare Veranstaltungsräume',
 	age65:'Mietbare Veranstaltungsräume'
@@ -211,7 +211,7 @@ dataVec.push({
 	age6:'',
 	age18:'',
 	age30:'',
-	age65:'Prüfberichte der Heimaufsicht'
+	age65:'Pflegeeinrichtungen'
 });
 
 dataVec.push({
@@ -223,7 +223,7 @@ dataVec.push({
 	age0:'',
 	age6:'',
 	age18:'',
-	age30:'Stadtführer Entwicklungspolitik',
+	age30:'Orte der Entwicklungspolitik',
 	age65:''
 });
 
@@ -250,7 +250,7 @@ dataVec.push({
 	age6:'',
 	age18:'',
 	age30:'',
-	age65:'Veranstaltungen der Seniorenbegegnungsstätten',
+	age65:'Veranstaltungen für Senioren',
 });
 
 dataVec.push({
@@ -273,7 +273,7 @@ dataVec.push({
 	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
 	icon:'fa-smile-o',
 	age0:'',
-	age6:'Jugendspielplatz',
+	age6:'Jugendspielplätze',
 	age18:'',
 	age30:'',
 	age65:''
@@ -285,8 +285,8 @@ dataVec.push({
 	license:'nutzIII.pdf',
 	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
 	icon:'fa-smile-o',
-	age0:'Spielplatz',
-	age6:'Spielplatz',
+	age0:'Spielplätze',
+	age6:'Spielplätze',
 	age18:'',
 	age30:'',
 	age65:''
@@ -298,7 +298,7 @@ dataVec.push({
 	license:'nutzIII.pdf',
 	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
 	icon:'fa-smile-o',
-	age0:'Kleinkinder-Spielplatz',
+	age0:'Kleinkinder-Spielplätze',
 	age6:'',
 	age18:'',
 	age30:'',
@@ -311,8 +311,8 @@ dataVec.push({
 	license:'nutzIII.pdf',
 	contribute:'Geoportal Berlin / Spielplatzbestand Berlin',
 	icon:'fa-smile-o',
-	age0:'Spielplatz (zeitlich begrenzt)',
-	age6:'Spielplatz (zeitlich begrenzt)',
+	age0:'Spielplätze (zeitlich begrenzt)',
+	age6:'Spielplätze (zeitlich begrenzt)',
 	age18:'',
 	age30:'',
 	age65:''
@@ -328,7 +328,7 @@ dataVec.push({
 	age6:'',
 	age18:'',
 	age30:'',
-	age65:'Friedhof'
+	age65:'Friedhöfe'
 });
 
 // -----------------------------------------------------------------------------
