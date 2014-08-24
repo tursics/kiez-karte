@@ -192,7 +192,7 @@ li.work:before {
 
 .ui-btn.ui-btn-d, .ui-btn.ui-btn-d:hover {
 	background-color:/*cDim-lightred*/#D7A398  !important;
-	border-color:/*cDim-lightred*/#D7A398;
+	border-color:/*cDim-red*/#712344;
 }
 
 .ui-btn.ui-btn-d:active {
