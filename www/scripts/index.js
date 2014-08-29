@@ -277,7 +277,11 @@ function updateMapSelectData()
 		}
 		str += '</ul>';
 	} else {
-		str += '<div id="mapSelectDataEmpty">Entdecke deinen Kiez</div>';
+		if( dataAge >= 0) {
+			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-down" style="color:#155764;"></i> Wähle ein Thema aus</div>';
+		} else {
+			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-up" style="color:#155764;"></i> Benutze das Menü links oben!</div>';
+		}
 	}
 
 	$( '#mapSelectData').html( str);
