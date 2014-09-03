@@ -278,7 +278,7 @@ function updateMapSelectData()
 		str += '</ul>';
 	} else {
 		if( dataAge >= 0) {
-			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-down" style="color:#155764;"></i> Wähle ein Thema aus</div>';
+			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-up" style="color:#155764;"></i> Wähle ein Thema aus</div>';
 		} else {
 			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-up" style="color:#155764;"></i> Benutze das Menü links oben!</div>';
 		}
@@ -286,6 +286,106 @@ function updateMapSelectData()
 
 	$( '#mapSelectData').html( str);
 	$( '#mapSelectDataList').listview();
+}
+
+// -----------------------------------------------------------------------------
+
+function updateMapSelectItem( data)
+{
+	var str = '';
+	var strH2 = '';
+	var strAddr = '';
+	var strPhone = [];
+	var strNet = [];
+	var strInfo = '';
+
+	if( typeof data.einrichtung !== 'undefined') {
+		strH2 = data.einrichtung;
+	}
+
+	if( typeof data.strasse !== 'undefined') {
+		strAddr += data.strasse + '<br>';
+	}
+	if( typeof data.plz_ort !== 'undefined') {
+		strAddr += data.plz_ort + '<br>';
+	}
+
+	if( typeof data.telefon !== 'undefined') {
+		strPhone.push( data.telefon);
+	}
+
+	if( typeof data.webadressen !== 'undefined') {
+		strNet.push( data.webadressen);
+	}
+
+	if( typeof data.nutzung !== 'undefined') {
+		strInfo += 'Nutzung: ' + data.nutzung + '<br>';
+	}
+	if( typeof data.quadratmeter !== 'undefined') {
+		strInfo += 'Größe: ' + data.quadratmeter + '<br>';
+	}
+	if( typeof data.ausstattung !== 'undefined') {
+		strInfo += 'Ausstattung: ' + data.ausstattung + '<br>';
+	}
+	if( typeof data.kosten !== 'undefined') {
+		strInfo += 'Kosten: ' + data.kosten + '<br>';
+	}
+
+	if( strH2 != '') {
+		str += '<h2>' + strH2 + '</h2>';
+	}
+	if( strAddr != '') {
+		str += '<div style="padding:0 0 .5em 0;">' + strAddr + '</div>';
+	}
+	if( strPhone.length > 0) {
+		for( i = 0; i < strPhone.length; ++i) {
+			var phoneVec = strPhone[i].split( ',');
+			for( j = 0; j < phoneVec.length; ++j) {
+				var isFax = false;
+				phoneVec[j] = phoneVec[j].trim();
+				if( 'Telefon: ' == phoneVec[j].substring( 0, 9)) {
+					phoneVec[j] = phoneVec[j].substring( 9);
+				} else if( 'Mobil: ' == phoneVec[j].substring( 0, 7)) {
+					phoneVec[j] = phoneVec[j].substring( 7);
+				} else if( 'Telefax: ' == phoneVec[j].substring( 0, 9)) {
+					phoneVec[j] = phoneVec[j].substring( 9);
+					isFax = true;
+				}
+
+				if( isFax) {
+					str += '<div><div class="round round-fax"><i class="fa fa-fax"></i></div> ' + phoneVec[j] + '</div>';
+				} else {
+					str += '<div><div class="round round-phone"><i class="fa fa-phone"></i></div> ' + phoneVec[j] + '</div>';
+				}
+			}
+		}
+	}
+	if( strNet.length > 0) {
+		for( i = 0; i < strNet.length; ++i) {
+			var netVec = strNet[i].split( ' ');
+			for( j = 0; j < netVec.length; ++j) {
+				var isMail = false;
+
+				if( netVec[j].indexOf( '@') > 0) {
+					isMail = true;
+				}
+
+				if( isMail) {
+					str += '<div><div class="round round-envelope"><i class="fa fa-envelope"></i></div> <a href="mailto:' + netVec[j] + '">' + netVec[j] + '</a></div>';
+				} else {
+					str += '<div><div class="round round-envelope"><i class="fa fa-envelope"></i></div> <a href="mailto:' + netVec[j] + '">' + netVec[j] + '</a></div>';
+				}
+			}
+		}
+	}
+	if( strInfo != '') {
+		str += '<div class="info">' + strInfo + '</div>';
+	}
+
+//	str += JSON.stringify( data);
+	console.log( data);
+
+	$( '#mapSelectItem').html( str);
 }
 
 // -----------------------------------------------------------------------------
@@ -371,7 +471,7 @@ function onShowData( dataId, ageId)
 		var container = dataGeoSet[ dataGeoSet.length - 1].container;
 
 		container.addListener( CLICK, function( evt) {
-			console.log( evt.target.data);
+			updateMapSelectItem( evt.target.data);
 		}, false);
 		container.addListener( 'mouseover', function( evt) {
 			evt.target.set( 'brush', colorOver);

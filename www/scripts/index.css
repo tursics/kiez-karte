@@ -80,6 +80,26 @@ body {
 	color:/*cWhite*/#FFF;
 }
 
+#mapSelectItem {
+	background-color:/*cWhite*/#FFF;
+	border:1px solid /*cDim*/#155764;
+	color:/*cMedium*/#588681;
+	margin-top:3px;
+	padding:0.5em 0.7em !important;
+}
+
+#mapSelectItem  h2{
+	font-size:1.2em;
+	font-weight:300;
+	margin:0 0 .5em 0;
+	padding:0;
+}
+
+#mapSelectItem  .info{
+	border-top:1px solid /*cDim*/#155764;
+	margin:0.5em 0 0 0;
+	padding:0.5em 0 0 0;
+}
 
 #banner {
 	background:/*cWhite*/#FFF;
@@ -282,7 +302,7 @@ li.work:before {
 }
 
 .round-envelope {
-	background-color:darkgray;
+	background-color:mediumorchid;
 	color:white;
 }
 
@@ -306,4 +326,14 @@ li.work:before {
 	left:-.125em;
 	position:relative;
 	top:-.2em;
+}
+
+.round-phone {
+	background-color:mediumseagreen;
+	color:white;
+}
+
+.round-fax {
+	background-color:mediumseagreen;
+	color:white;
 }
