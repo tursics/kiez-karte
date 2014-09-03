@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8">
@@ -7,8 +6,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
 
- 	<title>Kiez-Karte</title>
-	<meta name="title" content="Kiez-Karte" />
+	<meta name="author" content="Thomas Tursics" />
+	<meta name="keywords" content="Berlin,Lichtenberg,Karte,dein,mein,Kiez,entdecken,verändern,gestalten" />
+	<meta name="robots" content="index,follow" />
+
+ 	<title>Kiez-Karte - Entdecke deinen Kiez in Berlin</title>
 	<meta property="og:title" content="Kiez-Karte" />
 	<meta name="twitter:title" content="Kiez-Karte">
 
@@ -16,15 +18,15 @@
 	<meta property="og:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
 	<meta name="twitter:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez.">
 
-	<link rel="image_src" type="image/png" href="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png" />
-	<meta property="og:image" content="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png" />
-	<meta name="twitter:image:src" content="http://www.tursics.de/sample/lichtenberg/images/twitterimage.png">
+	<link rel="image_src" type="image/png" href="http://kiez-karte.berlin/images/twitterimage.png" />
+	<meta property="og:image" content="http://kiez-karte.berlin/images/twitterimage.png" />
+	<meta name="twitter:image:src" content="http://kiez-karte.berlin/images/twitterimage.png">
 
 	<meta property="og:url" content="http://kiez-karte.berlin/">
 	<meta name="twitter:domain" content="http://kiez-karte.berlin/">
 
 	<meta name="twitter:card" content="summary">
-	<meta name="twitter:creator" content="@tursics">
+	<meta name="twitter:creator" content="@kiezkarte">
 
 	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
 	<link rel="stylesheet" href="scripts/index.css" />
@@ -43,22 +45,26 @@
 	<div data-role="page" id="pageMap">
 		<div role="main" class="ui-content" id="mapContainer"></div>
 		<div id="bottomBar">
-			<div id="bottomBarInfo"><a href="#popupImprint" data-rel="popup">Impressum</a> <a href="#popupCopyright" data-rel="popup">Copyright</a> <a href="#popupContact" data-rel="popup">Kontakt</a></div>
+			<div id="bottomBarInfo">
+				<a href="/impressum">Impressum</a>
+				<a href="/copyright">Copyright</a>
+				<a href="/impressum">Kontakt</a>
+			</div>
 			<div id="mapType">
 				<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-					<input type="radio" name="mapDisplay" id="displayNormal" checked="true"><label for="displayNormal"><i class="fa fa-image"></i> Karte</label></input>
-					<input type="radio" name="mapDisplay" id="displayBus"><label for="displayBus"><i class="fa fa-bus"></i> Bus</label></input>
-					<input type="radio" name="mapDisplay" id="displayCar"><label for="displayCar"><i class="fa fa-car"></i> Auto</label></input>
-					<input type="radio" name="mapDisplay" id="displaySatelite"><label for="displaySatelite"><i class="fa fa-globe"></i> Satellit</label></input>
+					<input type="radio" name="mapDisplay" id="displayNormal" checked="true"><label for="displayNormal"  ><i class="fa fa-image"></i> Karte</label></input>
+					<input type="radio" name="mapDisplay" id="displayBus"                  ><label for="displayBus"     ><i class="fa fa-bus"  ></i> Bus</label></input>
+					<input type="radio" name="mapDisplay" id="displayCar"                  ><label for="displayCar"     ><i class="fa fa-car"  ></i> Auto</label></input>
+					<input type="radio" name="mapDisplay" id="displaySatelite"             ><label for="displaySatelite"><i class="fa fa-globe"></i> Satellit</label></input>
 				</fieldset>
 			</div>
 		</div>
 		<div id="mapSelect">
 			<div id="mapSelectGroup" data-role="controlgroup" data-type="horizontal">
-				<a href="#" id="displayBaby"     class="ui-btn"><i class="fa fa-bug"></i></a>
-				<a href="#" id="displayChild"    class="ui-btn"><i class="fa fa-child"></i></a>
-				<a href="#" id="displayPregnant" class="ui-btn"><i class="fa fa-female"></i></a>
-				<a href="#" id="displayAdult"    class="ui-btn"><i class="fa fa-male"></i></a>
+				<a href="#" id="displayBaby"     class="ui-btn"><i class="fa fa-bug       "></i></a>
+				<a href="#" id="displayChild"    class="ui-btn"><i class="fa fa-child     "></i></a>
+				<a href="#" id="displayPregnant" class="ui-btn"><i class="fa fa-female    "></i></a>
+				<a href="#" id="displayAdult"    class="ui-btn"><i class="fa fa-male      "></i></a>
 				<a href="#" id="displaySenior"   class="ui-btn"><i class="fa fa-wheelchair"></i></a>
 			</div>
 			<div id="mapSelectData"></div>
@@ -66,7 +72,7 @@
 		</div>
 		<div id="banner">Diese<br>Webseite ist<br>aktuell im Aufbau!<div>Zur Zeit nur Lichtenberg</div></div>
 		<div id="mapInfo" data-role="controlgroup" data-type="horizontal">
-			<a href="#popupInfo"    data-rel="popup" class="ui-btn"><i class="fa fa-bullhorn"></i></a>
+			<a href="/roadmap"                       class="ui-btn"><i class="fa fa-bullhorn"></i></a>
 			<a href="#popupShare"   data-rel="popup" class="ui-btn"><i class="fa fa-share-alt"></i></a>
 			<a href="#popupWelcome" data-rel="popup" class="ui-btn"><i class="fa fa-info"></i></a>
 		</div>
@@ -76,123 +82,35 @@
 			<div style="font-size:1.1em;padding:0 1.5em 1.5em 1.5em;">
 			Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez.<br><br>
 			Es ist dein Berlin-Lichtenberg</div>
-			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Weiter zur Karte</a></div>
-		</div>
-		<div data-role="popup" id="popupCopyright" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
-			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
-			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
-			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
-			Diese Seite unterliegt einer offenen Lizenz<br><br>
-			Folgende Quellenvermerke sollte ich noch angeben:<br>
-			<ul style="font-size:0.75em;">
-			<li>Geoportal Berlin / Hauskoordinaten Berlin (bearbeitet)</li>
-			<li>Geoportal Berlin / Spielplatzbestand Berlin (bearbeitet)</li>
-			<li>Datenquelle: Amt für Statistik Berlin-Brandenburg, Abgestimmter Datenpool</li>
-			</ul>
-			</div>
 			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
 		</div>
-		<div data-role="popup" id="popupImprint" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
+		<div data-role="popup" id="popupShare" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="pop">
 			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
 			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
 			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
-			Diese Seite wird betrieben von<br><br>
-			Thomas Tursics<br>
-			Frankfurter Allee 172<br>
-			10365 Berlin<br>
-			</div>
-			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
-		</div>
-		<div data-role="popup" id="popupContact" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
-			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
-			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
-			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
-			Bei Fragen, Anmerkungen, Verbesserungsvorschlägen, schreibt mir.<br>
-			<br>
-			<center><div data-role="controlgroup" data-type="horizontal">
-				<a href="http://www.tursics.de/support"              target="_blank" class="ui-btn"><i class="fa fa-envelope"></i></a>
-				<a href="https://twitter.com/tursics"                target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
-				<a href="https://www.facebook.com/thomas.tursics"    target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
-				<a href="https://google.com/+ThomasTursics"          target="_blank" class="ui-btn"><i class="fa fa-google-plus"></i></a>
-				<a href="https://github.com/tursics/kiez-karte"      target="_blank" class="ui-btn"><i class="fa fa-github"></i></a>
-				<a href="https://www.linkedin.com/in/thomastursics"  target="_blank" class="ui-btn"><i class="fa fa-linkedin"></i></a>
-				<a href="http://www.xing.com/profile/Thomas_Tursics" target="_blank" class="ui-btn"><i class="fa fa-xing"></i></a>
-			</div></center>
-			</div>
-			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
-		</div>
-		<div data-role="popup" id="popupShare" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
-			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
-			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
-			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
-			Erzähl deinen Freunden von der Kiez-Karte.
-			<center><div data-role="controlgroup" data-type="horizontal">
-				<a href="https://twitter.com/intent/tweet?text=Entdecke+deinen+Kiez.+Verändere+deinen+Kiez.+Gestalte+deinen+Kiez+auf+http%3A%2F%2Fkiez-karte.berlin+von+@tursics" target="_blank" class="ui-btn"><i class="fa fa-twitter"></i></a>
-				<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fkiez-karte.berlin%2F&t=Entdecke+deinen+Kiez.+Verändere+deinen+Kiez.+Gestalte+deinen+Kiez.+(von+Thomas+Tursics)" target="_blank" class="ui-btn"><i class="fa fa-facebook"></i></a>
-			</div></center>
-			</div>
-			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
-		</div>
-		<div data-role="popup" id="popupInfo" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="slidedown">
-			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
-			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
-			<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
-			<div style="text-align:center;">
-				Dieses Projekt entsteht im Zuge von<br>
-				<a href="http://codefor.de/berlin/" target="_blank"><img src="images/cfg_berlin.svg" style="height:3em;"></a>
-			</div>
-			<br>
-			Das ist der aktuelle Entwicklungsstand:
-			</div>
-			<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
-				<div data-role="collapsible" data-collapsed="false">
-					<h3>In Arbeit</h3>
-					<ul data-role="listview" data-inset="false">
-						<li class="work">Einzelobjekte auswählen und Infos anzeigen</li>
-						<li class="work">Nachfragen nach Kindergärten und Schulen</li>
-						<li class="work">Maerker einbinden</li>
-						<li class="work">Bürgerhaushalt einbinden</li>
-					</ul>
+				Erzähle deinen Freunden von der Kiez-Karte.<br>
+				<br>
+
+				<div style="display:inline;float:left;">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://kiez-karte.berlin" data-text="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez auf" data-via="kiezkarte" data-lang="de">Twittern</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 				</div>
-				<div data-role="collapsible">
-					<h3>Fertig</h3>
-					<ul data-role="listview" data-inset="false">
-						<li class="done">Webseite mit Karte aufsetzen</li>
-						<li class="done">github einrichten</li>
-						<li class="done">Geocoder einbauen</li>
-						<li class="done">Drag'n'Drop von JSON-Dateien</li>
-						<li class="done">Basisdaten von daten.berlin.de</li>
-						<li class="done">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
-						<li class="done">Berliner Stadtbaumkampagne einbinden</li>
-						<li class="done">Spielplätze vom FIS-Broker Berlin</li>
-					</ul>
+				<div style="display:inline;float:left;">
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&appId=625938384187754&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+					<div class="fb-like" data-href="http://kiez-karte.berlin/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 				</div>
-				<div data-role="collapsible">
-					<h3>Noch offen</h3>
-					<ul data-role="listview" data-inset="false">
-						<li class="todo">Mehr Daten von daten.berlin.de</li>
-						<li class="todo">Projektbeschreibung schreiben</li>
-						<li class="todo">Objektgruppen favorisieren</li>
-						<li class="todo">Haltestellen und Fahrpläne der BVG und S-Bahn</li>
-						<li class="todo">Rating- und Kommentarsystem für jedes Objekt</li>
-						<li class="todo">buergermeldungen.com</li>
-					</ul>
+				<div style="clear:both;">
 				</div>
-				<div data-role="collapsible">
-					<h3>Verschoben</h3>
-					<ul data-role="listview" data-inset="false">
-						<li class="none">Als App verpacken</li>
-						<li class="none">Historische Landkarten einblenden</li>
-						<li class="none">Drag'n'Drop von CSV- und SHP-Dateien</li>
-						<li class="none">Gesundheitsdaten von daten.berlin.de</li>
-						<li class="none">Energiedaten von daten.berlin.de</li>
-						<li class="none">LOR-Gebiete von statistik-berlin-brandenburg.de</li>
-						<li class="none">Straßenlaternen von Vatenfall "borgen"</li>
-						<li class="none">Schadensmeldung für Straßenlaternen</li>
-						<li class="none">Haushaltsplanung für einzelne Objekte anzeigen</li>
-						<li class="none">Tankstellen und Benzinpreise (natürlich Livedaten)</li>
-					</ul>
-				</div>
+
 			</div>
 			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
 		</div>

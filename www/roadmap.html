@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
+
+	<meta name="author" content="Thomas Tursics" />
+	<meta name="keywords" content="Berlin,Lichtenberg,Karte,dein,mein,Kiez,entdecken,verändern,gestalten" />
+	<meta name="robots" content="index,follow" />
+
+ 	<title>Kiez-Karte - Entdecke deinen Kiez in Berlin</title>
+	<meta property="og:title" content="Kiez-Karte" />
+	<meta name="twitter:title" content="Kiez-Karte" />
+
+	<meta name="description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
+	<meta property="og:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
+	<meta name="twitter:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
+
+	<link rel="image_src" type="image/png" href="http://kiez-karte.berlin/images/twitterimage.png" />
+	<meta property="og:image" content="http://kiez-karte.berlin/images/twitterimage.png" />
+	<meta name="twitter:image:src" content="http://kiez-karte.berlin/images/twitterimage.png" />
+
+	<meta property="og:url" content="http://kiez-karte.berlin/" />
+	<meta name="twitter:domain" content="http://kiez-karte.berlin/" />
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:creator" content="@kiezkarte" />
+
+	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css" />
+	<link rel="stylesheet" href="scripts/index.css" />
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" />
+
+	<style>
+		html { overflow:auto; }
+		body { overflow:auto; }
+	</style>
+</head>
+<body>
+	<div data-role="page">
+		<img src="images/window_ba_450.jpg" alt="" style="width:450px;height:250px;">
+		<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
+		<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;width:450px;">
+			<div style="text-align:center;">
+				Dieses Projekt entsteht im Zuge von<br>
+				<a href="http://codefor.de/berlin/" target="_blank"><img src="images/cfg_berlin.svg" alt="Code for Germany" style="height:3em;"></a>
+			</div>
+			<br>
+			Das ist der aktuelle Entwicklungsstand:
+		</div>
+		<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
+			<div data-role="collapsible" data-collapsed="false">
+				<h3>In Arbeit</h3>
+				<ul data-role="listview" data-inset="false">
+					<li class="work">Einzelobjekte auswählen und Infos anzeigen</li>
+					<li class="work">Nachfragen nach Kindergärten und Schulen</li>
+					<li class="work">Maerker einbinden</li>
+					<li class="work">Bürgerhaushalt einbinden</li>
+				</ul>
+			</div>
+			<div data-role="collapsible">
+				<h3>Fertig</h3>
+				<ul data-role="listview" data-inset="false">
+					<li class="done">Webseite mit Karte aufsetzen</li>
+					<li class="done">github einrichten</li>
+					<li class="done">Geocoder einbauen</li>
+					<li class="done">Drag'n'Drop von JSON-Dateien</li>
+					<li class="done">Basisdaten von daten.berlin.de</li>
+					<li class="done">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
+					<li class="done">Berliner Stadtbaumkampagne einbinden</li>
+					<li class="done">Spielplätze vom FIS-Broker Berlin</li>
+				</ul>
+			</div>
+			<div data-role="collapsible">
+				<h3>Noch offen</h3>
+				<ul data-role="listview" data-inset="false">
+					<li class="todo">Mehr Daten von daten.berlin.de</li>
+					<li class="todo">Projektbeschreibung schreiben</li>
+					<li class="todo">Objektgruppen favorisieren</li>
+					<li class="todo">Haltestellen und Fahrpläne der BVG und S-Bahn</li>
+					<li class="todo">Rating- und Kommentarsystem für jedes Objekt</li>
+					<li class="todo">buergermeldungen.com</li>
+					<li class="todo">Daten immer aktuell halten</li>
+					<li class="todo">Event-Kalender</li>
+					<li class="todo">Einloggen mit Hilfe des Open Graph Protokolls</li>
+					<li class="todo">LOR-Gebiete von statistik-berlin-brandenburg.de</li>
+					<li class="todo">LOR-Gebiet abbonieren</li>
+					<li class="todo">Event-Updates per Mail verschicken</li>
+				</ul>
+			</div>
+			<div data-role="collapsible">
+				<h3>Verschoben</h3>
+				<ul data-role="listview" data-inset="false">
+					<li class="none">Als App verpacken</li>
+					<li class="none">Historische Landkarten einblenden</li>
+					<li class="none">Drag'n'Drop von CSV- und SHP-Dateien</li>
+					<li class="none">Gesundheitsdaten von daten.berlin.de</li>
+					<li class="none">Energiedaten von daten.berlin.de</li>
+					<li class="none">Straßenlaternen von Vatenfall "borgen"</li>
+					<li class="none">Schadensmeldung für Straßenlaternen</li>
+					<li class="none">Haushaltsplanung für einzelne Objekte anzeigen</li>
+					<li class="none">Tankstellen und Benzinpreise (natürlich Livedaten)</li>
+				</ul>
+			</div>
+		</div>
+		<div style="padding:0 1.5em 0.5em 1.5em;">
+			<a href="/" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Zurück zur Karte</a>
+		</div>
+	</div>
+</body>
+</html>

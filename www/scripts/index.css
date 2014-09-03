@@ -148,7 +148,7 @@ li.none:before {
 }
 
 li.work {
-	color:orange !important;
+	color:darkorange !important;
 }
 
 li.work:before {
@@ -264,4 +264,46 @@ li.work:before {
 	width:100%;
 	height:100%;
 	text-shadow:none !important;
+}
+
+/* imprint */
+
+.round {
+	-webkit-border-radius:2em;
+	-moz-border-radius:2em;
+	border-radius:2em;
+	display:inline-block;
+	height:1em;
+	margin:0 0 .5em 0;
+	padding:0.5em;
+	text-align:center;
+	vertical-align:middle;
+	width:1em;
+}
+
+.round-envelope {
+	background-color:darkgray;
+	color:white;
+}
+
+.round-twitter {
+	background-color:#55ACEE;
+	color:white;
+}
+
+.round-facebook {
+	background-color:#3B5998;
+	color:white;
+}
+
+.round-github {
+	background-color:orange;
+	color:white;
+}
+
+.round .fa-github:before {
+	font-size:1.75em;
+	left:-.125em;
+	position:relative;
+	top:-.2em;
 }
