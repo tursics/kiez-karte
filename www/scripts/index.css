@@ -84,6 +84,7 @@ body {
 	background-color:/*cWhite*/#FFF;
 	border:1px solid /*cDim*/#155764;
 	color:/*cMedium*/#588681;
+	display:none;
 	margin-top:3px;
 	padding:0.5em 0.7em !important;
 }
@@ -302,6 +303,11 @@ li.work:before {
 }
 
 .round-envelope {
+	background-color:mediumorchid;
+	color:white;
+}
+
+.round-link {
 	background-color:mediumorchid;
 	color:white;
 }

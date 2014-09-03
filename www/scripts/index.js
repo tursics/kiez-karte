@@ -368,12 +368,23 @@ function updateMapSelectItem( data)
 
 				if( netVec[j].indexOf( '@') > 0) {
 					isMail = true;
+				} else if( netVec[j].indexOf( 'http') != 0) {
+					continue;
 				}
 
 				if( isMail) {
 					str += '<div><div class="round round-envelope"><i class="fa fa-envelope"></i></div> <a href="mailto:' + netVec[j] + '">' + netVec[j] + '</a></div>';
 				} else {
-					str += '<div><div class="round round-envelope"><i class="fa fa-envelope"></i></div> <a href="mailto:' + netVec[j] + '">' + netVec[j] + '</a></div>';
+					var strLink = netVec[j];
+					if( 'http://' == strLink.substring( 0, 7)) {
+						strLink = strLink.substring( 7);
+					} else if( 'https://' == strLink.substring( 0, 8)) {
+						strLink = strLink.substring( 8);
+					}
+					if( 'www.' == strLink.substring( 0, 4)) {
+						strLink = strLink.substring( 4);
+					}
+					str += '<div><div class="round round-link"><i class="fa fa-link"></i></div> <a href="' + netVec[j] + '" target="_blank">' + strLink + '</a></div>';
 				}
 			}
 		}
@@ -386,6 +397,7 @@ function updateMapSelectItem( data)
 	console.log( data);
 
 	$( '#mapSelectItem').html( str);
+	$( '#mapSelectItem').css( 'display', 'block');
 }
 
 // -----------------------------------------------------------------------------
