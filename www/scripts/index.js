@@ -150,6 +150,43 @@ $( document).on( "pagecreate", "#pageMap", function()
 
 // -----------------------------------------------------------------------------
 
+function formatDate( strDate)
+{
+	var month = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+	var strD = '1';
+	var strM = '1';
+	var strY = '2001';
+
+	var vec = strDate.trim().split( '-');
+	if( vec.length == 3) {
+		strD = vec[ 2];
+		strM = vec[ 1];
+		strY = vec[ 0];
+	} else {
+		vec = strDate.trim().split( '.');
+		if( vec.length == 3) {
+			strD = vec[ 0];
+			strM = vec[ 1];
+			strY = vec[ 2];
+		}
+	}
+
+	var obj = new Date( parseInt( strY), parseInt( strM) - 1, parseInt( strD), 0, 0, 0, 0);
+	return obj.getDate() + '. ' + month[ obj.getMonth()] + ' ' + obj.getFullYear();
+}
+
+// -----------------------------------------------------------------------------
+
+function trimQuotes( str)
+{
+	if(( str.indexOf( "'") == 0) && (str.lastIndexOf( "'") == (str.length - 1))) {
+		return str.substring( 1, str.length - 1);
+	}
+	return str;
+}
+
+// -----------------------------------------------------------------------------
+
 $( document).on( "pageshow", "#pageMap", function()
 {
 	if( showWelcome) {
@@ -295,40 +332,223 @@ function updateMapSelectItem( data)
 	var str = '';
 	var strH2 = '';
 	var strAddr = '';
-	var strPhone = [];
-	var strNet = [];
 	var strInfo = '';
+	var arrayPhone = [];
+	var arrayNet = [];
 
 	if( typeof data.einrichtung !== 'undefined') {
+		// wirtschaft-mietraum.show.json
+		// freizeit-sport-jfe.show.json
 		strH2 = data.einrichtung;
+	} else if( typeof data.name !== 'undefined') {
+		// buergerservice-aerzte-foo.show.json
+		// maerkte-xmas.show.json
+		// buergerservice-familie-tagespflege.show.json
+		// re-spielplatz.foo.show.json
+		strH2 = data.name;
+
+		if(( typeof data.name2 !== 'undefined') && (data.name2 != '')){
+			// re-spielplatz.foo.show.json
+			strH2 += ' ' + data.name2;
+		}
+	} else if( typeof data.bezeichnung !== 'undefined') {
+		// maerkte-strassenfeste.show.json
+		strH2 = data.bezeichnung;
+	} else if( typeof data.projekt !== 'undefined') {
+		// freizeit-sport-ja-jsa.show.json
+		strH2 = data.projekt;
+	} else if( typeof data.location !== 'undefined') {
+		// maerkte-wochen-antik.show.json
+		strH2 = data.location;
+	} else if( typeof data.baumartdt !== 'undefined') {
+		// stadtbaum-baumstandort-20140508.show.json
+		strH2 = trimQuotes( data.baumartdt);
 	}
 
 	if( typeof data.strasse !== 'undefined') {
-		strAddr += data.strasse + '<br>';
+		data.strasse = trimQuotes( data.strasse);
+		if( typeof data.hausnr !== 'undefined') {
+			strAddr += data.strasse + ' ' + trimQuotes( data.hausnr) + '<br>';
+		} else {
+			strAddr += data.strasse + '<br>';
+		}
+	}
+	if( typeof data.anschrift !== 'undefined') {
+		strAddr += data.anschrift + '<br>';
 	}
 	if( typeof data.plz_ort !== 'undefined') {
 		strAddr += data.plz_ort + '<br>';
+	} else if( typeof data.plz !== 'undefined') {
+		strAddr += trimQuotes( data.plz) + ' Berlin<br>';
 	}
 
-	if( typeof data.telefon !== 'undefined') {
-		strPhone.push( data.telefon);
+	if(( typeof data.telefon !== 'undefined') && (data.telefon != '')) {
+		arrayPhone.push( data.telefon);
 	}
 
 	if( typeof data.webadressen !== 'undefined') {
-		strNet.push( data.webadressen);
+		arrayNet.push( data.webadressen);
+	}
+	if( typeof data.mail !== 'undefined') {
+		arrayNet.push( data.mail);
+	}
+	if( typeof data.email !== 'undefined') {
+		arrayNet.push( data.email);
+	}
+	if( typeof data.e_mail !== 'undefined') {
+		arrayNet.push( data.e_mail);
+	}
+	if( typeof data.e_mail2 !== 'undefined') {
+		arrayNet.push( data.e_mail2);
+	}
+	if( typeof data.internet !== 'undefined') {
+		arrayNet.push( data.internet);
+	}
+	if( typeof data.www !== 'undefined') {
+		arrayNet.push( data.www);
+	}
+	if( typeof data.w3 !== 'undefined') {
+		arrayNet.push( data.w3);
 	}
 
+	// buergerservice-familie-sbst.show.json
+	// heimaufsicht-pruefberichte.show.json
+	// re-friedh.show.json
 	if( typeof data.nutzung !== 'undefined') {
+		// wirtschaft-mietraum.show.json
 		strInfo += 'Nutzung: ' + data.nutzung + '<br>';
 	}
 	if( typeof data.quadratmeter !== 'undefined') {
+		// wirtschaft-mietraum.show.json
 		strInfo += 'Größe: ' + data.quadratmeter + '<br>';
 	}
 	if( typeof data.ausstattung !== 'undefined') {
+		// wirtschaft-mietraum.show.json
 		strInfo += 'Ausstattung: ' + data.ausstattung + '<br>';
 	}
 	if( typeof data.kosten !== 'undefined') {
+		// wirtschaft-mietraum.show.json
 		strInfo += 'Kosten: ' + data.kosten + '<br>';
+	}
+	if( typeof data.fachrichtung !== 'undefined') {
+		// buergerservice-aerzte-foo.show.json
+		strInfo += 'Arzt für ' + data.fachrichtung + '<br>';
+	}
+	if(( typeof data._strasse_ !== 'undefined') && (data._strasse_ != '')) {
+		// maerkte-strassenfeste.show.json
+		// maerkte-xmas.show.json
+		strInfo += data._strasse_ + '<br>';
+	}
+	if(( typeof data.bemerkungen !== 'undefined') && (data.bemerkungen != '')) {
+		// maerkte-strassenfeste.show.json
+		// maerkte-wochen-antik.show.json
+		strInfo += 'Bemerkungen: ' + data.bemerkungen + '<br>';
+	}
+	if(( typeof data.von !== 'undefined') && (data.von != '') && (typeof data.bis !== 'undefined') && (data.bis != '') && (formatDate( data.von) == formatDate( data.bis))) {
+		// maerkte-strassenfeste.show.json
+		// maerkte-xmas.show.json
+		strInfo += 'am ' + formatDate( data.von) + '<br>';
+	} else {
+		if(( typeof data.von !== 'undefined') && (data.von != '')) {
+			// maerkte-strassenfeste.show.json
+			// maerkte-xmas.show.json
+			strInfo += 'vom ' + formatDate( data.von) + '<br>';
+		}
+		if(( typeof data.bis !== 'undefined') && (data.bis != '')) {
+			// maerkte-strassenfeste.show.json
+			// maerkte-xmas.show.json
+			strInfo += 'bis ' + formatDate( data.bis) + '<br>';
+		}
+	}
+	if(( typeof data.tage !== 'undefined') && (data.tage != '')) {
+		// maerkte-wochen-antik.show.json
+		strInfo += 'am ' + data.tage + '<br>';
+	}
+	if(( typeof data.zeit !== 'undefined') && (data.zeit != '')){
+		// maerkte-strassenfeste.show.json
+		strInfo += 'um ' + data.zeit + '<br>';
+	}
+	if(( typeof data.zeiten !== 'undefined') && (data.zeiten != '')){
+		// maerkte-wochen-antik.show.json
+		strInfo += 'von ' + data.zeiten + '<br>';
+	}
+	if(( typeof data.oeffnungszeiten !== 'undefined') && (data.oeffnungszeiten != '')){
+		// maerkte-xmas.show.json
+		strInfo += 'von ' + data.oeffnungszeiten + '<br>';
+	}
+	if( typeof data.veranstalter !== 'undefined') {
+		// maerkte-strassenfeste.show.json
+		// maerkte-xmas.show.json
+		strInfo += 'Veranstalter: ' + data.veranstalter + '<br>';
+	}
+	if( typeof data.betreiber !== 'undefined') {
+		// maerkte-wochen-antik.show.json
+		strInfo += data.betreiber + '<br>';
+	}
+	if(( typeof data.kinderzahl !== 'undefined') && (data.kinderzahl != '')){
+		// buergerservice-familie-tagespflege.show.json
+		strInfo += 'Kinder: ' + data.kinderzahl + '<br>';
+	}
+	if(( typeof data.spiel_art !== 'undefined') && (data.spiel_art != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += data.spiel_art + '<br>';
+	}
+	if(( typeof data.baujahr !== 'undefined') && (data.baujahr != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Baujahr: ' + data.baujahr + '<br>';
+	}
+	if(( typeof data.sanierung !== 'undefined') && (data.sanierung != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Sanierung: ' + data.sanierung + '<br>';
+	}
+	if(( typeof data.groesse !== 'undefined') && (data.groesse != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Größe: ' + data.groesse + 'm²<br>';
+	}
+	if(( typeof data.spiel_fl !== 'undefined') && (data.spiel_fl != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Spielfläche: ' + data.spiel_fl + 'm²<br>';
+	}
+	if(( typeof data.schule !== 'undefined') && (data.schule != '')){
+		// freizeit-sport-ja-jsa.show.json
+		strInfo += 'Schule: ' + data.schule + '<br>';
+	}
+	if(( typeof data.schultyp !== 'undefined') && (data.schultyp != '')){
+		// freizeit-sport-ja-jsa.show.json
+		strInfo += 'Schultyp: ' + data.schultyp + '<br>';
+	}
+	if(( typeof data.traeger !== 'undefined') && (data.traeger != '')){
+		// freizeit-sport-ja-jsa.show.json
+		// freizeit-sport-jfe.show.json
+		strInfo += 'Träger: ' + data.traeger + '<br>';
+	}
+	if(( typeof data.angebote !== 'undefined') && (data.angebote != '')){
+		// freizeit-sport-ja-jsa.show.json
+		// freizeit-sport-jfe.show.json
+		strInfo += 'Angebote: ' + data.angebote + '<br>';
+	}
+	if(( typeof data.baumartbot !== 'undefined') && (data.baumartbot != '')){
+		// stadtbaum-baumstandort-20140508.show.json
+		data.baumartbot = trimQuotes( data.baumartbot);
+		data.baumartbot = data.baumartbot.replace( /\\'/g, "'");
+		strInfo += 'Botanischer Name: ' + data.baumartbot + '<br>';
+	}
+	if(( typeof data.pflanzp !== 'undefined') && (data.pflanzp != '')){
+		// stadtbaum-baumstandort-20140508.show.json
+		if( 1 == data.pflanzp) {
+			data.pflanzp = 'Herbst 2012';
+		} else if( 4 == data.pflanzp) {
+			data.pflanzp = 'Frühjahr 2014';
+		}
+		strInfo += 'Pflanzperiode: ' + data.pflanzp + '<br>';
+	}
+	if(( typeof data.material !== 'undefined') && (data.material != '')){
+		// stadtbaum-baumstandort-20140508.show.json
+		data.material = trimQuotes( data.material);
+		if( '' == data.material) {
+			data.material = 'nicht gepflanzt';
+		}
+		strInfo += 'Der Baum wurde ' + data.material + '<br>';
 	}
 
 	if( strH2 != '') {
@@ -337,9 +557,12 @@ function updateMapSelectItem( data)
 	if( strAddr != '') {
 		str += '<div style="padding:0 0 .5em 0;">' + strAddr + '</div>';
 	}
-	if( strPhone.length > 0) {
-		for( i = 0; i < strPhone.length; ++i) {
-			var phoneVec = strPhone[i].split( ',');
+	if( arrayPhone.length > 0) {
+		for( i = 0; i < arrayPhone.length; ++i) {
+			var phoneVec = arrayPhone[i].split( ',');
+			if( phoneVec.length < 2) {
+				phoneVec = arrayPhone[i].split( 'oder');
+			}
 			for( j = 0; j < phoneVec.length; ++j) {
 				var isFax = false;
 				phoneVec[j] = phoneVec[j].trim();
@@ -347,33 +570,38 @@ function updateMapSelectItem( data)
 					phoneVec[j] = phoneVec[j].substring( 9);
 				} else if( 'Mobil: ' == phoneVec[j].substring( 0, 7)) {
 					phoneVec[j] = phoneVec[j].substring( 7);
+				} else if( 'Fax: ' == phoneVec[j].substring( 0, 5)) {
+					phoneVec[j] = phoneVec[j].substring( 5);
+					isFax = true;
 				} else if( 'Telefax: ' == phoneVec[j].substring( 0, 9)) {
 					phoneVec[j] = phoneVec[j].substring( 9);
 					isFax = true;
 				}
 
 				if( isFax) {
-					str += '<div><div class="round round-fax"><i class="fa fa-fax"></i></div> ' + phoneVec[j] + '</div>';
+					str += '<div class="link"><div class="round round-fax"><i class="fa fa-fax"></i></div> ' + phoneVec[j] + '</div>';
 				} else {
-					str += '<div><div class="round round-phone"><i class="fa fa-phone"></i></div> ' + phoneVec[j] + '</div>';
+					str += '<div class="link"><div class="round round-phone"><i class="fa fa-phone"></i></div> ' + phoneVec[j] + '</div>';
 				}
 			}
 		}
 	}
-	if( strNet.length > 0) {
-		for( i = 0; i < strNet.length; ++i) {
-			var netVec = strNet[i].split( ' ');
+	if( arrayNet.length > 0) {
+		for( i = 0; i < arrayNet.length; ++i) {
+			var netVec = arrayNet[i].split( ' ');
 			for( j = 0; j < netVec.length; ++j) {
 				var isMail = false;
 
 				if( netVec[j].indexOf( '@') > 0) {
 					isMail = true;
+				} else if( netVec[j].indexOf( 'www.') == 0) {
+					netVec[j] = 'http://' + netVec[j];
 				} else if( netVec[j].indexOf( 'http') != 0) {
 					continue;
 				}
 
 				if( isMail) {
-					str += '<div><div class="round round-envelope"><i class="fa fa-envelope"></i></div> <a href="mailto:' + netVec[j] + '">' + netVec[j] + '</a></div>';
+					str += '<div class="link"><div class="round round-envelope"><i class="fa fa-envelope"></i></div> <a href="mailto:' + netVec[j] + '">' + netVec[j] + '</a></div>';
 				} else {
 					var strLink = netVec[j];
 					if( 'http://' == strLink.substring( 0, 7)) {
@@ -384,7 +612,7 @@ function updateMapSelectItem( data)
 					if( 'www.' == strLink.substring( 0, 4)) {
 						strLink = strLink.substring( 4);
 					}
-					str += '<div><div class="round round-link"><i class="fa fa-link"></i></div> <a href="' + netVec[j] + '" target="_blank">' + strLink + '</a></div>';
+					str += '<div class="link"><div class="round round-link"><i class="fa fa-link"></i></div> <a href="' + netVec[j] + '" target="_blank">' + strLink + '</a></div>';
 				}
 			}
 		}

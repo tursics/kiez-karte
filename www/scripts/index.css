@@ -73,7 +73,7 @@ body {
 	margin-top:3px;
 }
 
-#mapSelectInfo div{
+#mapSelectInfo div {
 	padding:0.7em 1em;
 	font-weight:normal;
 	background-color:/*cDim*/#155764;
@@ -89,14 +89,29 @@ body {
 	padding:0.5em 0.7em !important;
 }
 
-#mapSelectItem  h2{
+#mapSelectItem  h2 {
 	font-size:1.2em;
 	font-weight:300;
 	margin:0 0 .5em 0;
 	padding:0;
 }
 
-#mapSelectItem  .info{
+#mapSelectItem a, #mapSelectItem a:visited {
+	font-weight:300;
+	color:/*cMedium*/#588681;
+}
+
+#mapSelectItem  a:hover {
+	color:/*cDim*/#155764;
+}
+
+#mapSelectItem .link {
+	overflow-x:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+#mapSelectItem .info {
 	border-top:1px solid /*cDim*/#155764;
 	margin:0.5em 0 0 0;
 	padding:0.5em 0 0 0;
