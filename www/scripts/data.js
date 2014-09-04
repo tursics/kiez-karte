@@ -214,7 +214,7 @@ dataVec.push({
 	age65:'Pflegeeinrichtungen'
 });
 
-dataVec.push({
+/*dataVec.push({
 	title:'Stadtführer Entwicklungspolitik',
 	url:'euro-inter-lez-stadtfuehrer-lez.show.json',
 	license:'CC BY 3.0 DE',
@@ -225,7 +225,7 @@ dataVec.push({
 	age18:'',
 	age30:'Orte der Entwicklungspolitik',
 	age65:''
-});
+});*/
 
 dataVec.push({
 	title:'Tagespflegestellen im Bezirk Lichtenberg',
