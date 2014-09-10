@@ -187,6 +187,23 @@ function trimQuotes( str)
 
 // -----------------------------------------------------------------------------
 
+function createFTPLink( str)
+{
+	if(( str.indexOf( '[[') == 0) && (str.lastIndexOf( ']]') == (str.length - 2))) {
+		str = str.substring( 2, str.length - 2);
+	}
+	if( str.lastIndexOf( '|') > 0) {
+		title = str.substring( str.lastIndexOf( '|') + 1, str.length);
+		str = str.substring( 0, str.lastIndexOf( '|'));
+	} else {
+		title = 'Bericht';
+	}
+
+	return '<a href="' + str + '" target="_blank">' + title + '</a>';
+}
+
+// -----------------------------------------------------------------------------
+
 $( document).on( "pageshow", "#pageMap", function()
 {
 	if( showWelcome) {
@@ -339,7 +356,11 @@ function updateMapSelectItem( data)
 	if( typeof data.einrichtung !== 'undefined') {
 		// wirtschaft-mietraum.show.json
 		// freizeit-sport-jfe.show.json
+		// buergerservice-familie-sbst.show.json
 		strH2 = data.einrichtung;
+	} else if( typeof data.einrichtung_name !== 'undefined') {
+		// heimaufsicht-pruefberichte.show.json
+		strH2 = data.einrichtung_name;
 	} else if( typeof data.name !== 'undefined') {
 		// buergerservice-aerzte-foo.show.json
 		// maerkte-xmas.show.json
@@ -351,6 +372,9 @@ function updateMapSelectItem( data)
 			// re-spielplatz.foo.show.json
 			strH2 += ' ' + data.name2;
 		}
+	} else if( typeof data.NAME !== 'undefined') {
+		// re-friedh.show.json
+		strH2 = data.NAME;
 	} else if( typeof data.bezeichnung !== 'undefined') {
 		// maerkte-strassenfeste.show.json
 		strH2 = data.bezeichnung;
@@ -373,6 +397,12 @@ function updateMapSelectItem( data)
 			strAddr += data.strasse + '<br>';
 		}
 	}
+	if( typeof data.STRASSE !== 'undefined') {
+		strAddr += data.STRASSE + '<br>';
+	}
+	if(( typeof data.einrichtung_strasse !== 'undefined') && (typeof data.einrichtung_hnr !== 'undefined')) {
+		strAddr += data.einrichtung_strasse + ' ' + data.einrichtung_hnr + '<br>';
+	}
 	if( typeof data.anschrift !== 'undefined') {
 		strAddr += data.anschrift + '<br>';
 	}
@@ -381,9 +411,18 @@ function updateMapSelectItem( data)
 	} else if( typeof data.plz !== 'undefined') {
 		strAddr += trimQuotes( data.plz) + ' Berlin<br>';
 	}
+	if(( typeof data.einrichtung_plz !== 'undefined') && (typeof data.einrichtung_ort !== 'undefined')) {
+		strAddr += data.einrichtung_plz + ' ' + data.einrichtung_ort + '<br>';
+	}
 
 	if(( typeof data.telefon !== 'undefined') && (data.telefon != '')) {
 		arrayPhone.push( data.telefon);
+	}
+	if(( typeof data.einrichtung_telefon !== 'undefined') && (data.einrichtung_telefon != '')) {
+		arrayPhone.push( data.einrichtung_telefon);
+	}
+	if(( typeof data.einrichtung_fax !== 'undefined') && (data.einrichtung_fax != '')) {
+		arrayPhone.push( 'Fax: ' + data.einrichtung_fax);
 	}
 
 	if( typeof data.webadressen !== 'undefined') {
@@ -394,6 +433,9 @@ function updateMapSelectItem( data)
 	}
 	if( typeof data.email !== 'undefined') {
 		arrayNet.push( data.email);
+	}
+	if( typeof data.einrichtung_email !== 'undefined') {
+		arrayNet.push( data.einrichtung_email);
 	}
 	if( typeof data.e_mail !== 'undefined') {
 		arrayNet.push( data.e_mail);
@@ -411,9 +453,6 @@ function updateMapSelectItem( data)
 		arrayNet.push( data.w3);
 	}
 
-	// buergerservice-familie-sbst.show.json
-	// heimaufsicht-pruefberichte.show.json
-	// re-friedh.show.json
 	if( typeof data.nutzung !== 'undefined') {
 		// wirtschaft-mietraum.show.json
 		strInfo += 'Nutzung: ' + data.nutzung + '<br>';
@@ -460,9 +499,17 @@ function updateMapSelectItem( data)
 			strInfo += 'bis ' + formatDate( data.bis) + '<br>';
 		}
 	}
+	if(( typeof data.termin !== 'undefined') && (data.termin != '')) {
+		// buergerservice-familie-sbst.show.json
+		strInfo += 'am ' + formatDate( data.termin) + '<br>';
+	}
 	if(( typeof data.tage !== 'undefined') && (data.tage != '')) {
 		// maerkte-wochen-antik.show.json
 		strInfo += 'am ' + data.tage + '<br>';
+	}
+	if(( typeof data.uhrzeit !== 'undefined') && (data.uhrzeit != '')){
+		// buergerservice-familie-sbst.show.json
+		strInfo += 'um ' + data.uhrzeit + '<br>';
 	}
 	if(( typeof data.zeit !== 'undefined') && (data.zeit != '')){
 		// maerkte-strassenfeste.show.json
@@ -475,6 +522,10 @@ function updateMapSelectItem( data)
 	if(( typeof data.oeffnungszeiten !== 'undefined') && (data.oeffnungszeiten != '')){
 		// maerkte-xmas.show.json
 		strInfo += 'von ' + data.oeffnungszeiten + '<br>';
+	}
+	if(( typeof data.veranstaltung !== 'undefined') && (data.veranstaltung != '')) {
+		// buergerservice-familie-sbst.show.json
+		strInfo += data.veranstaltung + '<br>';
 	}
 	if( typeof data.veranstalter !== 'undefined') {
 		// maerkte-strassenfeste.show.json
@@ -509,6 +560,10 @@ function updateMapSelectItem( data)
 		// re-spielplatz.foo.show.json
 		strInfo += 'Spielfläche: ' + data.spiel_fl + 'm²<br>';
 	}
+	if(( typeof data['FLÄCHE'] !== 'undefined') && (data['FLÄCHE'] != '')){
+		// re-friedh.show.json
+		strInfo += 'Fläche: ' + data['FLÄCHE'] + 'm²<br>';
+	}
 	if(( typeof data.schule !== 'undefined') && (data.schule != '')){
 		// freizeit-sport-ja-jsa.show.json
 		strInfo += 'Schule: ' + data.schule + '<br>';
@@ -542,13 +597,73 @@ function updateMapSelectItem( data)
 		}
 		strInfo += 'Pflanzperiode: ' + data.pflanzp + '<br>';
 	}
-	if(( typeof data.material !== 'undefined') && (data.material != '')){
+	if(( typeof data.material !== 'undefined') && (typeof data.spendenstatus !== 'undefined')){
 		// stadtbaum-baumstandort-20140508.show.json
 		data.material = trimQuotes( data.material);
-		if( '' == data.material) {
-			data.material = 'nicht gepflanzt';
+		data.spendenstatus = trimQuotes( data.spendenstatus);
+		if( 'GEPFLANZT' == data.material) {
+			strInfo += 'Dieser Baum wurde gepflanzt<br>';
+		} else if( 'GESPENDET' == data.spendenstatus) {
+			strInfo += 'Dieser Baum konnte gepflanzt werden, dank einer Spende!<br>';
+		} else {
+			strInfo += 'Leider konnte dieser Baum nicht gepflanzt werden.<br>';
 		}
-		strInfo += 'Der Baum wurde ' + data.material + '<br>';
+	}
+	if(( typeof data.einrichtung_platzzahl !== 'undefined') && (data.einrichtung_platzzahl != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Plätze: ' + data.einrichtung_platzzahl + '<br>';
+	}
+	if(( typeof data.einrichtung_versorgungsform !== 'undefined') && (data.einrichtung_versorgungsform != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Versorgungsform: ' + data.einrichtung_versorgungsform + '<br>';
+	}
+	if(( typeof data.einrichtung_wohnform !== 'undefined') && (data.einrichtung_wohnform != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Wohnform: ' + data.einrichtung_wohnform + '<br>';
+	}
+	if(( typeof data.traeger_name !== 'undefined') && (data.traeger_name != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Träger: ' + data.traeger_name + '<br>';
+	}
+	for( var i = 1; i <= 10; ++i) {
+		// heimaufsicht-pruefberichte.show.json
+		var baseName = 'pruefung_' + i;
+		if(( typeof data[ baseName] === 'undefined') || (data[ baseName] == '')){
+			break;
+		}
+		if(( typeof data[ baseName] !== 'undefined') && (data[ baseName] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName]) + '<br>';
+		}
+		if(( typeof data[ baseName + '_gegendarstellung_1'] !== 'undefined') && (data[ baseName + '_gegendarstellung_1'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_gegendarstellung_1']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_ergaenzender_bericht_1'] !== 'undefined') && (data[ baseName + '_ergaenzender_bericht_1'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_ergaenzender_bericht_1']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_gegendarstellung_2'] !== 'undefined') && (data[ baseName + '_gegendarstellung_2'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_gegendarstellung_2']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_ergaenzender_bericht_2'] !== 'undefined') && (data[ baseName + '_ergaenzender_bericht_2'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_ergaenzender_bericht_2']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_gegendarstellung_3'] !== 'undefined') && (data[ baseName + '_gegendarstellung_3'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_gegendarstellung_3']) + '<br>';
+		}
+	}
+	if(( typeof data.KONFESS !== 'undefined') && (data.KONFESS != '')){
+		// re-friedh.show.json
+		if( 'rk' == data.KONFESS) {
+			data.KONFESS = 'katholisch';
+		} else if( 'ev' == data.KONFESS) {
+			data.KONFESS = 'evangelisch';
+		} else if( 'ld' == data.KONFESS) {
+			data.KONFESS = 'landeseigen';
+		}
+		strInfo += 'Konfession: ' + data.KONFESS + '<br>';
+	}
+	if(( typeof data.EHRENGRAB !== 'undefined') && (data.EHRENGRAB != '')){
+		// re-friedh.show.json
+		strInfo += 'Ehrengrabstätten: ' + data.EHRENGRAB + '<br>';
 	}
 
 	if( strH2 != '') {
