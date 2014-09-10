@@ -3,17 +3,17 @@ Options -Indexes
 CheckSpelling off
 
 ########
-#ErrorDocument 400 /error.php
-#ErrorDocument 401 /error.php
-#ErrorDocument 402 /error.php
-#ErrorDocument 403 /error.php
-#ErrorDocument 404 /error.php
-#ErrorDocument 500 /error.php
+ErrorDocument 400 /error.html
+ErrorDocument 401 /error.html
+ErrorDocument 402 /error.html
+ErrorDocument 403 /error.html
+ErrorDocument 404 /error.html
+ErrorDocument 500 /error.html
 
 ########
 RewriteEngine on
 RewriteRule ^copyright/$                          /copyright.html               [L]
-RewriteRule ^impressum/$                          /impressum.html               [L]
+RewriteRule ^imprint/$                            /imprint.html                 [L]
 RewriteRule ^roadmap/$                            /roadmap.html                 [L]
 
 ########
