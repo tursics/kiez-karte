@@ -55,13 +55,14 @@
 
 					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=' . $ret[ wfs];
 				} else if( 'WMS' == $type) {
-					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetCapabilities';
-					$content = file_get_contents( $dataURL . $addons);
-					$obj = simplexml_load_string( $content);
+//					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetCapabilities';
+//					$content = file_get_contents( $dataURL . $addons);
+//					$obj = simplexml_load_string( $content);
+//
+//					$ret[ layer] = $obj->Capability->Layer->Title;
 
-					$ret[ layer] = $obj->Capability->Layer->Title;
-
-					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetFeatureInfo&query_layers=' . urlencode( /*$ret[ layer]*/ $ret[ title]) . '&x=0&y=0';
+					$addons = '?SERVICE=' . $type . '&VERSION=1.1.0&REQUEST=GetFeatureInfo&query_layers=' . urlencode( /*$ret[ layer]*/ $ret[ title]) . '&X=0&Y=0';
+					$addons .= '&SRS=EPSG:4326&BBOX=13.0044,52.3244,13.7721,52.6856&WIDTH=640&HEIGHT=480';
 				}
 
 				$content = file_get_contents( $dataURL . $addons);

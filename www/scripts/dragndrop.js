@@ -490,10 +490,15 @@ function dndReadFileXML( xmlFile)
 		dndReadURL( title.text());
 	} else {
 		dndReadFileObject = dndReadFileXMLtoObject( xml[0]);
-		dndDownloadFile();
 
-//		$( '#popupDrop').popup( 'close');
-//		console.log( JSON.stringify( dndReadFileObject));
+		if(( typeof dndReadFileObject.plist != 'undefined') && (typeof dndReadFileObject.plist.dict != 'undefined') && (typeof dndReadFileObject.plist.dict.string != 'undefined')) {
+			dndReadURL( dndReadFileObject.plist.dict.string);
+		} else {
+			dndDownloadFile();
+
+//			$( '#popupDrop').popup( 'close');
+//			console.log( JSON.stringify( dndReadFileObject));
+		}
 	}
 }
 
@@ -568,15 +573,28 @@ function dndReadURLFISBroker( url)
 	var line;
 
 	var name = '';
-	line = params[0].split( '=');
-	if( 'id' == line[0]) {
-		name = line[1].split( '@')[0];
-	}
-
 	var type = '';
-	line = params[1].split( '=');
-	if( 'type' == line[0]) {
-		type = line[1];
+
+	line = params[0].split( '=');
+	if(( 'cmd' == line[0]) && ('navigationShowResult' == line[1])) {
+		line = params[1].split( '=');
+		if( 'mid' == line[0]) {
+			name = line[1].split( '%40')[0];
+		}
+
+		if( 'K.' == name.substring( 0, 2)) {
+			name = name.substring( 2);
+			type = 'WMS';
+		}
+	} else {
+		if( 'id' == line[0]) {
+			name = line[1].split( '@')[0];
+		}
+
+		line = params[1].split( '=');
+		if( 'type' == line[0]) {
+			type = line[1];
+		}
 	}
 
 	var dataURL = '';
