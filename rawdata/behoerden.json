@@ -1,0 +1,93 @@
+{
+	"messages": {
+		"messages":[],
+		"success":null
+	},
+	"results":{
+		"count":0,
+		"items_per_page":null
+	},
+	"index":[
+		{
+			"id":"1",
+			"name":"Bürgeramt 1 (Neu- Hohenschönhausen) Egon-Erwin-Kisch-Straße",
+			"strasse":"Egon-Erwin-Kisch-Straße 106",
+			"plz_ort":"13059 Berlin",
+			"oeffnungszeiten":"Mo 07:30-15:30\nDi 10:00-18:00\nMi 07:30-14:00\nDo 10:00-18:00\nFr 07:30-13:00",
+			"fax":"(030) 90296-777819",
+			"email":"Post.buergeramt@lichtenberg.berlin.de",
+			"www":"http://www.berlin.de/ba-lichtenberg/verwaltung/behoerdenwegweiser/buergeramt.html",
+			"bemerkungen":"Jeden 1.und 3. Mittwoch im Monat von 09:00 - 12:00 Uhr, Sprechstunde für behinderte und chronisch kranke Menschen. Am Standort kann bar und mit girocard (mit PIN) bezahlt werden. Ein Fotoautomat ist vorhanden."
+		},
+		{
+			"id":"2",
+			"name":"Bürgeramt 2 (Lichtenberg) Normannenstr.",
+			"strasse":"Normannenstr. 1",
+			"plz_ort":"10367 Berlin",
+			"oeffnungszeiten":"Mo 07:30-15:30\nDi 10:00-18:00\nMi 07:30-14:00 Uhr\nDo 10:00-18:00\nFreitag 07:30-13:00",
+			"telefon":"115",
+			"fax":"(030) 90296-776611",
+			"email":"Post.buergeramt@lichtenberg.berlin.de",
+			"www":"http://www.berlin.de/ba-lichtenberg/verwaltung/behoerdenwegweiser/buergeramt.html",
+			"bemerkungen":"Jeden 2. Dienstag im Monat von 16:00 - 18:00 Uhr, Gehörlosensprechstunde. Am Standort kann bar und mit girocard (mit PIN) bezahlt werden.  Ein Fotoautomat ist vorhanden."
+		},
+		{
+			"id":"3",
+			"name":"Bürgeramt 3 (Friedrichsfelde) Otto-Schmirgal-Straße",
+			"strasse":"Otto-Schmirgal-Straße 7",
+			"plz_ort":"10319 Berlin",
+			"oeffnungszeiten":"Mo 07:30-15:30\nDi 10:00-18:00\nMi 07:30-14:00\nDo 10:00-18:00\nFr 07:30-13:00",
+			"telefon":"115",
+			"fax":"(030) 90296-773022",
+			"email":"Post.buergeramt@lichtenberg.berlin.de",
+			"www":"http://www.berlin.de/ba-lichtenberg/verwaltung/behoerdenwegweiser/buergeramt.html",
+			"bemerkungen":"Im Center am Tierpark. Am Standort kann bar und mit girocard (mit PIN) bezahlt werden. Ein Fotoautomat ist vorhanden."
+		},
+		{
+			"id":"4",
+			"name":"Bürgeramt 4 (Alt- Hohenschönhausen) Große-Leege-Straße",
+			"strasse":"Große-Leege-Straße 103",
+			"plz_ort":"13055 Berlin",
+			"oeffnungszeiten":"Mo 07:30-15:30\nDi 10:00-18:00\nMi 07:30-14:00\nDo 10.00-18.00\nFr 07:30-13:00 Uhr",
+			"telefon":"115",
+			"fax":"(030) 90296-776022",
+			"email":"Post.buergeramt@lichtenberg.berlin.de",
+			"www":"http://www.berlin.de/ba-lichtenberg/verwaltung/behoerdenwegweiser/buergeramt.html",
+			"bemerkungen":"Wir haben nur für Terminkunden geöffnet. Am Standort kann bar und mit girocard (mit PIN) bezahlt werden. Ein Fotoautomat ist vorhanden."
+		},
+		{
+			"id":"5",
+			"name":"Einbürgerungs- und Staatsangehörigkeitsangelegenheiten",
+			"strasse":"Egon-Erwin-Kisch-Str. 106",
+			"plz_ort":"13059 Berlin",
+			"oeffnungszeiten":"Mo nur nach Terminvereinbarung\nDi 10:00-13:30\nDo 14:00-18:00",
+			"telefon":"(030) 90296-4686 / 7801 / 7856",
+			"fax":"(030) 90296-4609",
+			"email":"post.staatsangehoerigkeit@lichtenberg.berlin.de",
+			"bemerkungen":"Am Standort kann bar und mit girocard (mit PIN) bezahlt werden."
+		},
+		{
+			"id":"6",
+			"name":"Standesamt Lichtenberg",
+			"strasse":"Egon-Erwin-Kisch-Str. 106",
+			"plz_ort":"13059 Berlin",
+			"oeffnungszeiten":"Mo 09:00-12:30\nDi 10:00-13:30\nDo 14:00-16:00",
+			"telefon":"(030) 90296-3553 - 3557",
+			"fax":"(030) 90296-3559",
+			"email":"Post.standesamt@lichtenberg.berlin.de",
+			"www":"http://www.berlin.de/ba-lichtenberg/verwaltung/behoerdenwegweiser/standesamt.html",
+			"bemerkungen":"Montags nur Neugeborenen Sprechstunde. Donnerstags 16:00 - 18:00 Uhr nur für Terminkunden. Termine können nur Monatsweise im Voraus gebucht werden. Am Standort kann bar und mit girocard (mit PIN) bezahlt werden."
+		},
+		{
+			"id":"7",
+			"name":"Bezirksverordnetenversammlung",
+			"strasse":"Möllendorffstr. 6",
+			"plz_ort":"10367 Berlin",
+			"telefon":"030 90296-3110",
+			"email":"bvvlichtenberg@lichtenberg.berlin.de",
+			"www":"http://lichtenberg.demokratielive.org/",
+			"bemerkungen":"Die Lichtenberger Bezirksverordneten tagen jeden dritten Donnerstag im Monat ab 17 Uhr in der Max-Taut-Aula, Fischerstraße / Schlichtallee in 10317 Berlin."
+		}
+	],
+	"item":[]
+}
