@@ -840,7 +840,11 @@ function onShowData( dataId, ageId)
 
 		updateMapSelectData();
 
-		$.getJSON( 'data/' + dataVec[ dataId].url, function( data) {
+		var dataUrl = dataVec[ dataId].url;
+		if( 0 != dataUrl.indexOf( 'http://')) {
+			dataUrl = 'data/' + dataUrl;
+		}
+		$.getJSON( dataUrl, function( data) {
 			try {
 				$.each( data, function( key, val) {
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
