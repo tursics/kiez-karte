@@ -55,6 +55,13 @@ http://fbinter.stadt-berlin.de/fb/gisbroker.do;jsessionid=8327EAA7A1442FD8EA33B1
 
 function initNokiaMap( elementName, lat, lng, zoom)
 {
+	// https://developer.here.com/myapps
+	// PLAN: Free
+	// url: http://tursics.de/sample/lichtenberg
+	// limit: 100,000 monthly transactions
+	nokia.Settings.set( 'app_id', 'EsMBz0OPmROKzmgArmcd');
+	nokia.Settings.set( 'app_code', '3Df8lHy0T7q98SCPI_-Vmw');
+
 	// test key for
 	// url: http://tursics.de/sample/lichtenberg
 	// until: 2014-06-27
