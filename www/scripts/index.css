@@ -32,7 +32,7 @@ body {
 #mapSelect {
 	position:absolute;
 	top:10px;
-	left:20px;
+	left:46px;
 	width:20em;
 	max-width:20em;
 }
@@ -146,8 +146,8 @@ body {
 
 #mapType {
 	position:absolute;
-	bottom:13px;
-	right:10px;
+	bottom:.5em;
+	right:1em;
 }
 
 li.done:before, li.todo:before, li.none:before, li.work:before {
@@ -264,12 +264,12 @@ li.work:before {
 /* bottom bar */
 
 #bottomBar{
-	background-color:/*cLight*/#8C9C88 !important;
-	bottom:0px;
+	background-color:/*cWhite*/#FFF !important;
+	bottom:16px;
 	color:/*cDark*/#012744 !important;
 	font-size:10px;
 	font-weight:500 !important;
-	height:50px;
+	height:43px;
 /*	overflow:hidden;*/
 	position:absolute;
 	right:0px;
@@ -277,23 +277,11 @@ li.work:before {
 	z-index:499;
 }
 
-#bottomBarInfo{
-	background-color:/*cLight*/#8C9C88 !important;
-	bottom:0;
-	padding:0 10px 0 10px;
-	position:absolute;
-	right:0px;
-}
-
-#bottomBarInfo a{
+/* leafleat */
+.leaflet-container, .leaflet-control-attribution, .leaflet-container a {
+	background-color:/*cWhite*/#FFF !important;
 	color:/*cDark*/#012744 !important;
-}
-
-/* nokia maps */
-.nm_crnode, .nm_crnode a, .nm_crnode a:link, .nm_crnode a:visited, .nm_crnode a:focus, .nm_crnode a:hover, .nm_crnode a:active {
-	background-color:/*cLight*/#8C9C88 !important;
-	color:/*cDark*/#012744 !important;
-	font-weight:500 !important;
+	font-weight:500;
 }
 
 #pageMap {
