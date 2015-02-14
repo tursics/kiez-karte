@@ -57,17 +57,13 @@
 	if( !isset( $_GET[ 'street'])) {
 		$ret[ error] = "Parameter 'street' missing.";
 	} else {
-		$street = mb_strtolower( utf8_decode( $_GET[ 'street']));
+		$street = strtolower( utf8_decode( $_GET[ 'street']));
 		$streetNumber = '';
 		$streetAdd = '';
 		if( preg_match( '/(.+)\s([\d]+)([^\d]*)/i', $street, $result)) {
 			$street = trim( $result[1]);
 			$streetNumber = trim( $result[2]);
 			$streetAdd = trim( $result[3]);
-		}
-		// „Süße Früchtchen“ Wiecker Straße 9
-		if( utf8_decode( '„') == substr( $street, 0, 1)) {
-			$street = substr( $street, strpos( $street, utf8_decode( '“'), 1) + 1);
 		}
 		// "Erieseering 4 - 6" => "Erieseering 4"
 		// "Erieseering 4 / 6" => "Erieseering 4"
@@ -116,16 +112,17 @@
 					if( !file_exists( $path)) {
 						$ret[ error] = "Internal error.";
 					} else {
-						$content = explode( "\n", file_get_contents( $path));
+//						$content = explode( "\n", file_get_contents( $path));
+						$content = file( $path);
 
 						foreach( $content as $line) {
 							$rows = explode( ";", $line);
 							if( count( $rows) > 15) {
-								$dataHNR = mb_strtolower( $rows[9]);
-								$dataADZ = mb_strtolower( $rows[10]);
+								$dataHNR = strtolower( $rows[9]);
+								$dataADZ = strtolower( $rows[10]);
 								$dataLng = str_replace( ',', '.', $rows[11]);
 								$dataLat = str_replace( ',', '.', $rows[12]);
-								$dataSTN = preg_replace( '/\s+/', '', mb_strtolower( $rows[13]));
+								$dataSTN = preg_replace( '/\s+/', '', strtolower( $rows[13]));
 								$dataPLZ = $rows[14];
 								$dataONM = $rows[15];
 
