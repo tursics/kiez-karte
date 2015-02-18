@@ -205,3 +205,9 @@ License|nutzIII.pdf "Geoportal Berlin / Friedhofsbestand Berlin"
 
     re-friedh.geo.json
 	re-friedh.show.json
+
+ |RBS-LOR, Lebensweltlich orientierte Räume, Dezember 2014
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/rbs-lor-lebensweltlich-orientierte-r%C3%A4ume-dezember-2014
+License|CC BY 3.0 DE
+
