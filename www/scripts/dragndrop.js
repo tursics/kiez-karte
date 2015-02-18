@@ -243,10 +243,10 @@ function dndReadFileJSON( stream)
 		dndReadFileIndex = 0;
 
 		if( dndReadFileGeocodeSet) {
-			map.objects.remove( dndReadFileGeocodeSet);
+			map.removeLayer( dndReadFileGeocodeSet);
 		}
-		dndReadFileGeocodeSet = new nokia.maps.map.Container();
-		map.objects.add( dndReadFileGeocodeSet);
+		dndReadFileGeocodeSet = L.featureGroup([]);
+		dndReadFileGeocodeSet.addTo(map);
 
 		$( '#popupDrop').html(
 			'<div style="margin:2em 4em 2em 4em;text-shadow:none;">' +
@@ -289,10 +289,10 @@ function dndReadFileCSV( rows, separator)
 	});
 
 	if( dndReadFileGeocodeSet) {
-		map.objects.remove( dndReadFileGeocodeSet);
+		map.removeLayer( dndReadFileGeocodeSet);
 	}
-	dndReadFileGeocodeSet = new nokia.maps.map.Container();
-	map.objects.add( dndReadFileGeocodeSet);
+	dndReadFileGeocodeSet = L.featureGroup([]);
+	dndReadFileGeocodeSet.addTo(map);
 
 	if(( names.length > 10) && (names[9] == 'l_geogr') && (names[10] == 'b_geogr')) {
 		$( '#popupDrop').html(
@@ -314,14 +314,14 @@ function dndReadFileObjectFunc()
 {
 	try {
 		while(( typeof dndReadFileObject[dndReadFileIndex] != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].lat != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].lng != 'undefined')) {
-			marker = new nokia.maps.map.StandardMarker([parseFloat( dndReadFileObject[dndReadFileIndex].lat), parseFloat( dndReadFileObject[dndReadFileIndex].lng)], { text: dndReadFileIndex + 1 });
-			dndReadFileGeocodeSet.objects.add( marker);
+			marker = L.marker([parseFloat( dndReadFileObject[dndReadFileIndex].lat), parseFloat( dndReadFileObject[dndReadFileIndex].lng)], { text: dndReadFileIndex + 1 });
+			dndReadFileGeocodeSet.addLayer( marker);
 
 			++dndReadFileIndex;
 		}
 //		while(( typeof dndReadFileObject[dndReadFileIndex] != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].latitude != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].longitude != 'undefined')) {
-//			marker = new nokia.maps.map.StandardMarker([parseFloat( dndReadFileObject[dndReadFileIndex].latitude), parseFloat( dndReadFileObject[dndReadFileIndex].longitude)], { text: dndReadFileIndex + 1 });
-//			dndReadFileGeocodeSet.objects.add( marker);
+//			marker = L.marker([parseFloat( dndReadFileObject[dndReadFileIndex].latitude), parseFloat( dndReadFileObject[dndReadFileIndex].longitude)], { text: dndReadFileIndex + 1 });
+//			dndReadFileGeocodeSet.addLayer( marker);
 //
 //			++dndReadFileIndex;
 //		}
@@ -413,8 +413,8 @@ function dndReadFileObjectFunc()
 					dndReadFileChanged = true;
 					dndReadFileObject[dndReadFileIndex].lat = result.lat;
 					dndReadFileObject[dndReadFileIndex].lng = result.lng;
-					marker = new nokia.maps.map.StandardMarker([parseFloat( result.lat), parseFloat( result.lng)], { text: dndReadFileIndex + 1 });
-					dndReadFileGeocodeSet.objects.add( marker);
+					marker = L.marker([parseFloat( result.lat), parseFloat( result.lng)], { text: dndReadFileIndex + 1 });
+					dndReadFileGeocodeSet.addLayer( marker);
 					map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
 				}
 
@@ -448,8 +448,8 @@ function dndReadFileCSVStadtbaum()
 		var zip = $.inArray( parseInt( this[ 'plz'].replace (/'/g, "")), zipArray);
 		var area = this[ 'schluessel'].substring( 1, 3);
 		if(( -1 < zip) && ('11' == area)) {
-			marker = new nokia.maps.map.StandardMarker([parseFloat( this[ 'b_geogr']), parseFloat( this[ 'l_geogr'])]);
-			dndReadFileGeocodeSet.objects.add( marker);
+			marker = L.marker([parseFloat( this[ 'b_geogr']), parseFloat( this[ 'l_geogr'])]);
+			dndReadFileGeocodeSet.addLayer( marker);
 			tmpReadFileObject.push( this);
 		} else if( -1 < zip) {
 			$( '#popupDrop').html(
@@ -638,10 +638,10 @@ function dndReadURLFISBrokerObject( data)
 	dndReadFileObject = [];
 
 	if( dndReadFileGeocodeSet) {
-		map.objects.remove( dndReadFileGeocodeSet);
+		map.removeLayer( dndReadFileGeocodeSet);
 	}
-	dndReadFileGeocodeSet = new nokia.maps.map.Container();
-	map.objects.add( dndReadFileGeocodeSet);
+	dndReadFileGeocodeSet = L.featureGroup([]);
+	dndReadFileGeocodeSet.addTo(map);
 
 	if(( typeof data.obj == 'undefined') || (typeof data.obj.gml_featureMember == 'undefined')) {
 		dndReadFileError();
@@ -671,8 +671,8 @@ function dndReadURLFISBrokerObject( data)
 					}
 				});
 
-				marker = new nokia.maps.map.StandardMarker([parseFloat( obj.lat), parseFloat( obj.lng)]);
-				dndReadFileGeocodeSet.objects.add( marker);
+				marker = L.marker([parseFloat( obj.lat), parseFloat( obj.lng)]);
+				dndReadFileGeocodeSet.addLayer( marker);
 				dndReadFileObject.push( obj);
 			}
 		});
