@@ -6,19 +6,23 @@ var showWelcome = false;
 
 var dataAge = -1;
 var dataGeoSet = new Array();
+var idAddress = 1000;
+var idHood = 1001;
 
 // -----------------------------------------------------------------------------
 
 function initMap( elementName, lat, lng, zoom)
 {
-	var mapboxToken = 'pk.eyJ1IjoidHVyc2ljcyIsImEiOiI1UWlEY3RNIn0.U9sg8F_23xWXLn4QdfZeqg';
-	var mapboxTiles = L.tileLayer( 'https://{s}.tiles.mapbox.com/v4/tursics.l7ad5ee8/{z}/{x}/{y}.png?access_token=' + mapboxToken, {
-		attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a> | <a href="/imprint">Impressum</a> | <a href="/copyright">Copyright</a> | <a href="/imprint">Kontakt</a>'
-	});
+	if( null == map) {
+		var mapboxToken = 'pk.eyJ1IjoidHVyc2ljcyIsImEiOiI1UWlEY3RNIn0.U9sg8F_23xWXLn4QdfZeqg';
+		var mapboxTiles = L.tileLayer( 'https://{s}.tiles.mapbox.com/v4/tursics.l7ad5ee8/{z}/{x}/{y}.png?access_token=' + mapboxToken, {
+			attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a> | <a href="/imprint">Impressum</a> | <a href="/copyright">Copyright</a> | <a href="/imprint">Kontakt</a>'
+		});
 
-	map = L.map( elementName)
-		.addLayer( mapboxTiles)
-		.setView( [lat, lng], zoom);
+		map = L.map( elementName)
+			.addLayer( mapboxTiles)
+			.setView( [lat, lng], zoom);
+	}
 }
 
 // -----------------------------------------------------------------------------
@@ -42,6 +46,9 @@ $( document).on( "pagecreate", "#pageMap", function()
 	});
 	$( '#displaySenior').on( 'click', function( e) {
 		setAge( 65);
+	});
+	$( '#displayAddress').on( 'click', function( e) {
+		setAge( idAddress);
 	});
 
 	$( '#displayNormal').on( 'click', function( e) {
@@ -145,7 +152,14 @@ function updateMapSelectData()
 		for( var i = 0; i < dataGeoSet.length; ++i) {
 			var idx = dataGeoSet[ i].id;
 			var ageStr = 'age' + dataGeoSet[ i].age;
-			str += '<li><a href="#" border=0><i class="fa ' + dataVec[idx].icon + '"></i> ' + dataVec[idx][ageStr] + '</a>';
+
+			if( idx == idAddress) {
+				str += '<li><a href="#" border=0><i class="fa fa-home"></i> Häuser</a>';
+			} else if( idx == idHood) {
+				str += '<li><a href="#" border=0><i class="fa fa-home"></i> Gebiete</a>';
+			} else {
+				str += '<li><a href="#" border=0><i class="fa ' + dataVec[idx].icon + '"></i> ' + dataVec[idx][ageStr] + '</a>';
+			}
 			str += '<a href="#" onClick="onRemoveData(' + i + ');" border=0>Entfernen</a></li>';
 		}
 		str += '</ul>';
@@ -570,7 +584,9 @@ function updateMapSelectInfo()
 
 	if( dataAge >= 0) {
 		str += '<div>';
-		if( dataAge < 6) {
+		if( dataAge == idAddress) {
+			str += '<i class="fa fa-home" style="padding-right:0.7em;"></i>Adressen und Gebiete<br>';
+		} else if( dataAge < 6) {
 			str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
 		} else if( dataAge < 18) {
 			str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Schulkinder<br>';
@@ -585,10 +601,15 @@ function updateMapSelectInfo()
 		str += '</div>';
 		str += '<ul data-role="listview" data-inset="false" data-icon="plus" id="mapSelectInfoList">';
 
-		var ageStr = 'age' + dataAge;
-		for( var i = 0; i < dataVec.length; ++i) {
-			if( dataVec[i][ageStr].length > 0) {
-				str += '<li><a href="#" onClick="onShowData(' + i + ',' + dataAge + ');" border=0><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
+		if( dataAge == idAddress) {
+			str += '<li><a href="#" onClick="onShowHood();" border=0><i class="fa fa-home"></i> Gebiete</a></li>';
+			str += '<li><a href="#" onClick="onShowAddress();" border=0><i class="fa fa-home"></i> Häuser</a></li>';
+		} else {
+			var ageStr = 'age' + dataAge;
+			for( var i = 0; i < dataVec.length; ++i) {
+				if( dataVec[i][ageStr].length > 0) {
+					str += '<li><a href="#" onClick="onShowData(' + i + ',' + dataAge + ');" border=0><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
+				}
 			}
 		}
 
@@ -681,6 +702,160 @@ function onShowData( dataId, ageId)
 			}
 		});
 	}
+}
+
+// -----------------------------------------------------------------------------
+
+function onShowHood()
+{
+	var fillStyle = {color:'#f00',weight:1,fillOpacity:0.05};
+	var dataAge = idAddress;
+	var dataId = idHood;
+
+	setAge( -1);
+
+	for( var i = 0; i < dataGeoSet.length; ++i) {
+		if( dataId == dataGeoSet[ i].id) {
+			dataGeoSet[ i].age = dataAge;
+			dataGeoSet.push( dataGeoSet[ i]);
+			dataGeoSet.splice( i, 1);
+
+			updateMapSelectData();
+			return;
+		}
+	}
+
+	dataGeoSet.push({
+		id: dataId,
+		age: dataAge,
+		layerGroup: L.featureGroup([])
+	});
+
+	var layerGroup = dataGeoSet[ dataGeoSet.length - 1].layerGroup;
+
+	layerGroup.addEventListener( 'click', function( evt) {
+		updateMapSelectItem( evt.layer.options.data);
+	});
+//	layerGroup.addEventListener( 'mouseover', function( evt) {
+//		evt.target.set( 'brush', colorOver);
+//		map.update( -1, 0);
+//	});
+//	layerGroup.addEventListener( 'mouseout', function( evt) {
+//		evt.target.set( 'brush', colorOut);
+//		map.update( -1, 0);
+//	});
+	layerGroup.addTo(map);
+
+	updateMapSelectData();
+
+//				$.each( data, function( key, val) {
+//					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+//						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
+//							brush: colorOut,
+//							data: val
+//						});
+//						layerGroup.addLayer( marker);
+//					}
+//				});
+
+	var dataUrl = 'data/RBS_OD_LOR_1412.json';
+	$.getJSON( dataUrl, function( data) {
+		try {
+			$.each( data, function( key, val) {
+				var shape = L.geoJson( val.shape, {
+					style: function (feature) {
+						return fillStyle;
+					},
+					data: val
+				});
+				layerGroup.addLayer( shape);
+			});
+
+			if( layerGroup.getLayers().length > 0) {
+				map.fitBounds( layerGroup.getBounds());
+			}
+		} catch( e) {
+//			alert( e);
+		}
+	});
+}
+
+// -----------------------------------------------------------------------------
+
+function onShowAddress()
+{
+	var fillStyle = {color:'#f00',weight:0,fillOpacity:0.05};
+	var dataAge = idAddress;
+	var dataId = idAddress;
+
+	setAge( -1);
+
+	for( var i = 0; i < dataGeoSet.length; ++i) {
+		if( dataId == dataGeoSet[ i].id) {
+			dataGeoSet[ i].age = dataAge;
+			dataGeoSet.push( dataGeoSet[ i]);
+			dataGeoSet.splice( i, 1);
+
+			updateMapSelectData();
+			return;
+		}
+	}
+
+	dataGeoSet.push({
+		id: dataId,
+		age: dataAge,
+		layerGroup: L.featureGroup([])
+	});
+
+	var layerGroup = dataGeoSet[ dataGeoSet.length - 1].layerGroup;
+
+	layerGroup.addEventListener( 'click', function( evt) {
+		updateMapSelectItem( evt.layer.options.data);
+	});
+	layerGroup.addTo(map);
+
+	updateMapSelectData();
+
+	var dataUrl = 'data/HKO_Lichtenberg_Geographisch_140416.txt';
+	$.get( dataUrl, function( data) {
+		try {
+			var lines = data.split( "\n");
+
+			$.each( lines, function( key, val) {
+				if( val.length > 0) {
+					var arr = val.split( ';');
+
+					var obj = {
+						objId: arr[1],
+						hoodKey: arr[7],
+						streetKey: arr[8],
+						strasse: arr[13],
+						hausnr: arr[9] + arr[10],
+						plz: arr[14],
+						ort: arr[15],
+						lat: arr[12].replace( ',', '.'),
+						lng: arr[11].replace( ',', '.'),
+					};
+
+					if( obj.hoodKey == '1103') {
+						var shape = L.circle([ obj.lat, obj.lng], 4, {
+							style: function (feature) {
+								return fillStyle;
+							},
+							data: obj
+						});
+						layerGroup.addLayer( shape);
+					}
+				}
+			});
+
+			if( layerGroup.getLayers().length > 0) {
+				map.fitBounds( layerGroup.getBounds());
+			}
+		} catch( e) {
+//			alert( e);
+		}
+	});
 }
 
 // -----------------------------------------------------------------------------
