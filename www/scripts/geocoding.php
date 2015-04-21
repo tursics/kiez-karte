@@ -118,6 +118,7 @@
 						foreach( $content as $line) {
 							$rows = explode( ";", $line);
 							if( count( $rows) > 15) {
+								$dataOI  = $rows[1];
 								$dataHNR = strtolower( $rows[9]);
 								$dataADZ = strtolower( $rows[10]);
 								$dataLng = str_replace( ',', '.', $rows[11]);
@@ -132,6 +133,7 @@
 									$ret[ city] = utf8_encode( $dataONM);
 									$ret[ lng] = $dataLng;
 									$ret[ lat] = $dataLat;
+									$ret[ houseid] = $dataOI;
 								}
 							}
 						}
