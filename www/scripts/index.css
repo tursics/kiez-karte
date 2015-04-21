@@ -32,7 +32,7 @@ body {
 #mapSelect {
 	position:absolute;
 	top:10px;
-	left:46px;
+	left:10px;
 	width:20em;
 	max-width:20em;
 }
@@ -282,6 +282,10 @@ li.work:before {
 	background-color:/*cWhite*/#FFF !important;
 	color:/*cDark*/#012744 !important;
 	font-weight:500;
+}
+
+.leaflet-bottom .leaflet-control-zoom {
+	margin-bottom:52px;
 }
 
 #pageMap {

@@ -19,9 +19,11 @@ function initMap( elementName, lat, lng, zoom)
 			attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a> | <a href="/imprint">Impressum</a> | <a href="/copyright">Copyright</a> | <a href="/imprint">Kontakt</a>'
 		});
 
-		map = L.map( elementName)
+		map = L.map( elementName, {zoomControl: false})
 			.addLayer( mapboxTiles)
 			.setView( [lat, lng], zoom);
+
+		map.addControl( L.control.zoom({ position: 'bottomright'}));
 	}
 }
 
@@ -139,7 +141,67 @@ $( document).on( "pageshow", "#pageMap", function()
 		});
 		$( '#popupWelcome').popup( 'open');
 	}
+
+//	map.on( 'load', function() {
+		handleURLQueries();
+//	});
 });
+
+// -----------------------------------------------------------------------------
+
+function handleURLQueries()
+{
+	var queries = location.search.replace(/^\?/, '').split('&');
+	var params = {};
+	for( var i = 0; i < queries.length; ++i) {
+		split = queries[i].split( '=');
+		params[split[0]] = split[1];
+	}
+
+	if( typeof params['layer'] !== 'undefined') {
+		var layer = params['layer'].split( ',');
+		for( var i = 0; i < layer.length; i += 2) {
+			onShowData( layer[i], layer[i + 1]);
+		}
+	}
+
+	map.on( 'zoomend', function() {
+		saveURLQueries();
+	});
+	map.on( 'moveend', function() {
+		saveURLQueries();
+	});
+
+	if( typeof params['zoom'] !== 'undefined') {
+		map.setZoom( params['zoom']);
+	}
+	if(( typeof params['lat'] !== 'undefined') && (typeof params['lng'] !== 'undefined')) {
+		map.setView( L.latLng( parseFloat( params['lat']), parseFloat( params['lng'])));
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+function saveURLQueries()
+{
+	var url = '/?lat=' + parseInt( map.getCenter().lat * 10000) / 10000;
+	url += '&lng=' + parseInt( map.getCenter().lng * 10000) / 10000;
+	url += '&zoom=' + parseInt( map.getZoom() * 100) / 100;
+
+	var layer = '';
+	for( var i = 0; i < dataGeoSet.length; ++i) {
+		if( layer.length > 0) {
+			layer += ',';
+		}
+		layer += dataGeoSet[ i].id + ',' + dataGeoSet[ i].age;
+	}
+	if( layer.length > 0) {
+		url += '&layer=' + layer;
+	}
+
+//	history.pushState( {}, '', url);
+	history.replaceState( {}, '', url);
+}
 
 // -----------------------------------------------------------------------------
 
@@ -498,6 +560,23 @@ function updateMapSelectItem( data)
 		// re-friedh.show.json
 		strInfo += 'Ehrengrabstätten: ' + data.EHRENGRAB + '<br>';
 	}
+	if(( typeof data.houseid !== 'undefined') && (data.houseid != '')){
+		var path = 'http://img.kiez-karte.berlin/';
+		for( var i = 0; i < data.houseid.length; i += 2) {
+			path += data.houseid.substr( i, 2) + '/';
+
+		}
+		str += '<img src="' + path + 'img.jpg" style="width:19.9em;height:12em;margin:-.5em -.7em 0 -.7em;">';
+	}
+	if(( typeof data.objId !== 'undefined') && (data.objId != '')){
+		var path = 'http://img.kiez-karte.berlin/';
+		for( var i = 0; i < data.objId.length; i += 2) {
+			path += data.objId.substr( i, 2) + '/';
+
+		}
+		strInfo += '<img src="' + path + 'img.jpg" style="width:19.9em;height:12em;margin:-1em -.7em -1em -0.7em;">';
+		strInfo += '<a href="' + path + 'img.jpg">' + path.substr( 29) + '</a>';
+	}
 
 	if( strH2 != '') {
 		str += '<h2>' + strH2 + '</h2>';
@@ -651,6 +730,7 @@ function onShowData( dataId, ageId)
 				dataGeoSet.splice( i, 1);
 
 				updateMapSelectData();
+				saveURLQueries();
 				return;
 			}
 		}
@@ -677,6 +757,7 @@ function onShowData( dataId, ageId)
 		layerGroup.addTo(map);
 
 		updateMapSelectData();
+		saveURLQueries();
 
 		var dataUrl = dataVec[ dataId].url;
 		if( 0 != dataUrl.indexOf( 'http://')) {
@@ -721,6 +802,7 @@ function onShowHood()
 			dataGeoSet.splice( i, 1);
 
 			updateMapSelectData();
+			saveURLQueries();
 			return;
 		}
 	}
@@ -747,6 +829,7 @@ function onShowHood()
 	layerGroup.addTo(map);
 
 	updateMapSelectData();
+	saveURLQueries();
 
 //				$.each( data, function( key, val) {
 //					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
@@ -785,6 +868,8 @@ function onShowHood()
 function onShowAddress()
 {
 	var fillStyle = {color:'#f00',weight:0,fillOpacity:0.05};
+	var greenStyle = {color:'#0f0',weight:0,fillOpacity:0.5};
+	var redStyle = {color:'#f00',weight:0,fillOpacity:0.5};
 	var dataAge = idAddress;
 	var dataId = idAddress;
 
@@ -797,6 +882,7 @@ function onShowAddress()
 			dataGeoSet.splice( i, 1);
 
 			updateMapSelectData();
+			saveURLQueries();
 			return;
 		}
 	}
@@ -815,6 +901,7 @@ function onShowAddress()
 	layerGroup.addTo(map);
 
 	updateMapSelectData();
+	saveURLQueries();
 
 	var dataUrl = 'data/HKO_Lichtenberg_Geographisch_140416.txt';
 	$.get( dataUrl, function( data) {
@@ -835,13 +922,12 @@ function onShowAddress()
 						ort: arr[15],
 						lat: arr[12].replace( ',', '.'),
 						lng: arr[11].replace( ',', '.'),
+
 					};
 
 					if( obj.hoodKey == '1103') {
 						var shape = L.circle([ obj.lat, obj.lng], 4, {
-							style: function (feature) {
-								return fillStyle;
-							},
+							style: fillStyle,
 							data: obj
 						});
 						layerGroup.addLayer( shape);
@@ -849,11 +935,44 @@ function onShowAddress()
 				}
 			});
 
-			if( layerGroup.getLayers().length > 0) {
-				map.fitBounds( layerGroup.getBounds());
+//			if( layerGroup.getLayers().length > 0) {
+//				map.fitBounds( layerGroup.getBounds());
+//			}
+
+			var imageUrl = 'scripts/imgexists.php?id=';
+			var layerId = 0;
+			var layers = layerGroup.getLayers();
+			var countRed = 0;
+			var countGreen = 0;
+
+			function checkImg()
+			{
+				$.get( imageUrl + layers[ layerId].options.data.objId, function( data) {
+					try {
+						layers[ layerId].setStyle( '1' == data ? greenStyle : redStyle);
+
+						if( '1' == data) {
+							++countGreen;
+						} else {
+							++countRed;
+						}
+					} catch( e) {
+//						alert( e);
+					}
+					++layerId;
+					if( layerId < layerGroup.getLayers().length) {
+						checkImg();
+
+					} else {
+						console.log( 'Good images: '+countGreen);
+
+						console.log( 'Missing images: '+countRed);
+					}
+				});
 			}
+			checkImg();
 		} catch( e) {
-//			alert( e);
+			console.log( e);
 		}
 	});
 }
@@ -869,6 +988,7 @@ function onRemoveData( dataId)
 
 	setAge( -1);
 	updateMapSelectData();
+	saveURLQueries();
 }
 
 // -----------------------------------------------------------------------------
