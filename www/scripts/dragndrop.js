@@ -312,7 +312,7 @@ function dndReadFileCSV( rows, separator)
 
 function dndReadFileObjectFunc()
 {
-	try {
+//	try {
 		while(( typeof dndReadFileObject[dndReadFileIndex] != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].lat != 'undefined') && (typeof dndReadFileObject[dndReadFileIndex].lng != 'undefined')) {
 			marker = L.marker([parseFloat( dndReadFileObject[dndReadFileIndex].lat), parseFloat( dndReadFileObject[dndReadFileIndex].lng)], { text: dndReadFileIndex + 1 });
 			dndReadFileGeocodeSet.addLayer( marker);
@@ -327,8 +327,8 @@ function dndReadFileObjectFunc()
 //		}
 
 		if( typeof dndReadFileObject[dndReadFileIndex] == 'undefined') {
-			if( dndReadFileGeocodeSet.objects.getLength() > 0) {
-				map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
+			if( dndReadFileGeocodeSet.getLayers().length > 0) {
+				map.fitBounds( dndReadFileGeocodeSet.getBounds());
 			}
 
 			if( dndReadFileChanged) {
@@ -413,9 +413,10 @@ function dndReadFileObjectFunc()
 					dndReadFileChanged = true;
 					dndReadFileObject[dndReadFileIndex].lat = result.lat;
 					dndReadFileObject[dndReadFileIndex].lng = result.lng;
+					dndReadFileObject[dndReadFileIndex].houseid = result.houseid;
 					marker = L.marker([parseFloat( result.lat), parseFloat( result.lng)], { text: dndReadFileIndex + 1 });
 					dndReadFileGeocodeSet.addLayer( marker);
-					map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
+					map.fitBounds( dndReadFileGeocodeSet.getBounds());
 				}
 
 				++dndReadFileIndex;
@@ -429,9 +430,9 @@ function dndReadFileObjectFunc()
 //			})
 			;
 		}
-	} catch( e) {
-		alert( e);
-	}
+//	} catch( e) {
+//		console.log( e);
+//	}
 }
 
 // -----------------------------------------------------------------------------
@@ -470,8 +471,8 @@ function dndReadFileCSVStadtbaum()
 
 	dndReadFileObject = tmpReadFileObject;
 
-	if( dndReadFileGeocodeSet.objects.getLength() > 0) {
-		map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
+	if( dndReadFileGeocodeSet.getLayers().length > 0) {
+		map.fitBounds( dndReadFileGeocodeSet.getBounds());
 	}
 
 //	$( '#popupDrop').popup( 'close');
@@ -678,8 +679,8 @@ function dndReadURLFISBrokerObject( data)
 		});
 	});
 
-	if( dndReadFileGeocodeSet.objects.getLength() > 0) {
-		map.zoomTo( dndReadFileGeocodeSet.getBoundingBox(), false);
+	if( dndReadFileGeocodeSet.getLayers().length > 0) {
+		map.fitBounds( dndReadFileGeocodeSet.getBounds());
 	}
 
 //	$( '#popupDrop').popup( 'close');
