@@ -211,3 +211,8 @@ License|nutzIII.pdf "Geoportal Berlin / Friedhofsbestand Berlin"
 Url    |http://daten.berlin.de/datensaetze/rbs-lor-lebensweltlich-orientierte-r%C3%A4ume-dezember-2014
 License|CC BY 3.0 DE
 
+ |Berliner Schulen
+-------|-------
+Url    |https://github.com/ini20/berliner-schulen/blob/master/data/Schuldaten2015-02.csv
+License|tbd.
+

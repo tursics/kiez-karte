@@ -7,6 +7,19 @@
 var dataVec = new Array();
 
 dataVec.push({
+	title:'Schulendaten',
+	url:'schuldaten.show.json',
+	license:'???',
+	contribute:'http://berlinerschulen.ini20.de',
+	icon:'fa-building-o',
+	age0:'',
+	age6:'Schulen',
+	age18:'',
+	age30:'',
+	age65:''
+});
+
+dataVec.push({
 	title:'Angebote der schulbezogenen Jugendarbeit und Jugendsozialarbeit',
 	url:'freizeit-sport-ja-jsa.show.json',
 	license:'CC BY 3.0 DE',

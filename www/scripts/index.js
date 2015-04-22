@@ -282,6 +282,9 @@ function updateMapSelectItem( data)
 	} else if( typeof data.baumartdt !== 'undefined') {
 		// stadtbaum-baumstandort-20140508.show.json
 		strH2 = trimQuotes( data.baumartdt);
+	} else if( typeof data.Schulname !== 'undefined') {
+		// schuldaten.show.json
+		strH2 = trimQuotes( data.Schulname);
 	}
 
 	if( typeof data.strasse !== 'undefined') {
@@ -294,6 +297,8 @@ function updateMapSelectItem( data)
 	}
 	if( typeof data.STRASSE !== 'undefined') {
 		strAddr += data.STRASSE + '<br>';
+	} else if( typeof data.Strasse !== 'undefined') {
+		strAddr += data.Strasse + '<br>';
 	}
 	if(( typeof data.einrichtung_strasse !== 'undefined') && (typeof data.einrichtung_hnr !== 'undefined')) {
 		strAddr += data.einrichtung_strasse + ' ' + data.einrichtung_hnr + '<br>';
@@ -305,6 +310,8 @@ function updateMapSelectItem( data)
 		strAddr += data.plz_ort + '<br>';
 	} else if( typeof data.plz !== 'undefined') {
 		strAddr += trimQuotes( data.plz) + ' Berlin<br>';
+	} else if( typeof data.PLZ !== 'undefined') {
+		strAddr += data.PLZ + ' Berlin<br>';
 	}
 	if(( typeof data.einrichtung_plz !== 'undefined') && (typeof data.einrichtung_ort !== 'undefined')) {
 		strAddr += data.einrichtung_plz + ' ' + data.einrichtung_ort + '<br>';
@@ -312,12 +319,16 @@ function updateMapSelectItem( data)
 
 	if(( typeof data.telefon !== 'undefined') && (data.telefon != '')) {
 		arrayPhone.push( data.telefon);
+	} else if(( typeof data.Telefon !== 'undefined') && (data.Telefon != '')) {
+		arrayPhone.push( data.Telefon);
 	}
 	if(( typeof data.einrichtung_telefon !== 'undefined') && (data.einrichtung_telefon != '')) {
 		arrayPhone.push( data.einrichtung_telefon);
 	}
 	if(( typeof data.einrichtung_fax !== 'undefined') && (data.einrichtung_fax != '')) {
 		arrayPhone.push( 'Fax: ' + data.einrichtung_fax);
+	} else if(( typeof data.Fax !== 'undefined') && (data.Fax != '')) {
+		arrayPhone.push( 'Fax: ' + data.Fax);
 	}
 
 	if( typeof data.webadressen !== 'undefined') {
@@ -328,6 +339,8 @@ function updateMapSelectItem( data)
 	}
 	if( typeof data.email !== 'undefined') {
 		arrayNet.push( data.email);
+	} else if( typeof data.eMail !== 'undefined') {
+		arrayNet.push( data.eMail);
 	}
 	if( typeof data.einrichtung_email !== 'undefined') {
 		arrayNet.push( data.einrichtung_email);
@@ -340,6 +353,8 @@ function updateMapSelectItem( data)
 	}
 	if( typeof data.internet !== 'undefined') {
 		arrayNet.push( data.internet);
+	} else if( typeof data.Internet !== 'undefined') {
+		arrayNet.push( data.Internet);
 	}
 	if( typeof data.www !== 'undefined') {
 		arrayNet.push( data.www);
@@ -559,6 +574,34 @@ function updateMapSelectItem( data)
 	if(( typeof data.EHRENGRAB !== 'undefined') && (data.EHRENGRAB != '')){
 		// re-friedh.show.json
 		strInfo += 'Ehrengrabstätten: ' + data.EHRENGRAB + '<br>';
+	}
+	if(( typeof data.Schulart !== 'undefined') && (data.Schulart != '')){
+		// schuldaten.show.json
+		if(( typeof data.Schulzweig !== 'undefined') && (data.Schulzweig != data.Schulart)){
+			strInfo += data.Schulart + ' (' + data.Schulzweig + ')<br>';
+		} else {
+			strInfo += data.Schulart + '<br>';
+		}
+	}
+	if(( typeof data.Schulleitung !== 'undefined') && (data.Schulleitung != '')){
+		// schuldaten.show.json
+		strInfo += 'Schulleitung: ' + data.Schulleitung + '<br>';
+	}
+	if(( typeof data.BemerkungenSchulzweig !== 'undefined') && (data.BemerkungenSchulzweig != '')){
+		// schuldaten.show.json
+		strInfo += data.BemerkungenSchulzweig + '<br>';
+	}
+	if(( typeof data.spez_Angebote !== 'undefined') && (data.spez_Angebote != '')){
+		// schuldaten.show.json
+		strInfo += data.spez_Angebote + '<br>';
+	}
+	if(( typeof data.Schultraeger !== 'undefined') && (data.Schultraeger != '')){
+		// schuldaten.show.json
+		strInfo += data.Schultraeger + 'er Träger<br>';
+	}
+	if(( typeof data.Bauten !== 'undefined') && (data.Bauten != '')){
+		// schuldaten.show.json
+		strInfo += data.Bauten + '<br>';
 	}
 	if(( typeof data.houseid !== 'undefined') && (data.houseid != '')){
 		var path = 'http://img.kiez-karte.berlin/';

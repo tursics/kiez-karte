@@ -182,9 +182,11 @@ function dndReadTextFile( f)
 			} else {
 				var rows = e.target.result.split( "\n");
 				if( rows.length > 2) {
-//					var col = rows[0].split( ';');
-					var col = rows[0].split( ',');
-					if( col.length > 2) {
+					var col1 = rows[0].split( ';');
+					var col2 = rows[0].split( ',');
+					if( col1.length > 2) {
+						dndReadFileCSV( rows, ';');
+					} else if( col2.length > 2) {
 						dndReadFileCSV( rows, ',');
 					} else if( 0 <= rows[0].search( '<?xml version="1.0" encoding="UTF-8"')) {
 						dndReadFileXML( e.target.result);
@@ -345,12 +347,16 @@ function dndReadFileObjectFunc()
 				street = dndReadFileObject[dndReadFileIndex].anschrift;
 			} else if( typeof dndReadFileObject[dndReadFileIndex].strasse != 'undefined') {
 				street = dndReadFileObject[dndReadFileIndex].strasse;
+			} else if( typeof dndReadFileObject[dndReadFileIndex].Strasse != 'undefined') {
+				street = dndReadFileObject[dndReadFileIndex].Strasse;
 			} else if(( typeof dndReadFileObject[dndReadFileIndex].einrichtung_strasse != 'undefined') && ( typeof dndReadFileObject[dndReadFileIndex].einrichtung_hnr != 'undefined')) {
 				street = dndReadFileObject[dndReadFileIndex].einrichtung_strasse + ' ' + dndReadFileObject[dndReadFileIndex].einrichtung_hnr;
 			}
 
 			if( typeof dndReadFileObject[dndReadFileIndex].plz != 'undefined') {
 				zip = dndReadFileObject[dndReadFileIndex].plz;
+			} else if( typeof dndReadFileObject[dndReadFileIndex].PLZ != 'undefined') {
+				zip = dndReadFileObject[dndReadFileIndex].PLZ;
 			} else if( typeof dndReadFileObject[dndReadFileIndex].einrichtung_plz != 'undefined') {
 				zip = dndReadFileObject[dndReadFileIndex].einrichtung_plz;
 			}
