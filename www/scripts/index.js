@@ -285,6 +285,9 @@ function updateMapSelectItem( data)
 	} else if( typeof data.Schulname !== 'undefined') {
 		// schuldaten.show.json
 		strH2 = trimQuotes( data.Schulname);
+	} else if( typeof data.title !== 'undefined') {
+		// buergerhaushalt
+		strH2 = trimQuotes( data.title);
 	}
 
 	if( typeof data.strasse !== 'undefined') {
@@ -603,6 +606,49 @@ function updateMapSelectItem( data)
 		// schuldaten.show.json
 		strInfo += data.Bauten + '<br>';
 	}
+	if(( typeof data.post_date !== 'undefined') && (data.post_date != '')){
+		// buergerhaushalt
+		var date = new Date(data.post_date * 1000);
+		strInfo += '<i class="fa fa-clock-o"></i> Gewünscht am ' + date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + '<br>';
+	}
+	if(( typeof data.body !== 'undefined') && (data.body != '')){
+		// buergerhaushalt
+		strInfo += '<div style="max-height:10em;overflow-y:scroll;padding-top:.5em;">' + data.body + '</div><hr>';
+	}
+	if(( typeof data.updated_date !== 'undefined') && (data.updated_date != '')){
+		// buergerhaushalt
+		var date = new Date(data.updated_date * 1000);
+		strInfo += '<i class="fa fa-clock-o"></i> Aktualisiert am ' + date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + '<br>';
+	}
+//	if(( typeof data.statuses !== 'undefined') && (data.statuses != '')){
+//		// buergerhaushalt
+//		strInfo += '<i class="fa fa-gift"></i> ' + data.statuses + '<br>';
+//	}
+	if(( typeof data.implementation_status !== 'undefined') && (data.implementation_status != '')){
+		// buergerhaushalt
+		strInfo += '<i class="fa fa-gift"></i> ' + data.implementation_status + '<br>';
+	}
+	if(( typeof data.implementation_report !== 'undefined') && (data.implementation_report != '')){
+		// buergerhaushalt
+		strInfo += '<div style="max-height:10em;overflow-y:scroll;padding-top:.5em;">' + data.implementation_report + '</div>';
+	}
+
+	if(( typeof data.spiel_art !== 'undefined') && (data.spiel_art != '')){
+		// hack spielplatz
+		strInfo += '<div class="wishList">';
+		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Rutschen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Rutsche</div></a>';
+		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Schaukeln\');" border=0><div class="wish"><i class="fa fa-gift"></i> Schaukel</div></a>';
+		strInfo += '<a href="#" onClick="onShowWish(\'Sandkasten\');" border=0><div class="wish"><i class="fa fa-gift"></i> Sand</div></a>';
+		strInfo += '</div>';
+	}
+	if(( typeof data.Schulart !== 'undefined') && (data.Schulart != '')){
+		// hack schule
+		strInfo += '<div class="wishList">';
+		strInfo += '<a href="#" onClick="onShowWish(\'Zebrastreifen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Zebrastreifen</div></a>';
+		strInfo += '<a href="#" onClick="onShowWish(\'Fahrradweg\');" border=0><div class="wish"><i class="fa fa-gift"></i> Fahrradweg</div></a>';
+		strInfo += '</div>';
+	}
+
 	if(( typeof data.houseid !== 'undefined') && (data.houseid != '')){
 		var path = 'http://img.kiez-karte.berlin/';
 		for( var i = 0; i < data.houseid.length; i += 2) {
@@ -803,12 +849,20 @@ function onShowData( dataId, ageId)
 		saveURLQueries();
 
 		var dataUrl = dataVec[ dataId].url;
-		if( 0 != dataUrl.indexOf( 'http://')) {
+		if(( 0 != dataUrl.indexOf( 'http://')) && (0 != dataUrl.indexOf( 'https://'))) {
 			dataUrl = 'data/' + dataUrl;
 		}
 		$.getJSON( dataUrl, function( data) {
 			try {
+				if( typeof data.proposals != 'undefined') {
+					data = data.proposals;
+				}
 				$.each( data, function( key, val) {
+					if( typeof val.proposal != 'undefined') {
+						val = val.proposal;
+						val.lat = val['Breitengrad'];
+						val.lng = val['Längengrad'];
+					}
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
 //							brush: colorOut,
@@ -819,7 +873,7 @@ function onShowData( dataId, ageId)
 				});
 
 				if( layerGroup.getLayers().length > 0) {
-					map.fitBounds( layerGroup.getBounds());
+//					map.fitBounds( layerGroup.getBounds());
 				}
 			} catch( e) {
 //				alert( e);
@@ -1018,6 +1072,21 @@ function onShowAddress()
 			console.log( e);
 		}
 	});
+}
+
+// -----------------------------------------------------------------------------
+
+function onShowWish( str)
+{
+	$( '#wishTitle').html( str);
+	$( '#wishTitle').html( str);
+	$( '#wishYes').on( 'click', function( e) {
+//		$( '#popupWish').popup( 'close');
+	});
+	$( '#wishNo').on( 'click', function( e) {
+//		$( '#popupWish').popup( 'close');
+	});
+	$( '#popupWish').popup( 'open');
 }
 
 // -----------------------------------------------------------------------------

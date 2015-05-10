@@ -350,3 +350,22 @@ li.work:before {
 	background-color:mediumseagreen;
 	color:white;
 }
+
+.wishList {
+	margin:1em 0 .5em 0;
+	text-align:center;
+}
+
+.wishList .wish {
+	border:1px #588681 solid;
+	-webkit-border-radius:1em;
+	-moz-border-radius:1em;
+	border-radius:1em;
+	display:inline;
+	padding:.3em;
+	margin:0 .3em 0 .3em;
+}
+
+.wishList a{
+	text-decoration:none;
+}

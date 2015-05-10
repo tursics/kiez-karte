@@ -302,7 +302,12 @@ dataVec.push({
 	age6:'Spielplätze',
 	age18:'',
 	age30:'',
-	age65:''
+	age65:'',
+	wishes:[
+		'Rutsche',
+		'Schaukel',
+		'Sand zum buddeln'
+	]
 });
 
 dataVec.push({
@@ -367,6 +372,20 @@ dataVec.push({
 	age6:'',
 	age18:'',
 	age30:'Behörden',
+	age65:''
+});
+
+dataVec.push({
+	title:'Proposals',
+	url:'http://kiez-karte.berlin/scripts/buergerhaushalt.php',
+//	url:'https://www.buergerhaushalt-lichtenberg.de/opendata/proposal/all',
+	license:'???',
+	contribute:'Bezirksamt Lichtenberg von Berlin, www.buergerhaushalt-lichtenberg.de',
+	icon:'fa-gift',
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'Wünsche',
 	age65:''
 });
 
