@@ -16,7 +16,10 @@ ErrorDocument 500 /error.html
 
 ########
 RewriteEngine on
+RewriteRule ^about/$                              /about.html                   [L]
 RewriteRule ^copyright/$                          /copyright.html               [L]
+RewriteRule ^hackyourcity$                        /about-hyc.html               [L]
+RewriteRule ^hackyourcity/$                       /about-hyc.html               [L]
 RewriteRule ^imprint/$                            /imprint.html                 [L]
 RewriteRule ^roadmap/$                            /roadmap.html                 [L]
 
