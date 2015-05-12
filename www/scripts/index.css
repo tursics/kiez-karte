@@ -132,6 +132,17 @@ body {
 	color:/*cWhite*/#FFF;
 	padding:.2em 0 .2em 0;
 }
+#banner div a {
+	color:/*cWhite*/#FFF;
+	font-weight:300;
+}
+#banner img{
+	height:4.2em;
+	left:6.2em;
+	position:absolute;
+	-webkit-transform:rotate(-33deg);-moz-transform:rotate(-33deg);-ms-transform:rotate(-33deg);-o-transform:rotate(-33deg);transform:rotate(-33deg);
+	top:1.5em;
+}
 
 #mapInfo {
 	position:absolute;

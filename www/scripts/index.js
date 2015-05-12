@@ -2,7 +2,6 @@
 */
 
 var map = null;
-var showWelcome = false;
 
 var dataAge = -1;
 var dataGeoSet = new Array();
@@ -16,7 +15,7 @@ function initMap( elementName, lat, lng, zoom)
 	if( null == map) {
 		var mapboxToken = 'pk.eyJ1IjoidHVyc2ljcyIsImEiOiI1UWlEY3RNIn0.U9sg8F_23xWXLn4QdfZeqg';
 		var mapboxTiles = L.tileLayer( 'https://{s}.tiles.mapbox.com/v4/tursics.l7ad5ee8/{z}/{x}/{y}.png?access_token=' + mapboxToken, {
-			attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a> | <a href="/imprint">Impressum</a> | <a href="/copyright">Copyright</a> | <a href="/imprint">Kontakt</a>'
+			attribution: '<a href="/about" style="margin:0 3em;">Information</a> | <a href="/copyright">Copyright</a> | <a href="/imprint">Kontakt</a>'
 		});
 
 		map = L.map( elementName, {zoomControl: false})
@@ -69,8 +68,6 @@ $( document).on( "pagecreate", "#pageMap", function()
 	initDragnDrop();
 
 	updateMapSelectData();
-
-//	showWelcome = true;
 });
 
 // -----------------------------------------------------------------------------
@@ -133,14 +130,6 @@ $( document).on( "pageshow", "#pageMap", function()
 {
 	// center the city hall
 	initMap( 'mapContainer', 52.515807, 13.479470, 16);
-
-	if( showWelcome) {
-		showWelcome = false;
-		$( '#welcomeClose').on( 'click', function( e) {
-			$( '#popupWelcome').popup( 'close');
-		});
-		$( '#popupWelcome').popup( 'open');
-	}
 
 //	map.on( 'load', function() {
 		handleURLQueries();
@@ -856,6 +845,7 @@ function onShowData( dataId, ageId)
 			try {
 				if( typeof data.proposals != 'undefined') {
 					data = data.proposals;
+
 				}
 				$.each( data, function( key, val) {
 					if( typeof val.proposal != 'undefined') {

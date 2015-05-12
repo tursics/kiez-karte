@@ -62,25 +62,13 @@
 				<a href="#" id="displayAdult"    class="ui-btn"><i class="fa fa-male      "></i></a>
 				<a href="#" id="displaySenior"   class="ui-btn"><i class="fa fa-wheelchair"></i></a>
 				<a href="#" id="displayAddress"  class="ui-btn"><i class="fa fa-home      "></i></a>
+				<a href="#popupShare" data-rel="popup" class="ui-btn" style="background:#F2DBAE;"><i class="fa fa-share-alt"></i></a>
 			</div>
 			<div id="mapSelectInfo"></div>
 			<div id="mapSelectData"></div>
 			<div id="mapSelectItem"></div>
 		</div>
-		<div id="banner">Diese<br>Webseite ist<br>aktuell im Aufbau!<div>Zur Zeit nur Lichtenberg</div></div>
-		<div id="mapInfo" data-role="controlgroup" data-type="horizontal">
-			<a href="/roadmap"                       class="ui-btn"><i class="fa fa-bullhorn"></i></a>
-			<a href="#popupShare"   data-rel="popup" class="ui-btn"><i class="fa fa-share-alt"></i></a>
-			<a href="#popupWelcome" data-rel="popup" class="ui-btn"><i class="fa fa-info"></i></a>
-		</div>
-		<div data-role="popup" id="popupWelcome" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="pop">
-			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
-			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
-			<div style="font-size:1.1em;padding:0 1.5em 1.5em 1.5em;">
-			Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez.<br><br>
-			Es ist dein Berlin-Lichtenberg</div>
-			<div style="text-align:right;padding:0 0.5em 0.5em 0;"><a href="#" id="welcomeClose" id="welcomeClose" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Zurück zur Karte</a></div>
-		</div>
+		<div id="banner">&nbsp;<br>&nbsp;<br>&nbsp;<div>Gewonnen - <a href="/hackyourcity">lesen</a></div><img src="/images/hyc15_cup.png" alt="Ausgezeichnet"></div>
 		<div data-role="popup" id="popupShare" style="border:none !important;color:#555;width:450px;" data-theme="a" data-overlay-theme="a" data-position-to="window" data-transition="pop">
 			<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
 			<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
@@ -88,12 +76,13 @@
 				Erzähle deinen Freunden von der Kiez-Karte.<br>
 				<br>
 
-				<div style="display:inline;float:left;">
-					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://kiez-karte.berlin" data-text="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez auf" data-via="kiezkarte" data-lang="de">Twittern</a>
-					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-				</div>
-				<div style="display:inline;float:left;">
+				<div style="text-align:center;">
+					<div style="display:inline;float:left;margin:0 1em 0 0;">
+						<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://kiez-karte.berlin" data-text="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez auf" data-via="kiezkarte" data-lang="de" data-count="vertical">Twittern</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+					</div>
 
+					<div style="display:inline;float:left;margin:0 1em 0 0;">
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -102,10 +91,23 @@
   js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&appId=625938384187754&version=v2.0";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+						<div class="fb-like" data-href="http://kiez-karte.berlin/" data-layout="box_count" data-action="like" data-show-faces="true" data-share="true"></div>
+					</div>
 
-					<div class="fb-like" data-href="http://kiez-karte.berlin/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-				</div>
-				<div style="clear:both;">
+					<div style="display:inline;float:left;margin:0 1em 0 0;">
+<script src="https://apis.google.com/js/platform.js" async defer>
+  {lang: 'de'}
+</script>
+						<div class="g-plusone" data-size="tall"></div>
+					</div>
+
+					<div style="display:inline;float:left;margin:0 1em 0 0;padding:41px 0 0 0;">
+<a href="//www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark"  data-pin-color="red"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_red_20.png" /></a>
+<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+					</div>
+
+					<div style="clear:both;">
+					</div>
 				</div>
 
 			</div>
@@ -115,6 +117,7 @@
 			<div style="font-size:4em;padding:0.15em 0 0 0;text-align:center;"><i class="fa fa-gift"></i></div>
 			<div style="font-size:1.1em;padding:0.75em 1.5em 0 1.5em;text-align:center;">Ich wünschte, es gäbe hier einen</div>
 			<div style="font-size:2em;padding:0.75em;text-align:center;" id="wishTitle"></div>
+			<div style="font-size:1em;margin-bottom:0.75em;text-align:center;color:red;background:BurlyWood;">Achtung: Funktioniert noch nicht!</div>
 			<div style="text-align:right;padding:0 0.5em 0.5em 0;text-align:center;"><a href="#" id="wishYes" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Wünschen</a>
 			<a href="#" id="wishNo" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Doch nicht</a></div>
 		</div>
