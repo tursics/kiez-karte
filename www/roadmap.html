@@ -35,6 +35,7 @@
 	<style>
 		html { overflow:auto !important; }
 		body { overflow:auto !important; }
+		a:link, a:visited {color:black;}
 	</style>
 </head>
 <body>
@@ -42,11 +43,6 @@
 		<img src="images/window_ba_450.jpg" alt="" style="width:450px;height:250px;">
 		<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
 		<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;width:450px;">
-			<div style="text-align:center;">
-				Dieses Projekt entsteht im Zuge von<br>
-				<a href="http://codefor.de/berlin/" target="_blank"><img src="images/cfg_berlin.svg" alt="Code for Germany" style="height:3em;"></a>
-			</div>
-			<br>
 			Das ist der aktuelle Entwicklungsstand:
 		</div>
 		<div data-role="collapsibleset" data-theme="a" data-content-theme="a">
@@ -54,7 +50,9 @@
 				<h3>In Arbeit</h3>
 				<ul data-role="listview" data-inset="false">
 					<li class="work">Einzelobjekte auswählen und Infos anzeigen</li>
-					<li class="work">Nachfragen nach Kindergärten und Schulen</li>
+					<li class="work">Fotos zu den Einzelobjekten anzeigen</li>
+					<li class="work">3D-Modell der Einzelobjekte anzeigen</li>
+					<li class="work">Nachfragen nach Kindergärten</li>
 					<li class="work">Maerker einbinden</li>
 					<li class="work">Bürgerhaushalt einbinden</li>
 				</ul>
@@ -70,6 +68,9 @@
 					<li class="done">Altersfilter (Baby, Kind, Familienplanung, Rentner)</li>
 					<li class="done">Berliner Stadtbaumkampagne einbinden</li>
 					<li class="done">Spielplätze vom FIS-Broker Berlin</li>
+					<li class="done">Drag'n'Drop von CSV-Dateien</li>
+					<li class="done">LOR-Gebiete von statistik-berlin-brandenburg.de</li>
+					<li class="done">Nachfragen nach Schulen</li>
 				</ul>
 			</div>
 			<div data-role="collapsible">
@@ -84,7 +85,6 @@
 					<li class="todo">Daten immer aktuell halten</li>
 					<li class="todo">Event-Kalender</li>
 					<li class="todo">Einloggen mit Hilfe des Open Graph Protokolls</li>
-					<li class="todo">LOR-Gebiete von statistik-berlin-brandenburg.de</li>
 					<li class="todo">LOR-Gebiet abbonieren</li>
 					<li class="todo">Event-Updates per Mail verschicken</li>
 				</ul>
@@ -94,7 +94,6 @@
 				<ul data-role="listview" data-inset="false">
 					<li class="none">Als App verpacken</li>
 					<li class="none">Historische Landkarten einblenden</li>
-					<li class="none">Drag'n'Drop von CSV- und SHP-Dateien</li>
 					<li class="none">Gesundheitsdaten von daten.berlin.de</li>
 					<li class="none">Energiedaten von daten.berlin.de</li>
 					<li class="none">Straßenlaternen von Vatenfall "borgen"</li>
@@ -105,7 +104,10 @@
 			</div>
 		</div>
 		<div style="padding:0 1.5em 0.5em 1.5em;">
-			<a href="/" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Zurück zur Karte</a>
+			<a href="/"          class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Zurück zur Karte</a>
+			<a href="/about"     class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a">Information</a>
+			<a href="/imprint"   class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a">Impressum</a>
+			<a href="/copyright" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-a">Copyright</a>
 		</div>
 	</div>
 </body>
