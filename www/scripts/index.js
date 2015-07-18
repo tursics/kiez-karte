@@ -1,6 +1,3 @@
-/*
-*/
-
 var map = null;
 
 var dataAge = -1;
@@ -847,6 +844,11 @@ function onShowData( dataId, ageId)
 					data = data.proposals;
 
 				}
+				var iconMarker = L.AwesomeMarkers.icon({
+					icon: dataVec[ dataId].icon,
+					prefix: 'fa',
+					markerColor: 'cadetblue'
+				});
 				$.each( data, function( key, val) {
 					if( typeof val.proposal != 'undefined') {
 						val = val.proposal;
@@ -856,7 +858,8 @@ function onShowData( dataId, ageId)
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
 //							brush: colorOut,
-							data: val
+							data: val,
+							icon: iconMarker
 						});
 						layerGroup.addLayer( marker);
 					}
