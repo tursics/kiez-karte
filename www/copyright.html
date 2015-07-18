@@ -31,34 +31,70 @@
 	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
 	<link rel="stylesheet" href="scripts/index.css" />
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css">
+
+	<style>
+		html { overflow:auto !important; }
+		body { overflow:auto !important; }
+		h3 { padding: 0; margin: 0; }
+		a:link, a:visited { color:black; }
+		th { -webkit-transform: rotate(300deg); -moz-transform: rotate(300deg); -ms-transform: rotate(300deg); -o-transform: rotate(300deg); transform: rotate(300deg); height: 8em; width: 4em; min-width: 4em; max-width: 4em; text-align: left; font-weight: 300; }
+		td.yes { background: #8C9C88; color: #FFF; text-align: center; }
+		td.yes:before { content: "ja"; }
+		td.no { background: #F2DBAE; text-align: center; }
+		td.no:before { content: "nein"; }
+		td.may { background: #C0BB99; text-align: center; }
+		td.may:before { content: "teilw."; }
+	</style>
 </head>
 <body>
 	<div data-role="page">
 		<img src="images/window_ba_450.jpg" style="width:450px;height:250px;">
 		<div style="font-size:2em;padding:0.75em;">Kiez-Karte<span style="color:#aaa;">.berlin</span></div>
-		<div style="font-size:1.1em;padding:0 1.5em 0.5em 1.5em;">
-			Diese Seite unterliegt einer offenen Lizenz<br>
-			<br>
-			Einen großen Dank für die angezeigte Hintergrundkarte geht an:<br>
-			<ul style="font-size:0.75em;">
-				<li><a href="http://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap-Mitwirkende</a></li>
-				<li><a href="http://mapbox.com/tos/" target="_blank">Mapbox Streets</a></li>
-			</ul>
-	
-		
-			Folgende Quellenvermerke sollte ich noch angeben:<br>
-			<ul style="font-size:0.75em;">
-				<li>Geoportal Berlin / Hauskoordinaten Berlin (bearbeitet)</li>
-				<li>Geoportal Berlin / Spielplatzbestand Berlin (bearbeitet)</li>
-				<li>Datenquelle: Amt für Statistik Berlin-Brandenburg, Abgestimmter Datenpool</li>
-				<li>Projektverbunds Initivative 2.0 / <a href="https://github.com/ini20/berliner-schulen" target="_blank">Berliner Schulen</a></li>
-			</ul>
-			<br>
-			Creative Commons Lizenz, Namensnennung 3.0 Deutschland <a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">(CC BY 3.0 DE)</a>:<br>
-			<ul style="font-size:0.75em;">
-				<li>Amt für Statistik Berlin-Brandenburg 2015</li>
-				<li>Bürgerhaushalt: <a href="http://www.buergerhaushalt-lichtenberg.de" target="_blank">Bezirksamt Lichtenberg von Berlin</a></li>
-			</ul>
+		<div style="font-size:1em;padding:0 1.5em 0.5em 1.5em;">
+			<p>
+				Diese Seite unterliegt einer offenen Lizenz. Für die verwendeten Daten gelten andere Bedingungen, und zwar folgende:
+			</p>
+			<h3>Kartenmaterial</h3>
+			<p>
+				Einen großen Dank für die angezeigte Hintergrundkarte geht an <a href="http://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap-Mitwirkende</a> und <a href="http://mapbox.com/tos/" target="_blank">Mapbox Streets</a>.
+			</p>
+			<p>
+				Zur Geocodierung von Straßennamen zu Punkten auf der Karte werden die <a href="http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=a_hauskoordinaten@senstadt&type=FEED" target="_blank">Geoportal Berlin / Hauskoordinaten Berlin (bearbeitet)</a> benutzt.
+				Die angezeigten Flächen der einzelnen Kieze (<a href="http://daten.berlin.de/datensaetze/rbs-adressen-dezember-2014" target="_blank">Lebensweltlich orientierte Räume</a>) stammen vom Amt für Statistik Berlin-Brandenburg 2015 unter der Lizenz <a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">CC BY 3.0 DE</a>.
+			</p>
+			<p>
+				Für das <a href="http://www.businesslocationcenter.de/berlin3d-downloadportal/" target="_blank">3D-Stadtmodell Berlin</a> wurden rund 500.000 Gebäude auf 890 km² Stadtgebiet aus der Luft fotografiert und die Dächer mit Laser vermessen. Die Lizenzgeberin ist die Berlin Partner für Wirtschaft und Technologie GmbH.
+			</p>
+			<h3>Objektdaten</h3>
+			<p>
+				Die Projektverbunds Initivative 2.0 hat eine Datenbank mit allen <a href="https://github.com/ini20/berliner-schulen" target="_blank">Berliner Schulen</a> zusammen getragen.
+			</p>
+			<p>
+				Unter der Berliner Lizenz <a href="http://www.stadtentwicklung.berlin.de/geoinformation/download/nutzIII.pdf" target="_blank">nutzIII</a> werden Daten zum <a href="http://fbinter.stadt-berlin.de/fb/berlin/service.jsp?id=re_spielplatz@senstadt&type=WFS&themeType=spatial" target="_blank">Geoportal Berlin / Spielplatzbestand Berlin (bearbeitet)</a> angezeigt.
+			</p>
+			<p>
+				Weitere Daten werden vom "Datenquelle: Amt für Statistik Berlin-Brandenburg, Abgestimmter Datenpool" angezeigt.
+			</p>
+			<h3>Bürgerbeteiligung</h3>
+			<p>
+				Der Bürgerhaushalt Lichtenberg wird vom <a href="http://www.buergerhaushalt-lichtenberg.de" target="_blank">Bezirksamt Lichtenberg von Berlin</a> unter der Lizenz <a href="https://creativecommons.org/licenses/by/3.0/de/" target="_blank">CC BY 3.0 DE</a> betrieben.
+			</p>
+
+			<h3>Übersicht</h3>
+			<p>
+				Nicht jeder Datensatz ist für ganz Berlin erhältlich. Hier eine Übersicht nach Bezirken unterteilt.
+				<table>
+				<tr><th></th><th>Mitte</th><th>Friedrichshain-Kreuzberg</th><th>Pankow</th><th>Charlottenburg-Wilmersdorf</th><th>Spandau</th><th>Steglitz-Zehlendorf</th><th>Tempelhof-Schöneberg</th><th>Neukölln</th><th>Treptow-Köpenick</th><th>Marzahn-Hellersdorf</th><th>Lichtenberg</th><th>Reinickendorf</th></tr>
+				<tr><td>Hauskoordinaten                 </td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td></tr>
+				<tr><td>Lebensweltlich orientierte Räume</td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td></tr>
+				<tr><td>3D-Stadtmodell                  </td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td></tr>
+				<tr><td>Schulen                         </td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td></tr>
+				<tr><td>Spielplatzbestand               </td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td><td class="yes"></td></tr>
+				<tr><td>Bürgerhaushalt                  </td><td class="no "></td><td class="no "></td><td class="no "></td><td class="may"></td><td class="may"></td><td class="no "></td><td class="may"></td><td class="no "></td><td class="may"></td><td class="may"></td><td class="yes"></td><td class="no "></td></tr>
+				<tr><td>Mängelmelder                    </td><td class="no "></td><td class="no "></td><td class="no "></td><td class="may"></td><td class="no "></td><td class="may"></td><td class="yes"></td><td class="may"></td><td class="no "></td><td class="yes"></td><td class="yes"></td><td class="yes"></td></tr>
+				</table>
+			</p>
+
 		</div>
 		<div style="padding:0 1.5em 0.5em 1.5em;">
 			<a href="/"          class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Zurück zur Karte</a>
