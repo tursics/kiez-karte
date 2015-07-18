@@ -118,7 +118,7 @@ body {
 }
 
 #banner {
-	background:/*cWhite*/#FFF;
+	background:rgba(255,255,255,.6);
 	padding:2em 0 0 0;
 	position:absolute;
 	right:-4.9em;
@@ -321,7 +321,7 @@ li.work:before {
 }
 
 .round-envelope {
-	background-color:mediumorchid;
+	background-color:#E54D26;
 	color:white;
 }
 
@@ -331,17 +331,22 @@ li.work:before {
 }
 
 .round-twitter {
-	background-color:#55ACEE;
+	background-color:#32CCFE;
 	color:white;
 }
 
 .round-facebook {
-	background-color:#3B5998;
+	background-color:#3C599F;
+	color:white;
+}
+
+.round-tumblr {
+	background-color:#314E6C;
 	color:white;
 }
 
 .round-github {
-	background-color:orange;
+	background-color:#070709;
 	color:white;
 }
 
