@@ -117,6 +117,16 @@ License|CC BY 3.0 DE
     maerkte-xmas.geo.json
     maerkte-xmas.show.json
 
+ |Berliner Weihnachtsmärkte 2014 
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/berliner-weihnachtsm%C3%A4rkte-2014
+License|CC BY 3.0 DE
+
+    maerkte-xmas.json
+    maerkte-xmas.mod.json
+    maerkte-xmas.geo.json
+    maerkte-xmas.show.json
+
  |Berliner Wochen- und Trödelmärkte 2013 
 -------|-------
 Url    |http://daten.berlin.de/datensaetze/berliner-wochen-und-tr%C3%B6delm%C3%A4rkte-2013
@@ -216,3 +226,12 @@ License|CC BY 3.0 DE
 Url    |https://github.com/ini20/berliner-schulen/blob/master/data/Schuldaten2015-02.csv
 License|tbd.
 
+ |Angebote 
+-------|-------
+Url    |http://daten.berlin.de/datensaetze/angebote
+License|CC BY 3.0 DE
+
+    soziale-sicherung-berlinpass-angebote.json
+    soziale-sicherung-berlinpass-angebote.mod.json
+    soziale-sicherung-berlinpass-angebote.geo.json
+    soziale-sicherung-berlinpass-angebote.show.json
