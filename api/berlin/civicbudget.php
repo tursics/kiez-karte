@@ -1,12 +1,12 @@
 <?php
 	$baseUrl = 'https://www.buergerhaushalt-lichtenberg.de';
 
-	function submitRequest( $post)
+	function submitRequest( $post, $subUrl)
 	{
 		global $baseUrl;
 
 		$ua = 'Mozilla/5.0 (Windows NT 5.1; rv:16.0) Gecko/20100101 Firefox/16.0 (kiez-karte.berlin wizard)';
-		$url = $baseUrl.'/einreichen';
+		$url = $baseUrl . $subUrl;
 
 		$ch = curl_init();
 		curl_setopt( $ch, CURLOPT_URL,            $url);
@@ -38,28 +38,42 @@
 	function checkError( $html)
 	{
 		$div = explode( '<div class="messages error">', $html);
-		if( count( $div) > 1) {
-			echo 'Error:<br>';
+		$ret = '';
 
+		if( count( $div) > 1) {
 			$div = explode( '</div>', $div[1])[0];
 
 			$list = explode( '<li>', $div);
 			if( count( $list) > 1) {
 				for( $i = 1; $i < count( $list); ++$i) {
 					$msg = explode( '</li>', $list[$i])[0];
-					echo $msg.'<br>';
+					$ret .= $msg.'<br>';
 					//There was a problem with your form submission. Please wait 21 seconds and try again.
+					//Das Feld „Überschrift” ist erforderlich.
 					//Es wurde eine nicht erlaubte Auswahl entdeckt. Wenden Sie sich bitte an den Administrator der Website.
+					//Die Datei foo.jpg konnte nicht gespeichert werden, weil die maximal zulässige Größe von 2 MB für hochgeladene Dateien überschritten wurde.
+					//Die Datei im Feld Bild konnte nicht hochgeladen werden.
+					//Der Name tursics ist leider schon vergeben.
 				}
 			} else {
 				$msg = explode( '</h2>', $div)[1];
-				echo $msg.'<br>';
+				$ret .= $msg.'<br>';
 			}
-
-			return false;
 		}
 
-		return true;
+		return $ret;
+	}
+
+	function checkLogin( $html)
+	{
+		$div = explode( 'id="js-login-btn"', $html);
+		$ret = '';
+
+		if( count( $div) > 1) {
+			$ret .= 'Not logged in<br>';
+		}
+
+		return $ret;
 	}
 
 	function lor2district( $lor)
@@ -133,38 +147,64 @@
 		return $ret;
 	}
 
-	function submit( $title, $lor)
+	function submit( $title, $comment, $topic, $lor, $address, $lat, $lng)
 	{
 		echo 'Submit a civic budget Berlin<br>';
 		echo '<br>';
 
 		$district = lor2district( $lor);
 
+		// 0 - - Keine -
+		// 53 - Bibliotheken
+		// 54 - Gesundheit
+		// 55 - Kinder & Jugend
+		// 56 - Kultur
+		// 57 - Musikschule
+		// 58 - Oeffentliches Strassenland
+		// 59 - Senioren
+		// 60 - Sport
+		// 61 - Stadtteilprojekte
+		// 62 - Themenuebergreifend
+		// 63 - Umwelt & Natur
+		// 64 - Volkshochschule
+		// 65 - Wirtschaftsfoerderung
+		if( 0 == intval( $topic)) {
+			$topic = '_none';
+		}
+
 		$services = array(
 			// mandatory fields
+			"form_id" => "proposal_node_form",
 			"title" => $title,
 			"edit[title]" => $title,
 			"field_proposal_district[und]" => $district['value'],
 			"edit[field_proposal_district][und][term]" => $district['name'],
+			"honeypot_time" => (time() - 60), // 'honey' send a unix timestamp but the submission time must be 30 seconds later (at minimum)
 
 			// optional fields
-			"body[und][0][value]" => "", // 
-			"body[und][0][format]" => "plain_text", // 
-			"field_proposal_topic[und]" => "_none", // 
-			"field_proposal_geolocation[und][0][address][field]" => "Möllendorffstraße 6, 10367 Berlin, Deutschland", // 
-			"field_proposal_geolocation[und][0][lat]" => "52.51577689706123", // 
-			"field_proposal_geolocation[und][0][lng]" => "13.479752540588379", // 
-			"files[field_proposal_image_und_0]" => "", // filename="" Content-Type: application/octet-stream
-			"field_proposal_image[und][0][_weight]" => "0", // 
-			"field_proposal_image[und][0][fid]" => "0", // 
-			"field_proposal_image[und][0][display]" => "1", // 
-			"field_proposal_video_embedded[und][0][video_url]" => "", // 
+			"body[und][0][value]" => $comment,
+			"body[und][0][format]" => 'plain_text',
+
+			"field_proposal_topic[und]" => $topic,
+
+			// $address = 'Möllendorffstraße 6, 10367 Berlin, Deutschland';
+			// $lat = '52.51577689706123';
+			// $lng = '13.479752540588379';
+			"field_proposal_geolocation[und][0][address][field]" => $address,
+			"field_proposal_geolocation[und][0][lat]" => $lat,
+			"field_proposal_geolocation[und][0][lng]" => $lng,
+
+			"files[field_proposal_image_und_0]" => '', // filename='foo.jpg' Content-Type: 'image/jpeg'
+			"field_proposal_image[und][0][_weight]" => '0',
+			"field_proposal_image[und][0][fid]" => '0',
+			"field_proposal_image[und][0][display]" => '1',
+
+			"field_proposal_video_embedded[und][0][video_url]" => '', // 'https://www.youtube.com/watch?v=P7_HrzV_YGA'
+
 			"changed" => "", // 
-//			"form_build_id" => "form-uRDjkKkYHl90AFzmpc2obkVmL6dyUimw693u59ojIcw", // 
-//			"form_build_id" => "form-RSueQjPoubJJ0Bv0KZdpeT3r0w4U_-W4fgjFQGzN_0I", // 
-//			"form_build_id" => "form-RD1ht1qvQLN8n-i5iDcnFdp-e_LGqV-gwPlPTWIUfSY", // 
-			"form_id" => "proposal_node_form", // 
-			"honeypot_time" => (time() - 60), // 'honey' send a unix timestamp but the submission must done 30 seconds later (at minimum)
+//			"form_build_id" => "form-uRDjkKkYHl90AFzmpc2obkVmL6dyUimw693u59ojIcw",
+//			"form_build_id" => "form-RSueQjPoubJJ0Bv0KZdpeT3r0w4U_-W4fgjFQGzN_0I",
+//			"form_build_id" => "form-RD1ht1qvQLN8n-i5iDcnFdp-e_LGqV-gwPlPTWIUfSY",
 			"field_socialshareprivacy[und][0]" => "1", // 
 			"field_proposal_haushaltsjahr[und][0][value]" => "2015", // 
 			"log" => "", // 
@@ -172,13 +212,65 @@
 			"url" => "", // 
 		);
 
-		$ret = submitRequest( $services);
-		if( checkError( $ret)) {
+		$ret = submitRequest( $services, '/einreichen');
+		if( '' != checkError( $ret)) {
+			echo 'Error:<br>'.checkError( $ret);
 			echo $ret.'<br>';
 		}
 	}
 
-	submit( 'Parkbank', 11);
+	function userRegister( $firstName, $lastName, $male, $userName, $mail, $birthYear)
+	{
+		echo 'Register a civic budget account<br>';
+		echo '<br>';
+
+		$services = array(
+			// mandatory fields
+			"form_id" => "user_register_form",
+			"honeypot_time" => (time() - 60), // 'honey' send a unix timestamp but the submission time must be 30 seconds later (at minimum)
+			"field_profile_title[und]" => ($male === true) ? 'Herr' : 'Frau',
+			"field_profile_first_name[und][0][value]" => $firstName,
+			"field_profile_surname[und][0][value]" => $lastName,
+			"name" => $userName,
+			"mail" => $mail,
+			"field_profile_date_of_birth[und][0][value][year]" => $birthYear,
+
+			// optional fields
+//			"form_build_id" => 'form-NYPM5-iE0vbn9HEZ2sweFjjTxsNpdhUyPcZiiWcFOOY',
+			"field_profile_newsletter[und]" => '0', // newsletter
+			"field_profile_address[und][0][value]" => '', // address: street and street number
+			"field_profile_zip[und][0][value]" => '',     // address: zip code
+			"field_profile_city[und][0][value]" => '',    // address: city
+			"field_profile_company[und][0][value]" => '',         // company: name
+			"field_profile_company_address[und][0][value]" => '', // company: address
+			"field_profile_company_zip[und][0][value]" => '',     // company: zip
+			"field_profile_facebook[und][0][value]" => '',   // social: facebook
+			"field_profile_twitter[und][0][value]" => '',    // social: twitter
+			"field_profile_googleplus[und][0][value]" => '', // social: google+
+			"field_profile_homepage[und][0][value]" => '',   // social: homepage
+//			"op" => 'Neues Benutzerkonto erstellen', // submit button
+//			"url" => '' // hidden and empty field
+		);
+
+		echo 'honey: '.$services['honeypot_time'].'<br>';
+
+		$ret = submitRequest( $services, '/user/register');
+		if( '' != checkError( $ret)) {
+			$arr = explode( '<br>', checkError( $ret));
+			if( strip_tags( $arr[0]) == 'Der Name ' . $userName . ' ist leider schon vergeben.') {
+				echo 'Error: The name is already registered.<br>';
+				echo 'Login: '.checkLogin( $ret);
+			} else if( explode( '.', strip_tags( $arr[0]) == 'Die E-Mail-Adresse ' . $mail . ' ist schon registriert.')) {
+				echo 'Error: The e-mail is already registered.<br>';
+			} else {
+				echo 'Error:<br>'.checkError( $ret);
+				echo $ret.'<br>';
+			}
+		}
+	}
+
+//	submit( '', 'Comment', 0, 11, '', '', '');
+	userRegister( 'John', 'Doe', true, 'johndoe', 'john@doe.com', 1970);
 
 	echo '<br>';
 	echo 'done';
