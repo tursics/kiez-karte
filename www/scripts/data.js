@@ -16,7 +16,11 @@ dataVec.push({
 	age6:'Schulen',
 	age18:'',
 	age30:'',
-	age65:''
+	age65:'',
+	wishes:[
+		{short:'Zebrastreifen', long:'Zebrastreifen'},
+		{short:'Fahrradweg', long:'Fahrradweg'}
+	]
 });
 
 dataVec.push({
@@ -29,7 +33,10 @@ dataVec.push({
 	age6:'Schulstationen und Hilfe',
 	age18:'',
 	age30:'',
-	age65:''
+	age65:'',
+	wishes:[
+		{short:'Fahrradweg', long:'Fahrradweg'}
+	]
 });
 
 /*
@@ -198,7 +205,10 @@ dataVec.push({
 	age6:'Jugendclubs',
 	age18:'',
 	age30:'',
-	age65:''
+	age65:'',
+	wishes:[
+		{short:'Fahrradweg', long:'Fahrradweg'}
+	]
 });
 
 dataVec.push({
@@ -224,7 +234,10 @@ dataVec.push({
 	age6:'',
 	age18:'',
 	age30:'',
-	age65:'Pflegeeinrichtungen'
+	age65:'Pflegeeinrichtungen',
+	wishes:[
+		{short:'Bänke', long:'Weg mit Bänken'}
+	]
 });
 
 /*dataVec.push({
@@ -264,6 +277,9 @@ dataVec.push({
 	age18:'',
 	age30:'',
 	age65:'Veranstaltungen für Senioren',
+	wishes:[
+		{short:'Bänke', long:'Weg mit Bänken'}
+	]
 });
 
 dataVec.push({
@@ -277,6 +293,9 @@ dataVec.push({
 	age18:'',
 	age30:'Stadtbäume',
 	age65:'',
+	wishes:[
+		{short:'Helfen', long:'Baum'}
+	]
 });
 
 dataVec.push({
@@ -289,7 +308,12 @@ dataVec.push({
 	age6:'Jugendspielplätze',
 	age18:'',
 	age30:'',
-	age65:''
+	age65:'',
+	wishes:[
+		{short:'Fußball', long:'Ort zum bolzen'},
+		{short:'Basketball', long:'Platz zum Körbe werfen'},
+		{short:'Skaten', long:'Platz zum Skaten'}
+	]
 });
 
 dataVec.push({
@@ -304,9 +328,9 @@ dataVec.push({
 	age30:'',
 	age65:'',
 	wishes:[
-		'Rutsche',
-		'Schaukel',
-		'Sand zum buddeln'
+		{short:'Rutsche', long:'Platz zum Rutschen'},
+		{short:'Schaukel', long:'Platz zum Schaukeln'},
+		{short:'Sand', long:'Sandkasten'}
 	]
 });
 
@@ -320,7 +344,12 @@ dataVec.push({
 	age6:'',
 	age18:'',
 	age30:'',
-	age65:''
+	age65:'',
+	wishes:[
+		{short:'Rutsche', long:'Platz zum Rutschen'},
+		{short:'Schaukel', long:'Platz zum Schaukeln'},
+		{short:'Sand', long:'Sandkasten'}
+	]
 });
 
 dataVec.push({
@@ -333,7 +362,12 @@ dataVec.push({
 	age6:'Spielplätze (zeitlich begrenzt)',
 	age18:'',
 	age30:'',
-	age65:''
+	age65:'',
+	wishes:[
+		{short:'Rutsche', long:'Platz zum Rutschen'},
+		{short:'Schaukel', long:'Platz zum Schaukeln'},
+		{short:'Sand', long:'Sandkasten'}
+	]
 });
 
 dataVec.push({

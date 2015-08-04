@@ -619,19 +619,12 @@ function updateMapSelectItem( data)
 		strInfo += '<div style="max-height:10em;overflow-y:scroll;padding-top:.5em;">' + data.implementation_report + '</div>';
 	}
 
-	if(( typeof data.spiel_art !== 'undefined') && (data.spiel_art != '')){
-		// hack spielplatz
+	if(( typeof data.dataId !== 'undefined') && ( typeof dataVec[data.dataId].wishes !== 'undefined') && (dataVec[data.dataId].wishes.length > 0)){
+		var wishes = dataVec[data.dataId].wishes;
 		strInfo += '<div class="wishList">';
-		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Rutschen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Rutsche</div></a>';
-		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Schaukeln\');" border=0><div class="wish"><i class="fa fa-gift"></i> Schaukel</div></a>';
-		strInfo += '<a href="#" onClick="onShowWish(\'Sandkasten\');" border=0><div class="wish"><i class="fa fa-gift"></i> Sand</div></a>';
-		strInfo += '</div>';
-	}
-	if(( typeof data.Schulart !== 'undefined') && (data.Schulart != '')){
-		// hack schule
-		strInfo += '<div class="wishList">';
-		strInfo += '<a href="#" onClick="onShowWish(\'Zebrastreifen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Zebrastreifen</div></a>';
-		strInfo += '<a href="#" onClick="onShowWish(\'Fahrradweg\');" border=0><div class="wish"><i class="fa fa-gift"></i> Fahrradweg</div></a>';
+		for( var i = 0; i < wishes.length; ++i) {
+			strInfo += '<a href="#" onClick="onShowWish(\'' + wishes[i].long + '\');" border=0><div class="wish"><i class="fa fa-gift"></i> ' + wishes[i].short + '</div></a>';
+		}
 		strInfo += '</div>';
 	}
 
@@ -855,6 +848,7 @@ function onShowData( dataId, ageId)
 						val.lat = val['Breitengrad'];
 						val.lng = val['Längengrad'];
 					}
+					val.dataId = dataId;
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
 //							brush: colorOut,
