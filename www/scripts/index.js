@@ -234,7 +234,14 @@ function updateMapSelectItem( data)
 	var arrayPhone = [];
 	var arrayNet = [];
 
-	if( typeof data.einrichtung !== 'undefined') {
+	if( typeof data.benennung !== 'undefined') {
+		// oeffentliche-toiletten-im-bezirk.show.json
+		strH2 = trimQuotes( data.benennung); // overwrite data.einrichtung
+
+		if(( typeof data.zusatz_oertlichkeit !== 'undefined') && (data.zusatz_oertlichkeit != '')){
+			strH2 += ' (' + data.zusatz_oertlichkeit + ')';
+		}
+	} else if( typeof data.einrichtung !== 'undefined') {
 		// wirtschaft-mietraum.show.json
 		// freizeit-sport-jfe.show.json
 		// buergerservice-familie-sbst.show.json
@@ -419,8 +426,21 @@ function updateMapSelectItem( data)
 		strInfo += 'von ' + data.zeiten + '<br>';
 	}
 	if(( typeof data.oeffnungszeiten !== 'undefined') && (data.oeffnungszeiten != '')){
-		// maerkte-xmas.show.json
-		strInfo += 'von ' + data.oeffnungszeiten + '<br>';
+		if( typeof data.benutzung !== 'undefined') {
+			// oeffentliche-toiletten-im-bezirk.show.json
+			strInfo += 'Geöffnet: ' + data.oeffnungszeiten + '<br>';
+		} else {
+			// maerkte-xmas.show.json
+			strInfo += 'von ' + data.oeffnungszeiten + '<br>';
+		}
+	}
+	if(( typeof data.benutzung !== 'undefined') && (data.benutzung != '')) {
+		// oeffentliche-toiletten-im-bezirk.show.json
+		strInfo += 'Benutzung: ' + data.benutzung + '<br>';
+	}
+	if(( typeof data.barrierefreiheit !== 'undefined') && (data.barrierefreiheit != '')) {
+		// oeffentliche-toiletten-im-bezirk.show.json
+		strInfo += '<i class="fa fa-wheelchair"></i> Barrierefrei: ' + data.barrierefreiheit + '<br>';
 	}
 	if(( typeof data.veranstaltung !== 'undefined') && (data.veranstaltung != '')) {
 		// buergerservice-familie-sbst.show.json
