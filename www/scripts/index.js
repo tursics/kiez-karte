@@ -622,8 +622,25 @@ function updateMapSelectItem( data)
 	if(( typeof data.dataId !== 'undefined') && ( typeof dataVec[data.dataId].wishes !== 'undefined') && (dataVec[data.dataId].wishes.length > 0)){
 		var wishes = dataVec[data.dataId].wishes;
 		strInfo += '<div class="wishList">';
-		for( var i = 0; i < wishes.length; ++i) {
-			strInfo += '<a href="#" onClick="onShowWish(\'' + wishes[i].long + '\');" border=0><div class="wish"><i class="fa fa-gift"></i> ' + wishes[i].short + '</div></a>';
+		if( dataVec[data.dataId].title == 'Berliner Stadtbaumkampagne') {
+			var msg = '0';
+			if(( typeof data.material !== 'undefined') && (typeof data.spendenstatus !== 'undefined')){
+				data.material = trimQuotes( data.material);
+				data.spendenstatus = trimQuotes( data.spendenstatus);
+				if( 'GEPFLANZT' == data.material) {
+					msg = '1';
+				} else if( 'GESPENDET' == data.spendenstatus) {
+					msg = '2';
+				} else {
+					msg = '0';
+				}
+			}
+			strInfo += '<img src="./images/stadtbaeume.svg" alt="Stadtbäume für Berlin" style="height:4em;margin:-1em 1em -1em 0;">';
+			strInfo += '<a href="#" onClick="onShowWishTree(\'' + msg + '\');" style="float:right;margin:1em 0 0 0;" border=0><div class="wish"><i class="fa fa-gift"></i> Helfen</div></a>';
+		} else {
+			for( var i = 0; i < wishes.length; ++i) {
+				strInfo += '<a href="#" onClick="onShowWish(\'' + wishes[i].long + '\');" border=0><div class="wish"><i class="fa fa-gift"></i> ' + wishes[i].short + '</div></a>';
+			}
 		}
 		strInfo += '</div>';
 	}
@@ -1066,7 +1083,6 @@ function onShowAddress()
 function onShowWish( str)
 {
 	$( '#wishTitle').html( str);
-	$( '#wishTitle').html( str);
 	$( '#wishYes').on( 'click', function( e) {
 //		$( '#popupWish').popup( 'close');
 	});
@@ -1074,6 +1090,32 @@ function onShowWish( str)
 //		$( '#popupWish').popup( 'close');
 	});
 	$( '#popupWish').popup( 'open');
+}
+
+// -----------------------------------------------------------------------------
+
+function onShowWishTree( str)
+{
+	if( str == '1') {
+		$( '#wishTreeMessage').html( 'Dieser Baum wurde erfolgreich gepflanzt. Hilf mit und spende für einen anderen Baum.');
+	} else if( str == '2') {
+		$( '#wishTreeMessage').html( 'Dieser Baum wurde erfolgreich gepflanzt, dank einer Spende! Hilf mit und spende für einen anderen Baum.');
+	} else {
+		$( '#wishTreeMessage').html( 'Dieser Baum konnte leider nicht gepflanzt werden. Hilf mit und spende für einen anderen Baum.');
+	}
+
+	$( '#wishTreeYes').html( 'Ja, gerne');
+	$( '#wishTreeYes').attr( 'href', 'http://www.stadtentwicklung.berlin.de/umwelt/stadtgruen/stadtbaeume/kampagne/de/spenden/');
+
+//	$( '#wishTreeYes').on( 'click', function( e) {
+//		$( '#popupWish').popup( 'close');
+//	});
+
+//	$( '#wishTreeNo').html( 'Och nö');
+	$( '#wishTreeNo').on( 'click', function( e) {
+//		$( '#popupWish').popup( 'close');
+	});
+	$( '#popupWishTree').popup( 'open');
 }
 
 // -----------------------------------------------------------------------------
