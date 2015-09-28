@@ -4,6 +4,7 @@ var dataAge = -1;
 var dataGeoSet = new Array();
 var idAddress = 1000;
 var idHood = 1001;
+var id3D = 1002;
 
 // -----------------------------------------------------------------------------
 
@@ -205,6 +206,8 @@ function updateMapSelectData()
 				str += '<li><a href="#" border=0><i class="fa fa-home"></i> Häuser</a>';
 			} else if( idx == idHood) {
 				str += '<li><a href="#" border=0><i class="fa fa-home"></i> Gebiete</a>';
+			} else if( idx == id3D) {
+				str += '<li><a href="#" border=0><i class="fa fa-cube"></i> 3D-Test</a>';
 			} else {
 				str += '<li><a href="#" border=0><i class="fa ' + dataVec[idx].icon + '"></i> ' + dataVec[idx][ageStr] + '</a>';
 			}
@@ -234,14 +237,7 @@ function updateMapSelectItem( data)
 	var arrayPhone = [];
 	var arrayNet = [];
 
-	if( typeof data.benennung !== 'undefined') {
-		// oeffentliche-toiletten-im-bezirk.show.json
-		strH2 = trimQuotes( data.benennung); // overwrite data.einrichtung
-
-		if(( typeof data.zusatz_oertlichkeit !== 'undefined') && (data.zusatz_oertlichkeit != '')){
-			strH2 += ' (' + data.zusatz_oertlichkeit + ')';
-		}
-	} else if( typeof data.einrichtung !== 'undefined') {
+	if( typeof data.einrichtung !== 'undefined') {
 		// wirtschaft-mietraum.show.json
 		// freizeit-sport-jfe.show.json
 		// buergerservice-familie-sbst.show.json
@@ -249,11 +245,15 @@ function updateMapSelectItem( data)
 	} else if( typeof data.einrichtung_name !== 'undefined') {
 		// heimaufsicht-pruefberichte.show.json
 		strH2 = data.einrichtung_name;
+	} else if( typeof data.title !== 'undefined') {
+		// buergerhaushalt
+		strH2 = trimQuotes( data.title);
 	} else if( typeof data.name !== 'undefined') {
 		// buergerservice-aerzte-foo.show.json
 		// maerkte-xmas.show.json
 		// buergerservice-familie-tagespflege.show.json
 		// re-spielplatz.foo.show.json
+		// buergerhaushalt <= do not use, use data.title
 		strH2 = data.name;
 
 		if(( typeof data.name2 !== 'undefined') && (data.name2 != '')){
@@ -278,9 +278,6 @@ function updateMapSelectItem( data)
 	} else if( typeof data.Schulname !== 'undefined') {
 		// schuldaten.show.json
 		strH2 = trimQuotes( data.Schulname);
-	} else if( typeof data.title !== 'undefined') {
-		// buergerhaushalt
-		strH2 = trimQuotes( data.title);
 	}
 
 	if( typeof data.strasse !== 'undefined') {
@@ -426,21 +423,8 @@ function updateMapSelectItem( data)
 		strInfo += 'von ' + data.zeiten + '<br>';
 	}
 	if(( typeof data.oeffnungszeiten !== 'undefined') && (data.oeffnungszeiten != '')){
-		if( typeof data.benutzung !== 'undefined') {
-			// oeffentliche-toiletten-im-bezirk.show.json
-			strInfo += 'Geöffnet: ' + data.oeffnungszeiten + '<br>';
-		} else {
-			// maerkte-xmas.show.json
-			strInfo += 'von ' + data.oeffnungszeiten + '<br>';
-		}
-	}
-	if(( typeof data.benutzung !== 'undefined') && (data.benutzung != '')) {
-		// oeffentliche-toiletten-im-bezirk.show.json
-		strInfo += 'Benutzung: ' + data.benutzung + '<br>';
-	}
-	if(( typeof data.barrierefreiheit !== 'undefined') && (data.barrierefreiheit != '')) {
-		// oeffentliche-toiletten-im-bezirk.show.json
-		strInfo += '<i class="fa fa-wheelchair"></i> Barrierefrei: ' + data.barrierefreiheit + '<br>';
+		// maerkte-xmas.show.json
+		strInfo += 'von ' + data.oeffnungszeiten + '<br>';
 	}
 	if(( typeof data.veranstaltung !== 'undefined') && (data.veranstaltung != '')) {
 		// buergerservice-familie-sbst.show.json
@@ -638,30 +622,62 @@ function updateMapSelectItem( data)
 		// buergerhaushalt
 		strInfo += '<div style="max-height:10em;overflow-y:scroll;padding-top:.5em;">' + data.implementation_report + '</div>';
 	}
-
-	if(( typeof data.dataId !== 'undefined') && ( typeof dataVec[data.dataId].wishes !== 'undefined') && (dataVec[data.dataId].wishes.length > 0)){
-		var wishes = dataVec[data.dataId].wishes;
-		strInfo += '<div class="wishList">';
-		if( dataVec[data.dataId].title == 'Berliner Stadtbaumkampagne') {
-			var msg = '0';
-			if(( typeof data.material !== 'undefined') && (typeof data.spendenstatus !== 'undefined')){
-				data.material = trimQuotes( data.material);
-				data.spendenstatus = trimQuotes( data.spendenstatus);
-				if( 'GEPFLANZT' == data.material) {
-					msg = '1';
-				} else if( 'GESPENDET' == data.spendenstatus) {
-					msg = '2';
-				} else {
-					msg = '0';
+	if(( typeof data.status_plain !== 'undefined') && (data.status_plain != '')){
+		// buergerhaushalt
+		var status = data.status_plain.replace(/\r?\n|\r/g, '<br>').split( '<br>');
+		var statstr = '';
+		for( var i = 0; i < status.length; ++i) {
+			if( status[i].trim() != '') {
+				var pos = status[i].indexOf( 'DS/');
+				if( -1 != pos) {
+					var posEnd = status[i].indexOf( ' ', pos);
+					var num = parseInt( status[i].substr( pos + 3, 4));
+					// DS/1391/VII => VOLFDNR=6052
+					var url = 'http://www.berlin.de/ba-lichtenberg/politik-und-verwaltung/bezirksverordnetenversammlung/online/vo020.asp?VOLFDNR=';
+					status[i] = [status[i].slice( 0, posEnd), '</a>', status[i].slice( posEnd)].join( '');
+					status[i] = [status[i].slice( 0, pos), '<a href="' + url + (num - 1391 + 6052) + '" target="_blank">', status[i].slice( pos)].join( '');
 				}
-			}
-			strInfo += '<img src="./images/stadtbaeume.svg" alt="Stadtbäume für Berlin" style="height:4em;margin:-1em 1em -1em 0;">';
-			strInfo += '<a href="#" onClick="onShowWishTree(\'' + msg + '\');" style="float:right;margin:1em 0 0 0;" border=0><div class="wish"><i class="fa fa-gift"></i> Helfen</div></a>';
-		} else {
-			for( var i = 0; i < wishes.length; ++i) {
-				strInfo += '<a href="#" onClick="onShowWish(\'' + wishes[i].long + '\');" border=0><div class="wish"><i class="fa fa-gift"></i> ' + wishes[i].short + '</div></a>';
-			}
+				var pos = status[i].indexOf( ':');
+				var icon = 'fa fa-clock-o';
+				if( -1 != pos) {
+					var key = status[i].substr( 0, pos).trim();
+					var value = status[i].substr( pos + 1).trim();
+					if( 'Vorschlag eingereicht' == value) {
+						icon = 'fa fa-gift';
+						status[i] = 'Eingereicht am ' + key;
+					} else if( 'Vorschlag an Begleitgremium geleitet' == value) {
+						icon = 'fa fa-mail-forward';
+						status[i] = 'Weitergeleitet am ' + key;
+					} else if( 'Beschluss Begleitgremium: Vorschlag für Votierung' == value) {
+						icon = 'fa fa-thumbs-o-up';
+						status[i] = 'Angenommen am ' + key;
+					} else if( 'Beschluss Begleitgremium: abzulehnen' == value) {
+						icon = 'fa fa-thumbs-o-down';
+						status[i] = 'Abgelehnt am ' + key;
+					}
+				}
+				statstr += '<i class="' + icon + '"></i> ' + status[i].trim() + '<br>';
+			} 
 		}
+		if( statstr != '') {
+			strInfo += '<hr><div style="max-height:10em;overflow-y:scroll;padding-top:.5em;">' + statstr + '</div>';
+		}
+	}
+
+	if(( typeof data.spiel_art !== 'undefined') && (data.spiel_art != '')){
+//		data.wishes;
+		// hack spielplatz
+		strInfo += '<div class="wishList">';
+		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Rutschen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Rutsche</div></a>';
+		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Schaukeln\');" border=0><div class="wish"><i class="fa fa-gift"></i> Schaukel</div></a>';
+		strInfo += '<a href="#" onClick="onShowWish(\'Sandkasten\');" border=0><div class="wish"><i class="fa fa-gift"></i> Sand</div></a>';
+		strInfo += '</div>';
+	}
+	if(( typeof data.Schulart !== 'undefined') && (data.Schulart != '')){
+		// hack schule
+		strInfo += '<div class="wishList">';
+		strInfo += '<a href="#" onClick="onShowWish(\'Zebrastreifen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Zebrastreifen</div></a>';
+		strInfo += '<a href="#" onClick="onShowWish(\'Fahrradweg\');" border=0><div class="wish"><i class="fa fa-gift"></i> Fahrradweg</div></a>';
 		strInfo += '</div>';
 	}
 
@@ -788,6 +804,7 @@ function updateMapSelectInfo()
 		if( dataAge == idAddress) {
 			str += '<li><a href="#" onClick="onShowHood();" border=0><i class="fa fa-home"></i> Gebiete</a></li>';
 			str += '<li><a href="#" onClick="onShowAddress();" border=0><i class="fa fa-home"></i> Häuser</a></li>';
+			str += '<li><a href="#" onClick="onShow3D();" border=0><i class="fa fa-cube"></i> 3D-Test</a></li>';
 		} else {
 			var ageStr = 'age' + dataAge;
 			for( var i = 0; i < dataVec.length; ++i) {
@@ -885,7 +902,6 @@ function onShowData( dataId, ageId)
 						val.lat = val['Breitengrad'];
 						val.lng = val['Längengrad'];
 					}
-					val.dataId = dataId;
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
 //							brush: colorOut,
@@ -1100,8 +1116,86 @@ function onShowAddress()
 
 // -----------------------------------------------------------------------------
 
+function onShow3D()
+{
+	var dataAge = idAddress;
+	var dataId = id3D;
+
+	setAge( -1);
+
+	for( var i = 0; i < dataGeoSet.length; ++i) {
+		if( dataId == dataGeoSet[ i].id) {
+			dataGeoSet[ i].age = dataAge;
+			dataGeoSet.push( dataGeoSet[ i]);
+			dataGeoSet.splice( i, 1);
+
+			updateMapSelectData();
+			saveURLQueries();
+			return;
+		}
+	}
+
+	dataGeoSet.push({
+		id: dataId,
+		age: dataAge,
+		layerGroup: L.featureGroup([])
+	});
+
+/*	var layerGroup = dataGeoSet[ dataGeoSet.length - 1].layerGroup;
+
+	layerGroup.addEventListener( 'click', function( evt) {
+		updateMapSelectItem( evt.layer.options.data);
+	});
+	layerGroup.addTo(map);*/
+
+	updateMapSelectData();
+	saveURLQueries();
+
+	var str = '';
+	str += '<h2>3D-Test</h2>';
+	str += '<div id="scene3d"></div>';
+	$( '#mapSelectItem').html( str);
+	$( '#mapSelectItem').css( 'display', 'block');
+
+	var width = 300;
+	var height = 300;
+
+	// scene
+	var scene = new THREE.Scene();
+	var ambient = new THREE.AmbientLight( 0x101030);
+	scene.add( ambient);
+	var directionalLight = new THREE.DirectionalLight( 0xffeedd);
+	directionalLight.position.set( 0, 0, 1);
+	scene.add( directionalLight);
+
+	var camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000);
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize( width, height);
+	$( '#scene3d').append( renderer.domElement);
+
+	var geometry = new THREE.BoxGeometry( 1, 1, 1);
+	var material = new THREE.MeshBasicMaterial({ color: 0x00ff00});
+	var cube = new THREE.Mesh( geometry, material);
+	scene.add( cube);
+	camera.position.z = 5;
+	camera.position.y = 1;
+
+	function render() {
+		requestAnimationFrame( render);
+//		cube.rotation.x += 0.05;
+		cube.rotation.y += 0.05;
+		renderer.render( scene, camera);
+	}
+	render();
+
+	// view-source:http://threejs.org/examples/webgl_loader_obj.html
+}
+
+// -----------------------------------------------------------------------------
+
 function onShowWish( str)
 {
+	$( '#wishTitle').html( str);
 	$( '#wishTitle').html( str);
 	$( '#wishYes').on( 'click', function( e) {
 //		$( '#popupWish').popup( 'close');
@@ -1110,32 +1204,6 @@ function onShowWish( str)
 //		$( '#popupWish').popup( 'close');
 	});
 	$( '#popupWish').popup( 'open');
-}
-
-// -----------------------------------------------------------------------------
-
-function onShowWishTree( str)
-{
-	if( str == '1') {
-		$( '#wishTreeMessage').html( 'Dieser Baum wurde erfolgreich gepflanzt. Hilf mit und spende für einen anderen Baum.');
-	} else if( str == '2') {
-		$( '#wishTreeMessage').html( 'Dieser Baum wurde erfolgreich gepflanzt, dank einer Spende! Hilf mit und spende für einen anderen Baum.');
-	} else {
-		$( '#wishTreeMessage').html( 'Dieser Baum konnte leider nicht gepflanzt werden. Hilf mit und spende für einen anderen Baum.');
-	}
-
-	$( '#wishTreeYes').html( 'Ja, gerne');
-	$( '#wishTreeYes').attr( 'href', 'http://www.stadtentwicklung.berlin.de/umwelt/stadtgruen/stadtbaeume/kampagne/de/spenden/');
-
-//	$( '#wishTreeYes').on( 'click', function( e) {
-//		$( '#popupWish').popup( 'close');
-//	});
-
-//	$( '#wishTreeNo').html( 'Och nö');
-	$( '#wishTreeNo').on( 'click', function( e) {
-//		$( '#popupWish').popup( 'close');
-	});
-	$( '#popupWishTree').popup( 'open');
 }
 
 // -----------------------------------------------------------------------------
