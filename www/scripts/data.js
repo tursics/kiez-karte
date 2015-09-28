@@ -423,4 +423,30 @@ dataVec.push({
 	age65:''
 });
 
+dataVec.push({
+	title:'Öffentliche Toiletten im Bezirk',
+	url:'oeffentliche-toiletten-im-bezirk.show.json',
+	license:'CC BY 3.0 DE',
+	contribute:'Bezirksamt Lichtenberg',
+	icon:'fa-female',
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'Toiletten',
+	age65:'Toiletten'
+});
+
+/*dataVec.push({
+	title:'Öffentliche Toiletten im Bezirk',
+	url:'oeffentliche-toiletten-im-bezirk.show.gjson',
+	license:'CC BY 3.0 DE',
+	contribute:'Bezirksamt Lichtenberg',
+	icon:'fa-male',
+	age0:'',
+	age6:'',
+	age18:'',
+	age30:'',
+	age65:'Toiletten'
+});*/
+
 // -----------------------------------------------------------------------------
