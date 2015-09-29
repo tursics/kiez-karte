@@ -646,14 +646,79 @@ function updateMapSelectItem( data)
 						icon = 'fa fa-gift';
 						status[i] = 'Eingereicht am ' + key;
 					} else if( 'Vorschlag an Begleitgremium geleitet' == value) {
-						icon = 'fa fa-mail-forward';
+//						icon = 'fa fa-share-alt';
+						icon = 'fa fa-users';
 						status[i] = 'Weitergeleitet am ' + key;
-					} else if( 'Beschluss Begleitgremium: Vorschlag für Votierung' == value) {
-						icon = 'fa fa-thumbs-o-up';
+					} else if(( 'Vorschlag votiert' == value)
+					        || ('Beschluss Begleitgremium: Vorschlag für Votierung' == value)
+					        || ('Beschluss Begleitgremium: Vorschlag aus beschlossenem Haushaltsplan umsetzbar' == value)
+					        || ('Beschluss Begleitgremium: Vorschlag im laufenden Haushalt umsetzbar' == value)) {
+						icon = 'fa fa-check';
 						status[i] = 'Angenommen am ' + key;
 					} else if( 'Beschluss Begleitgremium: abzulehnen' == value) {
-						icon = 'fa fa-thumbs-o-down';
+//						icon = 'fa fa-ban';
+						icon = 'fa fa-close';
 						status[i] = 'Abgelehnt am ' + key;
+					} else if( 'Beschluss Begleitgremium: Zuständigkeit andere Behörde/Organisation' == value) {
+//						icon = 'fa fa-exchange';
+						icon = 'fa fa-mail-forward';
+						status[i] = 'Andere Behörde am ' + key;
+					} else if( 'Vorschlag umgesetzt/inhaltlich erledigt' == value) {
+						icon = 'fa fa-paint-brush';
+//						icon = 'fa fa-star';
+//						icon = 'fa fa-wrench';
+						status[i] = 'Umgesetzt am ' + key;
+					} else if( 'Vorschlag weitergeleitet zur Votierung' == value) {
+						icon = 'fa fa-thumbs-o-up';
+						status[i] = 'Zur Votierung am ' + key;
+					} else if( 0 == value.indexOf( 'Vorschlag votiert mit')) {
+						var tmp = 'Vorschlag votiert mit';
+						icon = 'fa fa-thumbs-o-up';
+						status[i] = value.substr( tmp.length) + ' am ' + key;
+					} else if(( 'Vorschlag weitergeleitet an BVV zur Beratung und Beschlussfassung' == value)
+					        || ('Vorschlag weitergeleitet an BVV zur Beratung' == value)) {
+						icon = 'fa fa-bank';
+						status[i] = 'Zur Abstimmung am ' + key;
+					} else if( 0 == value.indexOf( 'Vorschlag wird weitergeleitet gem. Ausschuss')) {
+						icon = 'fa fa-mail-forward';
+						status[i] = 'Weitergeleitet am ' + key;
+					} else if(( 'BVV-Beschluss: umzusetzen' == value)
+					        || ('BVV-Beschluss: umgesetzt/inhaltlich erledigt' == value)) {
+						icon = 'fa fa-file-text-o';
+						status[i] = 'Befürwortet am ' + key;
+						status[i] += '<br>BVV-Beschluss';
+					} else if( 0 == value.indexOf( 'Vorschlag befürwortet gem. BVV Beschluss')) {
+						var tmp = 'Vorschlag befürwortet gem.';
+						icon = 'fa fa-file-text-o';
+						status[i] = 'Befürwortet am ' + key;
+						status[i] += '<br>' + value.substr( tmp.length);
+					} else if( 'BVV-Beschluss: abgelehnt' == value) {
+						icon = 'fa fa-file-text-o';
+						status[i] = 'Abgelehnt am ' + key;
+						status[i] += '<br>BVV-Beschluss';
+					} else if(( 0 == value.indexOf( 'Vorschlag wird nicht weitergeleitet gem. BVV Beschluss'))
+					        || (0 == value.indexOf( 'Vorschlag wird nicht weitergeleitet gem. Ausschuss'))) {
+						var tmp = 'Vorschlag wird nicht weitergeleitet gem. ';
+						icon = 'fa fa-file-text-o';
+						status[i] = 'Abgelehnt am ' + key;
+						status[i] += '<br>' + value.substr( tmp.length);
+					} else if(( 0 == value.indexOf( 'Vorschlag abgelehnt gem. BVV Beschluss'))
+					        || (0 == value.indexOf( 'Vorschlag abgelehnt gem. Ausschuss'))) {
+						var tmp = 'Vorschlag abgelehnt gem. ';
+						icon = 'fa fa-file-text-o';
+						status[i] = 'Abgelehnt am ' + key;
+						status[i] += '<br>' + value.substr( tmp.length);
+					} else if( 'Vorschlag abgelehnt' == value) {
+						icon = 'fa fa-ban';
+						status[i] = 'Abgelehnt am ' + key;
+					} else if( 0 == value.indexOf( 'Vorschlag zur Umsetzung übergeben')) {
+						icon = 'fa fa-mail-forward';
+						status[i] = 'Weitergeleitet am ' + key;
+					} else if( 0 == value.indexOf( 'Vorschlag wird weitergeleitet gem. BVV Beschluss')) {
+						var tmp = 'Vorschlag wird weitergeleitet gem. ';
+						icon = 'fa fa-mail-forward';
+						status[i] = 'Weitergeleitet am ' + key;
+						status[i] += '<br>' + value.substr( tmp.length);
 					}
 				}
 				statstr += '<i class="' + icon + '"></i> ' + status[i].trim() + '<br>';
