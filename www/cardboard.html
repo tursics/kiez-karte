@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
+
+	<meta name="author" content="Thomas Tursics" />
+	<meta name="keywords" content="Berlin,Lichtenberg,Karte,dein,mein,Kiez,entdecken,verändern,gestalten" />
+	<meta name="robots" content="index,follow" />
+
+ 	<title>Kiez-Karte - Entdecke deinen Kiez in Berlin</title>
+	<meta property="og:title" content="Kiez-Karte" />
+	<meta name="twitter:title" content="Kiez-Karte">
+
+	<meta name="description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
+	<meta property="og:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez." />
+	<meta name="twitter:description" content="Entdecke deinen Kiez. Verändere deinen Kiez. Gestalte deinen Kiez.">
+
+	<link rel="image_src" type="image/png" href="http://kiez-karte.berlin/images/twitterimage.png" />
+	<meta property="og:image" content="http://kiez-karte.berlin/images/twitterimage.png" />
+	<meta name="twitter:image:src" content="http://kiez-karte.berlin/images/twitterimage.png">
+
+	<meta property="og:url" content="http://kiez-karte.berlin/">
+	<meta name="twitter:domain" content="http://kiez-karte.berlin/">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:creator" content="@kiezkarte">
+
+	<link rel="stylesheet" href="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css">
+	<link rel="stylesheet" href="scripts/leaflet-0.7.3/leaflet.css" />
+	<link rel="stylesheet" href="scripts/index.css" />
+	<link rel="stylesheet" href="scripts/leaflet.awesome-markers-2.0.2/leaflet.awesome-markers.css">
+
+	<script src="scripts/leaflet-0.7.3/leaflet.js"></script>
+	<script src="scripts/jquery.mobile-1.4.2/jquery-1.11.1.min.js"></script>
+	<script src="scripts/data.js"></script>
+	<script src="scripts/cardboard.js"></script>
+	<script src="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<!--	<script src="scripts/proj4js-2.1.2/proj4.js" type="text/javascript"></script> -->
+	<script src="scripts/leaflet.awesome-markers-2.0.2/leaflet.awesome-markers.min.js"></script>
+<!--	<script src="scripts/three.js-r71/three.min.js"></script> -->
+<!--	<script src="scripts/three.js-r71/OBJLoader.js"></script> -->
+
+	<script src="scripts/citygl/three/three.js"></script>
+	<script src="scripts/citygl/poly2tri/poly2tri.js"></script>
+	<script src="scripts/citygl/three.js/examples/js/libs/stats.min.js"></script>
+	<script src="scripts/citygl/three.js/examples/js/controls/FirstPersonControls.js"></script>
+	<script src="scripts/citygl/proj4js/proj4js-combined.js"></script>
+	<script src="scripts/citygl/src/citygl.js"></script>
+	<script src="scripts/citygl/src/Controls/FlyControls.js"></script>
+	<script src="scripts/citygl/src/Viewport/Viewport.js"></script>
+	<script src="scripts/citygl/src/Layer/layer.js"></script>
+	<script src="scripts/citygl/src/Layer/geometrylayer.js"></script>
+	<script src="scripts/citygl/src/Layer/openstreetmap.js"></script>
+	<script src="scripts/citygl/src/Data/GML.js"></script>
+	<script src="scripts/citygl/src/Data/cityGML.js"></script>
+	<script src="scripts/citygl/src/Tools/query.js"></script>
+	<script src="scripts/citygl/src/Util/parameterizedTexture.js"></script>
+	<script src="scripts/citygl/src/Util/target.js"></script>
+	<script src="scripts/citygl/src/Util/boundingbox.js"></script>
+	<script src="scripts/citygl/src/Util/point.js"></script>
+	<script src="scripts/citygl/src/Util/tile.js"></script>
+
+  <script src="scripts/citygl/three.js/examples/js/controls/StereoEffect.js"></script>
+  <script src="scripts/citygl/three.js/examples/js/controls/DeviceOrientationControls.js"></script>
+  <script src="scripts/citygl/three.js/examples/js/controls/OrbitControls.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <style title="seriös">
+
+      #stats { display: none;}
+
+    </style>
+
+</head>
+<body>
+	<div data-role="page" id="pageMap">
+		<div id="mapSelectItem" style="border:0;padding:0 !important;margin:0;"></div>
+		<div id="info"></div>
+	</div>
+</body>
+</html>
