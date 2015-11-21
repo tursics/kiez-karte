@@ -1,5 +1,20 @@
 // http://www.sitepoint.com/bringing-vr-to-web-google-cardboard-three-js/
 var map = null;
+var data = [
+{title: 'Gesamt Berlin', consumption: '2.309', gml: '3920_5819'},
+{title: 'Charlottenburg-Wilmersdorf', consumption: '298', gml: '3850_5819'},
+{title: 'Friedrichshain-Kreuzberg', consumption: '172', gml: '3950_5819'},
+{title: 'Lichtenberg', consumption: '167', gml: '3960_5819'},
+{title: 'Marzahn-Hellersdorf', consumption: '100', gml: '4050_5821'},
+{title: 'Mitte', consumption: '413', gml: '3870_5820'},
+{title: 'Neukölln', consumption: '131', gml: '3930_5815'},
+{title: 'Pankow', consumption: '195', gml: '3910_5825'},
+{title: 'Reinickendorf', consumption: '168', gml: '3860_5827'},
+{title: 'Spandau', consumption: '147', gml: '3770_5822'},
+{title: 'Steglitz-Zehlendorf', consumption: '196', gml: '3810_5810'},
+{title: 'Treptow-Köpenick', consumption: '147', gml: '4030_5811'},
+{title: 'Tempelhof-Schöneberg', consumption: '236', gml: ''},
+];
 
 var id = 0;
 var timer = null;
@@ -25,7 +40,7 @@ $( document).on( "pageshow", "#pageMap", function()
 
 function onShow3D()
 {
-	if( id > 3){
+	if( id >= data.length){
 		id = 0;
 	}
 	if( null != timer) {
@@ -34,15 +49,7 @@ function onShow3D()
 
 	var str = '';
 	str += '<div style="position:absolute;right:0;bottom:0;padding:1em;line-height:1.5em;background:rgba(255,255,255,.75);font-size:2em;text-align:center;font-family:Montserrat, sans-serif;">';
-	if( id == 0) {
-		str += 'Stromverbrauch<br>Gesamt Berlin<br>Gestern<br>2.309 Megawatt</div>';
-	} else if( id == 1) {
-		str += 'Stromverbrauch<br>Lichtenberg<br>Gestern<br>167 Megawatt</div>';
-	} else if( id == 2) {
-		str += 'Stromverbrauch<br>Marzahn<br>Gestern<br>100 Megawatt</div>';
-	} else {
-		str += 'Stromverbrauch<br>Mitte<br>Gestern<br>413 Megawatt</div>';
-	}
+	str += 'Stromverbrauch<br>' + data[id].title + '<br>Gestern<br>' + data[id].consumption + ' Megawatt</div>';
 	$( '#info').html( str);
 	$( '#info').css( 'display', 'block');
 
@@ -55,7 +62,7 @@ function onShow3D()
 
 	$.ajax({
 		type: "GET",
-		url: (id == 0 ? "../data3d/3920_5819.gml" : (id == 1 ? "../data3d/3960_5819.gml" : (id == 2 ? "../data3d/3970_5819.gml" : "../data3d/3920_5821.gml"))),
+		url: '../data3d/' + data[id].gml + '.gml',
 		dataType: "xml",
 		success: function(response) {
 			var cityGML = new CityGL.CityGML(response, "http://kiez-karte.berlin/images3d/", {});
