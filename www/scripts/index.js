@@ -729,21 +729,29 @@ function updateMapSelectItem( data)
 		}
 	}
 
-	if(( typeof data.spiel_art !== 'undefined') && (data.spiel_art != '')){
-//		data.wishes;
-		// hack spielplatz
+	if(( typeof data.dataId !== 'undefined') && ( typeof dataVec[data.dataId].wishes !== 'undefined') && (dataVec[data.dataId].wishes.length > 0)){
+		var wishes = dataVec[data.dataId].wishes;
 		strInfo += '<div class="wishList">';
-		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Rutschen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Rutsche</div></a>';
-		strInfo += '<a href="#" onClick="onShowWish(\'Platz zum Schaukeln\');" border=0><div class="wish"><i class="fa fa-gift"></i> Schaukel</div></a>';
-		strInfo += '<a href="#" onClick="onShowWish(\'Sandkasten\');" border=0><div class="wish"><i class="fa fa-gift"></i> Sand</div></a>';
-		strInfo += '</div>';
-	}
-	if(( typeof data.Schulart !== 'undefined') && (data.Schulart != '')){
-		// hack schule
-		strInfo += '<div class="wishList">';
-		strInfo += '<a href="#" onClick="onShowWish(\'Zebrastreifen\');" border=0><div class="wish"><i class="fa fa-gift"></i> Zebrastreifen</div></a>';
-		strInfo += '<a href="#" onClick="onShowWish(\'Fahrradweg\');" border=0><div class="wish"><i class="fa fa-gift"></i> Fahrradweg</div></a>';
-		strInfo += '</div>';
+		if( dataVec[data.dataId].title == 'Berliner Stadtbaumkampagne') {
+			var msg = '0';
+			if(( typeof data.material !== 'undefined') && (typeof data.spendenstatus !== 'undefined')){
+				data.material = trimQuotes( data.material);
+				data.spendenstatus = trimQuotes( data.spendenstatus);
+				if( 'GEPFLANZT' == data.material) {
+					msg = '1';
+				} else if( 'GESPENDET' == data.spendenstatus) {
+					msg = '2';
+				} else {
+					msg = '0';
+				}
+			}
+			strInfo += '<img src="./images/stadtbaeume.svg" alt="Stadtbäume für Berlin" style="height:4em;margin:-1em 1em -1em 0;">';
+			strInfo += '<a href="#" onClick="onShowWishTree(\'' + msg + '\');" style="float:right;margin:1em 0 0 0;" border=0><div class="wish"><i class="fa fa-gift"></i> Helfen</div></a>';
+		} else {
+			for( var i = 0; i < wishes.length; ++i) {
+				strInfo += '<a href="#" onClick="onShowWish(\'' + wishes[i].long + '\');" border=0><div class="wish"><i class="fa fa-gift"></i> ' + wishes[i].short + '</div></a>';
+			}
+		}
 	}
 
 	if(( typeof data.houseid !== 'undefined') && (data.houseid != '')){
@@ -967,6 +975,7 @@ function onShowData( dataId, ageId)
 						val.lat = val['Breitengrad'];
 						val.lng = val['Längengrad'];
 					}
+					val.dataId = dataId;
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
 //							brush: colorOut,
@@ -1218,11 +1227,11 @@ function onShow3D()
 
 	var str = '';
 	str += '<h2>3D-Test</h2>';
-	str += '<div id="scene3d"></div>';
+	str += '<div id="scene3d" style="width:300px;height:300px;"></div>';
 	$( '#mapSelectItem').html( str);
 	$( '#mapSelectItem').css( 'display', 'block');
 
-	var width = 300;
+/*	var width = 300;
 	var height = 300;
 
 	// scene
@@ -1251,16 +1260,78 @@ function onShow3D()
 		cube.rotation.y += 0.05;
 		renderer.render( scene, camera);
 	}
-	render();
+	render();*/
 
 	// view-source:http://threejs.org/examples/webgl_loader_obj.html
+
+	// http://www.citygl.com/citygl
+	// https://github.com/citygl/citygl
+	// (https://github.com/xml3d )
+	// http://www.businesslocationcenter.de/downloadportal
+	// http://www.businesslocationcenter.de/berlin3d-downloadportal/
+	Proj4js.defs["EPSG:25833"]='+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs';
+
+	$.ajax({
+		type: "GET",
+//		url: "../data3d/3960_5819.gml",
+		url: "../data3d/3920_5819.gml",
+		dataType: "xml",
+		success: function(response) {
+			var cityGML = new CityGL.CityGML(response, "http://kiez-karte.berlin/images3d/", {});
+			var object3ds = cityGML.Read(0.1);
+			var extent = cityGML.ParseExtent(cityGML.doc);
+			var ll = new CityGL.Point(extent.lowerCorner[0],extent.lowerCorner[1],extent.lowerCorner[2]);
+			var ur = new CityGL.Point(extent.upperCorner[0],extent.upperCorner[1],extent.upperCorner[2]);
+			ll.x -= 1*(ur.x-ll.x);
+			ll.y -= 1*(ur.y-ll.y);
+			ur.x += 1*(ur.x-ll.x);
+			ur.y += 1*(ur.y-ll.y);
+			var boundingBox = new CityGL.BoundingBox(ll,ur);
+			var viewport = new CityGL.ViewPort("scene3d", boundingBox, {EPSG: 'EPSG:25833'});
+			var geomlayer = new CityGL.GeometryLayer({name: 'Berlin', EPSG:'EPSG:25833'});		
+			var osm = new CityGL.OpenStreetMap({name: "OSM", });
+			geomlayer.addObject3Ds(object3ds);
+			viewport.AddLayer(osm);
+			viewport.AddLayer(geomlayer);
+			viewport.StartAnimating();
+
+			var ll = new CityGL.Point(extent.lowerCorner[0],extent.lowerCorner[1],extent.lowerCorner[2]);
+			var ur = new CityGL.Point(extent.upperCorner[0],extent.upperCorner[1],extent.upperCorner[2]);
+
+			var position = new CityGL.Point(ur.x,ll.y+(ll.y-ur.y)/1,ur.z+(ur.z-ll.z)/2);
+			var lookat= new CityGL.Point(ur.x+(ll.x-ur.x)/2,ur.y+(ll.y-ur.y)/2,ur.z+(ll.z-ur.z)/2);
+			viewport.MoveTo(position, lookat);
+
+			var timer = setInterval(timerFunc, 100);
+			var angle = 0;
+			var step = (2*Math.PI) / 90;
+			function timerFunc() {
+				angle += step;
+				if( angle >= 360) {
+					angle = 0;
+				}
+
+//angle=315;
+				var xradius = (ll.x-ur.x)/2;
+				var yradius = (ll.y-ur.y)/2;
+				var zradius = (ll.z-ur.z)/2;
+				var x = ur.x+xradius;
+				var y = ur.y+yradius;
+				var z = ur.z+zradius;
+				xradius = yradius = Math.min(xradius,yradius);
+
+				position = new CityGL.Point(x+2.35*xradius*Math.sin(angle),y+2.35*yradius*Math.cos(angle),z-2*zradius);
+				lookat= new CityGL.Point(x,y,z);
+				viewport.MoveTo(position, lookat);
+			}
+		}
+	});
 }
 
 // -----------------------------------------------------------------------------
 
 function onShowWish( str)
 {
-	$( '#wishTitle').html( str);
 	$( '#wishTitle').html( str);
 	$( '#wishYes').on( 'click', function( e) {
 //		$( '#popupWish').popup( 'close');
@@ -1269,6 +1340,32 @@ function onShowWish( str)
 //		$( '#popupWish').popup( 'close');
 	});
 	$( '#popupWish').popup( 'open');
+}
+
+// -----------------------------------------------------------------------------
+
+function onShowWishTree( str)
+{
+	if( str == '1') {
+		$( '#wishTreeMessage').html( 'Dieser Baum wurde erfolgreich gepflanzt. Hilf mit und spende für einen anderen Baum.');
+	} else if( str == '2') {
+		$( '#wishTreeMessage').html( 'Dieser Baum wurde erfolgreich gepflanzt, dank einer Spende! Hilf mit und spende für einen anderen Baum.');
+	} else {
+		$( '#wishTreeMessage').html( 'Dieser Baum konnte leider nicht gepflanzt werden. Hilf mit und spende für einen anderen Baum.');
+	}
+
+	$( '#wishTreeYes').html( 'Ja, gerne');
+	$( '#wishTreeYes').attr( 'href', 'http://www.stadtentwicklung.berlin.de/umwelt/stadtgruen/stadtbaeume/kampagne/de/spenden/');
+
+//	$( '#wishTreeYes').on( 'click', function( e) {
+//		$( '#popupWish').popup( 'close');
+//	});
+
+//	$( '#wishTreeNo').html( 'Och nö');
+	$( '#wishTreeNo').on( 'click', function( e) {
+//		$( '#popupWish').popup( 'close');
+	});
+	$( '#popupWishTree').popup( 'open');
 }
 
 // -----------------------------------------------------------------------------
