@@ -22,5 +22,7 @@ RewriteRule ^hackyourcity$                        /about-hyc.html               
 RewriteRule ^hackyourcity/$                       /about-hyc.html               [L]
 RewriteRule ^imprint/$                            /imprint.html                 [L]
 RewriteRule ^roadmap/$                            /roadmap.html                 [L]
+RewriteRule ^schule$                              /school.html                  [L]
+RewriteRule ^schule/$                             /school.html                  [L]
 
 ########

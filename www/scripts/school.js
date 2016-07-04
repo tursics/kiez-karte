@@ -1,0 +1,685 @@
+/*
+*/
+
+var map = null;
+var showWelcome = false;
+
+var dataAge = -1;
+var dataGeoSet = new Array();
+
+// -----------------------------------------------------------------------------
+
+function initMap( elementName, lat, lng, zoom)
+{
+	if( null == map) {
+		var mapboxToken = 'pk.eyJ1IjoidHVyc2ljcyIsImEiOiI1UWlEY3RNIn0.U9sg8F_23xWXLn4QdfZeqg';
+		var mapboxTiles = L.tileLayer( 'https://{s}.tiles.mapbox.com/v4/tursics.l7ad5ee8/{z}/{x}/{y}.png?access_token=' + mapboxToken, {
+			attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a> | <a href="/imprint">Impressum</a> | <a href="/copyright">Copyright</a> | <a href="/imprint">Kontakt</a>'
+		});
+
+		map = L.map( elementName, {zoomControl: false})
+			.addLayer( mapboxTiles)
+			.setView( [lat, lng], zoom);
+
+		map.addControl( L.control.zoom({ position: 'bottomright'}));
+
+		var dataUrl = 'data/gebaeudescan.json';
+		$.getJSON( dataUrl, function( data) {
+			createMarker( data);
+		});
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+function createMarker( data)
+{
+	try {
+		var iconMarker = L.AwesomeMarkers.icon({
+			icon: 'fa-building-o',
+			prefix: 'fa',
+			markerColor: 'cadetblue'
+		});
+
+		var layerGroup = L.featureGroup([]);
+		layerGroup.addTo(map);
+
+		layerGroup.addEventListener( 'click', function( evt) {
+			updateMapSelectItem( evt.layer.options.data);
+		});
+
+		$.each( data, function( key, val) {
+			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+				var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
+					data: val,
+					icon: iconMarker
+				});
+				layerGroup.addLayer( marker);
+			}
+		});
+	} catch( e) {
+		console.log(e);
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+$( document).on( "pagecreate", "#pageMap", function()
+{
+	// center the city hall
+//	initMap( 'mapContainer', 52.515807, 13.479470, 16);
+
+	updateMapSelectData();
+
+//	showWelcome = true;
+});
+
+// -----------------------------------------------------------------------------
+
+function formatDate( strDate)
+{
+	var month = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+	var strD = '1';
+	var strM = '1';
+	var strY = '2001';
+
+	var vec = strDate.trim().split( '-');
+	if( vec.length == 3) {
+		strD = vec[ 2];
+		strM = vec[ 1];
+		strY = vec[ 0];
+	} else {
+		vec = strDate.trim().split( '.');
+		if( vec.length == 3) {
+			strD = vec[ 0];
+			strM = vec[ 1];
+			strY = vec[ 2];
+		}
+	}
+
+	var obj = new Date( parseInt( strY), parseInt( strM) - 1, parseInt( strD), 0, 0, 0, 0);
+	return obj.getDate() + '. ' + month[ obj.getMonth()] + ' ' + obj.getFullYear();
+}
+
+// -----------------------------------------------------------------------------
+
+function trimQuotes( str)
+{
+	if(( str.indexOf( "'") == 0) && (str.lastIndexOf( "'") == (str.length - 1))) {
+		return str.substring( 1, str.length - 1);
+	}
+	return str;
+}
+
+// -----------------------------------------------------------------------------
+
+function createFTPLink( str)
+{
+	if(( str.indexOf( '[[') == 0) && (str.lastIndexOf( ']]') == (str.length - 2))) {
+		str = str.substring( 2, str.length - 2);
+	}
+	if( str.lastIndexOf( '|') > 0) {
+		title = str.substring( str.lastIndexOf( '|') + 1, str.length);
+		str = str.substring( 0, str.lastIndexOf( '|'));
+	} else {
+		title = 'Bericht';
+	}
+
+	return '<a href="' + str + '" target="_blank">' + title + '</a>';
+}
+
+// -----------------------------------------------------------------------------
+
+$( document).on( "pageshow", "#pageMap", function()
+{
+	// center the city hall
+	initMap( 'mapContainer', 52.515807, 13.479470, 16);
+
+	if( showWelcome) {
+		showWelcome = false;
+		$( '#welcomeClose').on( 'click', function( e) {
+			$( '#popupWelcome').popup( 'close');
+		});
+		$( '#popupWelcome').popup( 'open');
+	}
+});
+
+// -----------------------------------------------------------------------------
+
+function updateMapSelectData()
+{
+	var str = '';
+
+	if( dataGeoSet.length > 0) {
+		str += '<ul data-role="listview" data-inset="false" data-split-icon="minus" data-split-theme="d" id="mapSelectDataList">';
+		for( var i = 0; i < dataGeoSet.length; ++i) {
+			var idx = dataGeoSet[ i].id;
+			var ageStr = 'age' + dataGeoSet[ i].age;
+			str += '<li><a href="#" border=0><i class="fa ' + dataVec[idx].icon + '"></i> ' + dataVec[idx][ageStr] + '</a>';
+			str += '<a href="#" onClick="onRemoveData(' + i + ');" border=0>Entfernen</a></li>';
+		}
+		str += '</ul>';
+	} else {
+		if( dataAge >= 0) {
+			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-up" style="color:#155764;"></i> Wähle ein Thema aus</div>';
+		} else {
+			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-up" style="color:#155764;"></i> Benutze das Menü links oben!</div>';
+		}
+	}
+
+//	$( '#mapSelectData').html( str);
+	$( '#mapSelectDataList').listview();
+}
+
+// -----------------------------------------------------------------------------
+
+function updateMapSelectItem( data)
+{
+/*
+NF: 5733
+GF: 5396
+NGF: "9019,81"
+BGF: "10078,25"
+
+AufzugKosten: "0 T€"
+BWCAnzahl: 2
+BWCKosten: "50 T€"
+BauPrioAussen: ""
+BauPrioBauwerk: 4
+BauPrioTGA: 2
+BauprioSumme: 6
+BezirkGesamtinMio: ""
+DachKosten: "0 T€"
+Dachart: "Flach"
+Dachflaeche: 5396
+EingangAnzahl: 1
+EingangKosten: "50 T€"
+FaktorFlaechenanteil: 1
+FassadenFlaeche: 4600
+FassadenFlaecheOhneFenster: 2966
+FassadenKosten: "0 T€"
+FensterFlaeche: 1634
+FensterKosten: "0 T€"
+FlaecheNichtSaniert: 0
+Foo1: ""
+Foo2: "300 T€"
+Foo3: ""
+Foo4: ""
+Foo5: ""
+Foo6: ""
+Foo7: ""
+GebaeudeHoeheInM: "10"
+GebaeudeUmfangInMAusConject: 460
+Gebaeudenummer: 1160901
+Grundstuecksflaeche: 37704
+Kapitel: 3700
+Kostenpauschale: 300
+PrioritaetGesamt: 4
+PrioritaetWertung: ""
+RaeumeKosten: "0 T€"
+RaeumeKostenpauschale: 750
+RaeumeNutzflaeche: 5555
+RaeumeNutzflaecheBGF: "10078,25"
+RampeAnzahl: 0
+RampeKosten: "0 T€"
+SanierungDachNotwendig: 0
+SanierungNotw: 0
+SanierungNotw.: 0
+SanierungNotwendig: 0
+SanierungTuerbreitenNotwendig: 1
+SanitaerKosten: "0 T€"
+SanitaerSanierungsjahr: 2002
+Sanitaerflaeche: 178
+SchulPrioFachraum: ""
+SchulPrioGanztagEssen: ""
+SchulPrioSanitaer: ""
+SchulPrioSumme: 0
+TuerenKosten: "200 T€"
+ZeileVerknuepfung: "2"
+ZwischensummeBarrierefreiheitKosten: "300 T€"
+ausblendenBungalowSchuppen: ""
+bereitsSanierteFlaecheInProzent: 100
+loeschen: ""
+zweiterRettungswegKosten: "0 T€"
+€: {Einheit: 150}
+*/
+
+	var str = '';
+	var strH2 = data.Schulname;
+	var strAddr = '';
+	var strInfo = '';
+	var arrayPhone = [];
+	var arrayNet = [];
+
+	strH2 = data.Schulname;
+
+	strAddr += '- ' + data.Bauwerk + ' -<br>';
+	strAddr += data.Schulart + ' (' + data.Schulnummer + ')<br>';
+	strAddr += data.Strasse + '<br>';
+	strAddr += data.PLZ + ' Berlin<br>';
+
+	if( typeof data.nutzung !== 'undefined') {
+		// wirtschaft-mietraum.show.json
+		strInfo += 'Nutzung: ' + data.nutzung + '<br>';
+	}
+	if( typeof data.quadratmeter !== 'undefined') {
+		// wirtschaft-mietraum.show.json
+		strInfo += 'Größe: ' + data.quadratmeter + '<br>';
+	}
+	if( typeof data.ausstattung !== 'undefined') {
+		// wirtschaft-mietraum.show.json
+		strInfo += 'Ausstattung: ' + data.ausstattung + '<br>';
+	}
+	if( typeof data.kosten !== 'undefined') {
+		// wirtschaft-mietraum.show.json
+		strInfo += 'Kosten: ' + data.kosten + '<br>';
+	}
+	if( typeof data.fachrichtung !== 'undefined') {
+		// buergerservice-aerzte-foo.show.json
+		strInfo += 'Arzt für ' + data.fachrichtung + '<br>';
+	}
+	if(( typeof data._strasse_ !== 'undefined') && (data._strasse_ != '')) {
+		// maerkte-strassenfeste.show.json
+		// maerkte-xmas.show.json
+		strInfo += data._strasse_ + '<br>';
+	}
+	if(( typeof data.bemerkungen !== 'undefined') && (data.bemerkungen != '')) {
+		// maerkte-strassenfeste.show.json
+		// maerkte-wochen-antik.show.json
+		strInfo += 'Bemerkungen: ' + data.bemerkungen + '<br>';
+	}
+	if(( typeof data.von !== 'undefined') && (data.von != '') && (typeof data.bis !== 'undefined') && (data.bis != '') && (formatDate( data.von) == formatDate( data.bis))) {
+		// maerkte-strassenfeste.show.json
+		// maerkte-xmas.show.json
+		strInfo += 'am ' + formatDate( data.von) + '<br>';
+	} else {
+		if(( typeof data.von !== 'undefined') && (data.von != '')) {
+			// maerkte-strassenfeste.show.json
+			// maerkte-xmas.show.json
+			strInfo += 'vom ' + formatDate( data.von) + '<br>';
+		}
+		if(( typeof data.bis !== 'undefined') && (data.bis != '')) {
+			// maerkte-strassenfeste.show.json
+			// maerkte-xmas.show.json
+			strInfo += 'bis ' + formatDate( data.bis) + '<br>';
+		}
+	}
+	if(( typeof data.termin !== 'undefined') && (data.termin != '')) {
+		// buergerservice-familie-sbst.show.json
+		strInfo += 'am ' + formatDate( data.termin) + '<br>';
+	}
+	if(( typeof data.tage !== 'undefined') && (data.tage != '')) {
+		// maerkte-wochen-antik.show.json
+		strInfo += 'am ' + data.tage + '<br>';
+	}
+	if(( typeof data.uhrzeit !== 'undefined') && (data.uhrzeit != '')){
+		// buergerservice-familie-sbst.show.json
+		strInfo += 'um ' + data.uhrzeit + '<br>';
+	}
+	if(( typeof data.zeit !== 'undefined') && (data.zeit != '')){
+		// maerkte-strassenfeste.show.json
+		strInfo += 'um ' + data.zeit + '<br>';
+	}
+	if(( typeof data.zeiten !== 'undefined') && (data.zeiten != '')){
+		// maerkte-wochen-antik.show.json
+		strInfo += 'von ' + data.zeiten + '<br>';
+	}
+	if(( typeof data.oeffnungszeiten !== 'undefined') && (data.oeffnungszeiten != '')){
+		// maerkte-xmas.show.json
+		strInfo += 'von ' + data.oeffnungszeiten + '<br>';
+	}
+	if(( typeof data.veranstaltung !== 'undefined') && (data.veranstaltung != '')) {
+		// buergerservice-familie-sbst.show.json
+		strInfo += data.veranstaltung + '<br>';
+	}
+	if( typeof data.veranstalter !== 'undefined') {
+		// maerkte-strassenfeste.show.json
+		// maerkte-xmas.show.json
+		strInfo += 'Veranstalter: ' + data.veranstalter + '<br>';
+	}
+	if( typeof data.betreiber !== 'undefined') {
+		// maerkte-wochen-antik.show.json
+		strInfo += data.betreiber + '<br>';
+	}
+	if(( typeof data.kinderzahl !== 'undefined') && (data.kinderzahl != '')){
+		// buergerservice-familie-tagespflege.show.json
+		strInfo += 'Kinder: ' + data.kinderzahl + '<br>';
+	}
+	if(( typeof data.spiel_art !== 'undefined') && (data.spiel_art != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += data.spiel_art + '<br>';
+	}
+	if(( typeof data.baujahr !== 'undefined') && (data.baujahr != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Baujahr: ' + data.baujahr + '<br>';
+	}
+	if(( typeof data.sanierung !== 'undefined') && (data.sanierung != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Sanierung: ' + data.sanierung + '<br>';
+	}
+	if(( typeof data.groesse !== 'undefined') && (data.groesse != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Größe: ' + data.groesse + 'm²<br>';
+	}
+	if(( typeof data.spiel_fl !== 'undefined') && (data.spiel_fl != '')){
+		// re-spielplatz.foo.show.json
+		strInfo += 'Spielfläche: ' + data.spiel_fl + 'm²<br>';
+	}
+	if(( typeof data['FLÄCHE'] !== 'undefined') && (data['FLÄCHE'] != '')){
+		// re-friedh.show.json
+		strInfo += 'Fläche: ' + data['FLÄCHE'] + 'm²<br>';
+	}
+	if(( typeof data.schule !== 'undefined') && (data.schule != '')){
+		// freizeit-sport-ja-jsa.show.json
+		strInfo += 'Schule: ' + data.schule + '<br>';
+	}
+	if(( typeof data.schultyp !== 'undefined') && (data.schultyp != '')){
+		// freizeit-sport-ja-jsa.show.json
+		strInfo += 'Schultyp: ' + data.schultyp + '<br>';
+	}
+	if(( typeof data.traeger !== 'undefined') && (data.traeger != '')){
+		// freizeit-sport-ja-jsa.show.json
+		// freizeit-sport-jfe.show.json
+		strInfo += 'Träger: ' + data.traeger + '<br>';
+	}
+	if(( typeof data.angebote !== 'undefined') && (data.angebote != '')){
+		// freizeit-sport-ja-jsa.show.json
+		// freizeit-sport-jfe.show.json
+		strInfo += 'Angebote: ' + data.angebote + '<br>';
+	}
+	if(( typeof data.baumartbot !== 'undefined') && (data.baumartbot != '')){
+		// stadtbaum-baumstandort-20140508.show.json
+		data.baumartbot = trimQuotes( data.baumartbot);
+		data.baumartbot = data.baumartbot.replace( /\\'/g, "'");
+		strInfo += 'Botanischer Name: ' + data.baumartbot + '<br>';
+	}
+	if(( typeof data.pflanzp !== 'undefined') && (data.pflanzp != '')){
+		// stadtbaum-baumstandort-20140508.show.json
+		if( 1 == data.pflanzp) {
+			data.pflanzp = 'Herbst 2012';
+		} else if( 4 == data.pflanzp) {
+			data.pflanzp = 'Frühjahr 2014';
+		}
+		strInfo += 'Pflanzperiode: ' + data.pflanzp + '<br>';
+	}
+	if(( typeof data.material !== 'undefined') && (typeof data.spendenstatus !== 'undefined')){
+		// stadtbaum-baumstandort-20140508.show.json
+		data.material = trimQuotes( data.material);
+		data.spendenstatus = trimQuotes( data.spendenstatus);
+		if( 'GEPFLANZT' == data.material) {
+			strInfo += 'Dieser Baum wurde gepflanzt<br>';
+		} else if( 'GESPENDET' == data.spendenstatus) {
+			strInfo += 'Dieser Baum konnte gepflanzt werden, dank einer Spende!<br>';
+		} else {
+			strInfo += 'Leider konnte dieser Baum nicht gepflanzt werden.<br>';
+		}
+	}
+	if(( typeof data.einrichtung_platzzahl !== 'undefined') && (data.einrichtung_platzzahl != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Plätze: ' + data.einrichtung_platzzahl + '<br>';
+	}
+	if(( typeof data.einrichtung_versorgungsform !== 'undefined') && (data.einrichtung_versorgungsform != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Versorgungsform: ' + data.einrichtung_versorgungsform + '<br>';
+	}
+	if(( typeof data.einrichtung_wohnform !== 'undefined') && (data.einrichtung_wohnform != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Wohnform: ' + data.einrichtung_wohnform + '<br>';
+	}
+	if(( typeof data.traeger_name !== 'undefined') && (data.traeger_name != '')){
+		// heimaufsicht-pruefberichte.show.json
+		strInfo += 'Träger: ' + data.traeger_name + '<br>';
+	}
+	for( var i = 1; i <= 10; ++i) {
+		// heimaufsicht-pruefberichte.show.json
+		var baseName = 'pruefung_' + i;
+		if(( typeof data[ baseName] === 'undefined') || (data[ baseName] == '')){
+			break;
+		}
+		if(( typeof data[ baseName] !== 'undefined') && (data[ baseName] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName]) + '<br>';
+		}
+		if(( typeof data[ baseName + '_gegendarstellung_1'] !== 'undefined') && (data[ baseName + '_gegendarstellung_1'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_gegendarstellung_1']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_ergaenzender_bericht_1'] !== 'undefined') && (data[ baseName + '_ergaenzender_bericht_1'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_ergaenzender_bericht_1']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_gegendarstellung_2'] !== 'undefined') && (data[ baseName + '_gegendarstellung_2'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_gegendarstellung_2']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_ergaenzender_bericht_2'] !== 'undefined') && (data[ baseName + '_ergaenzender_bericht_2'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_ergaenzender_bericht_2']) + '<br>';
+		}
+		if(( typeof data[ baseName + '_gegendarstellung_3'] !== 'undefined') && (data[ baseName + '_gegendarstellung_3'] != '')){
+			strInfo += '• ' + createFTPLink( data[ baseName + '_gegendarstellung_3']) + '<br>';
+		}
+	}
+	if(( typeof data.KONFESS !== 'undefined') && (data.KONFESS != '')){
+		// re-friedh.show.json
+		if( 'rk' == data.KONFESS) {
+			data.KONFESS = 'katholisch';
+		} else if( 'ev' == data.KONFESS) {
+			data.KONFESS = 'evangelisch';
+		} else if( 'ld' == data.KONFESS) {
+			data.KONFESS = 'landeseigen';
+		}
+		strInfo += 'Konfession: ' + data.KONFESS + '<br>';
+	}
+	if(( typeof data.EHRENGRAB !== 'undefined') && (data.EHRENGRAB != '')){
+		// re-friedh.show.json
+		strInfo += 'Ehrengrabstätten: ' + data.EHRENGRAB + '<br>';
+	}
+
+	if( strH2 != '') {
+		str += '<h2>' + strH2 + '</h2>';
+	}
+	if( strAddr != '') {
+		str += '<div style="padding:0 0 .5em 0;">' + strAddr + '</div>';
+	}
+	if( arrayPhone.length > 0) {
+		for( i = 0; i < arrayPhone.length; ++i) {
+			var phoneVec = arrayPhone[i].split( ',');
+			if( phoneVec.length < 2) {
+				phoneVec = arrayPhone[i].split( 'oder');
+			}
+			for( j = 0; j < phoneVec.length; ++j) {
+				var isFax = false;
+				phoneVec[j] = phoneVec[j].trim();
+				if( 'Telefon: ' == phoneVec[j].substring( 0, 9)) {
+					phoneVec[j] = phoneVec[j].substring( 9);
+				} else if( 'Mobil: ' == phoneVec[j].substring( 0, 7)) {
+					phoneVec[j] = phoneVec[j].substring( 7);
+				} else if( 'Fax: ' == phoneVec[j].substring( 0, 5)) {
+					phoneVec[j] = phoneVec[j].substring( 5);
+					isFax = true;
+				} else if( 'Telefax: ' == phoneVec[j].substring( 0, 9)) {
+					phoneVec[j] = phoneVec[j].substring( 9);
+					isFax = true;
+				}
+
+				if( isFax) {
+					str += '<div class="link"><div class="round round-fax"><i class="fa fa-fax"></i></div> ' + phoneVec[j] + '</div>';
+				} else {
+					str += '<div class="link"><div class="round round-phone"><i class="fa fa-phone"></i></div> ' + phoneVec[j] + '</div>';
+				}
+			}
+		}
+	}
+	if( arrayNet.length > 0) {
+		for( i = 0; i < arrayNet.length; ++i) {
+			var netVec = arrayNet[i].split( ' ');
+			for( j = 0; j < netVec.length; ++j) {
+				var isMail = false;
+
+				if( netVec[j].indexOf( '@') > 0) {
+					isMail = true;
+				} else if( netVec[j].indexOf( 'www.') == 0) {
+					netVec[j] = 'http://' + netVec[j];
+				} else if( netVec[j].indexOf( 'http') != 0) {
+					continue;
+				}
+
+				if( isMail) {
+					str += '<div class="link"><div class="round round-envelope"><i class="fa fa-envelope"></i></div> <a href="mailto:' + netVec[j] + '">' + netVec[j] + '</a></div>';
+				} else {
+					var strLink = netVec[j];
+					if( 'http://' == strLink.substring( 0, 7)) {
+						strLink = strLink.substring( 7);
+					} else if( 'https://' == strLink.substring( 0, 8)) {
+						strLink = strLink.substring( 8);
+					}
+					if( 'www.' == strLink.substring( 0, 4)) {
+						strLink = strLink.substring( 4);
+					}
+					str += '<div class="link"><div class="round round-link"><i class="fa fa-link"></i></div> <a href="' + netVec[j] + '" target="_blank">' + strLink + '</a></div>';
+				}
+			}
+		}
+	}
+	if( strInfo != '') {
+		str += '<div class="info">' + strInfo + '</div>';
+	}
+
+//	str += JSON.stringify( data);
+	console.log( data);
+
+	$( '#mapSelectItem').html( str);
+	$( '#mapSelectItem').css( 'display', 'block');
+}
+
+// -----------------------------------------------------------------------------
+
+function updateMapSelectInfo()
+{
+	var str = '';
+
+	if( dataAge >= 0) {
+		str += '<div>';
+		if( dataAge < 6) {
+			str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
+		} else if( dataAge < 18) {
+			str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Schulkinder<br>';
+		} else if( dataAge < 30) {
+			str += '<i class="fa fa-female" style="padding-right:0.7em;"></i>Angebote für die Familienplanung<br>';
+		} else if( dataAge < 65) {
+			str += '<i class="fa fa-male" style="padding-right:0.7em;"></i>Angebote für Familien<br>';
+		} else {
+			str += '<i class="fa fa-wheelchair" style="padding-right:0.7em;"></i>Angebote für ältere Bürger<br>';
+		}
+
+		str += '</div>';
+		str += '<ul data-role="listview" data-inset="false" data-icon="plus" id="mapSelectInfoList">';
+
+		var ageStr = 'age' + dataAge;
+		for( var i = 0; i < dataVec.length; ++i) {
+			if( dataVec[i][ageStr].length > 0) {
+				str += '<li><a href="#" onClick="onShowData(' + i + ',' + dataAge + ');" border=0><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
+			}
+		}
+
+		str += '</ul>';
+	}
+
+//	$( '#mapSelectInfo').html( str);
+	$( '#mapSelectInfoList').listview();
+}
+
+// -----------------------------------------------------------------------------
+
+function setAge( age)
+{
+	if( dataAge != age) {
+		dataAge = age;
+	} else {
+		dataAge = -1;
+	}
+
+	updateMapSelectInfo();
+	updateMapSelectData();
+}
+
+// -----------------------------------------------------------------------------
+
+function onShowData( dataId, ageId)
+{
+	if( dataId < dataVec.length) {
+		var colorOut = {color: '#155764'};
+		var colorOver = {color: '#8C9C88'};
+
+		setAge( -1);
+
+		for( var i = 0; i < dataGeoSet.length; ++i) {
+			if( dataId == dataGeoSet[ i].id) {
+				dataGeoSet[ i].age = ageId;
+				dataGeoSet.push( dataGeoSet[ i]);
+				dataGeoSet.splice( i, 1);
+
+				updateMapSelectData();
+				return;
+			}
+		}
+
+		dataGeoSet.push({
+			id: dataId,
+			age: ageId,
+			layerGroup: L.featureGroup([])
+		});
+
+		var layerGroup = dataGeoSet[ dataGeoSet.length - 1].layerGroup;
+
+		layerGroup.addEventListener( 'click', function( evt) {
+			updateMapSelectItem( evt.layer.options.data);
+		});
+//		layerGroup.addEventListener( 'mouseover', function( evt) {
+//			evt.target.set( 'brush', colorOver);
+//			map.update( -1, 0);
+//		});
+//		layerGroup.addEventListener( 'mouseout', function( evt) {
+//			evt.target.set( 'brush', colorOut);
+//			map.update( -1, 0);
+//		});
+		layerGroup.addTo(map);
+
+		updateMapSelectData();
+
+		var dataUrl = dataVec[ dataId].url;
+		if( 0 != dataUrl.indexOf( 'http://')) {
+			dataUrl = 'data/' + dataUrl;
+		}
+		$.getJSON( dataUrl, function( data) {
+			try {
+				$.each( data, function( key, val) {
+					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
+//							brush: colorOut,
+							data: val
+						});
+						layerGroup.addLayer( marker);
+					}
+				});
+
+				if( layerGroup.getLayers().length > 0) {
+					map.fitBounds( layerGroup.getBounds());
+				}
+			} catch( e) {
+//				alert( e);
+			}
+		});
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+function onRemoveData( dataId)
+{
+	if( dataId < dataGeoSet.length) {
+		map.removeLayer( dataGeoSet[ dataId].layerGroup);
+		dataGeoSet.splice( dataId, 1);
+	}
+
+	setAge( -1);
+	updateMapSelectData();
+}
+
+// -----------------------------------------------------------------------------
