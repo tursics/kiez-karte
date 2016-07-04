@@ -1,6 +1,9 @@
 // http://www.sitepoint.com/bringing-vr-to-web-google-cardboard-three-js/
 var map = null;
 var data = [
+//{title: 'Reichstag', consumption: '0', gml: '3890_5819'},
+//{title: 'Bundeskanzerinamt', consumption: '0', gml: '3890_5820'},
+//{title: 'Fernsehturm (Darstellungsprobleme)', consumption: '0', gml: '3920_5820'},
 {title: 'Gesamt Berlin', consumption: '2.309', gml: '3920_5819'},
 {title: 'Charlottenburg-Wilmersdorf', consumption: '298', gml: '3850_5819'},
 {title: 'Friedrichshain-Kreuzberg', consumption: '172', gml: '3950_5819'},

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>CityGL</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="viewport" style="position:absolute; left:0px; height:100%; width:100%;"></div>
+		<!--<script src="build/three.min.js"></script>-->
+		<script src="three/three.js"></script>
+		<script src="poly2tri/poly2tri.js"></script>
+		<script type="text/javascript" src="scripts/jquery-1.9.1.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+		<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+		<script src="three.js/examples/js/libs/stats.min.js"></script>
+		<script src="three.js/examples/js/controls/FirstPersonControls.js"></script>
+        <script src="proj4js/proj4js-combined.js"></script>
+		<script src="src/citygl.js"></script>
+		<script src="src/controls/FlyControls.js"></script>
+		<script src="src/Viewport/viewport.js"></script>
+		<script src="src/Layer/layer.js"></script>
+		<script src="src/Layer/geometrylayer.js"></script>
+		<script src="src/Layer/openstreetmap.js"></script>
+		<script src="src/Data/gml.js"></script>
+		<script src="src/Data/citygml.js"></script>
+		<script src="src/Tools/query.js"></script>
+		<script src="src/Util/parameterizedTexture.js"></script>
+		<script src="src/Util/target.js"></script>
+		<script src="src/Util/boundingbox.js"></script>
+		<script src="src/Util/point.js"></script>		
+		<script src="src/Util/tile.js"></script>
+		
+		<script>
+			// http://www.citygl.com/citygl
+			// https://github.com/citygl/citygl
+			// (https://github.com/xml3d )
+			// http://www.businesslocationcenter.de/downloadportal
+			// http://www.businesslocationcenter.de/berlin3d-downloadportal/
+
+			Proj4js.defs["EPSG:25833"]='+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs';
+
+			//this boundingbox limits the scene and is used to limit the OpenStreetMap basemap to
+//			var ll = new CityGL.Point(396809.051524545,5819472.82902514,41.689998626709);
+//			var ur= new CityGL.Point(396858.2576652,5819516.60148173,61.4760147163404);
+//			var ll = new CityGL.Point(397200.636004936,5818837.46630304,36.060001373291);
+//			var ur= new CityGL.Point(397265.05383456,5818874.20749206,52.2775840422726);
+			var ll = new CityGL.Point(392351.705792848,5821199.22370557,47.3199996948242);
+			var ur= new CityGL.Point(392385.760729789,5821243.03622548,60.3358530157761);
+			var boundingBox = new CityGL.BoundingBox(ll,ur);
+			
+			//the viewport is the element where the 3D scene will be projected into 2D
+			var viewport = new CityGL.ViewPort("viewport", boundingBox, {EPSG: 'EPSG:25833'});
+			
+			//create the OpenStreetMap baselayer and add it to the viewport
+			var osm = new CityGL.OpenStreetMap({name: "OSM", });
+			viewport.AddLayer(osm);
+			
+			//standard jQuery request to the xml file
+			$.ajax({
+				type: "GET",				
+//				url: "../3960_5819/3960_5819.gml", Rathaus Lichtenberg
+//				url: "../3970_5818/3970_5818.gml", Schule
+				url: "../3920_5821/3920_5821.gml", // Koenigsstadt
+				dataType: "xml",
+				success: function(response) {
+					//construct a CityGML reader, provide the full url of the cityGML file to get the texture images referred in the CityGML document
+//					var cityGML = new CityGL.CityGML(response, "http://3d.kiez-karte.berlin/3960_5819/", {});
+//					var cityGML = new CityGL.CityGML(response, "http://3d.kiez-karte.berlin/3970_5818/", {});
+					var cityGML = new CityGL.CityGML(response, "http://3d.kiez-karte.berlin/3920_5821/", {});
+					//read the file, using a small offset to avoid webgl glitches with geometries from basemap and CityGML being in the same plane
+					var object3ds = cityGML.Read(0.1);
+					//construct a geometrylayer
+					var geomlayer = new CityGL.GeometryLayer({name: 'Berlin', EPSG:'EPSG:25833'});		
+					//add the parsed objects from the reader
+					geomlayer.addObject3Ds(object3ds);
+					//and add the layer to the viewport
+					viewport.AddLayer(geomlayer);
+					//start the animation
+					viewport.StartAnimating();
+					
+					//set the cameraposition and direction, in this case looking from the south at 100 height 
+//					var position = new CityGL.Point(396850,5819350,70);
+//					var lookat= new CityGL.Point(396851,5819516,50);
+//					var position = new CityGL.Point(397240,5818837,70);
+//					var lookat= new CityGL.Point(397241,5818837,50);
+					var position = new CityGL.Point(392430,5821250,80);
+					var lookat= new CityGL.Point(392320,5821200,20);
+					//tell the viewport to relocate to this new position
+					viewport.MoveTo(position, lookat);
+					
+//var myVar = setInterval(myTimer, 100);
+var x = 392430;
+var y = 5821250;
+var z = 80;
+var tox = 392320;
+var toy = 5821200;
+var toz = 20;
+
+function myTimer() {
+					var position = new CityGL.Point(396850,5819472,70);
+					var lookat= new CityGL.Point(396851,5819516,50);
+//					x -= 50;
+//					y += 1;
+//					z += 1;
+					position.x = x;
+					position.y = y;
+					position.z = z;
+//					tox -= 1;
+//					toy -= 5;
+//					toz += 1;
+					lookat.x = tox;
+					lookat.y = toy;
+					lookat.z = toz;
+					viewport.MoveTo(position, lookat);
+}
+				}
+			});
+			
+		</script>
+
+	</body>
+</html>

@@ -24,7 +24,7 @@ $url = 'https://www.vattenfall.de/SmeterEngine/networkcontrol';*/
 
 $url = 'https://www.vattenfall.de/SmeterEngine/energyProjection';*/
 
-$xml_str = '<smeterengine><scale>DAY</scale><city>BERLIN</city><district name="Marzahn-Hellersdorf">'.
+$xml_str = '<smeterengine><scale>DAY</scale><city>BERLIN</city><district name="Treptow-Koepenick">'.
 '<time_period begin="2015-11-13 00:00:00" end="2015-11-14 00:00:00" '.
 'time_zone="CET"/></district></smeterengine>';
 
