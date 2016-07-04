@@ -3,8 +3,8 @@ Options -Indexes
 CheckSpelling off
 
 ########
-#Header add Access-Control-Allow-Origin "*"
-#Header add Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
+#Header set Access-Control-Allow-Origin "*"
+#Header set Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
 
 ########
 ErrorDocument 400 /error.html
