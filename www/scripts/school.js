@@ -87,6 +87,7 @@ function fixData(val)
 	}
 
 	val.NGF = fixComma( val.NGF);
+	val.BGF = fixComma( val.BGF);
 	val.GebaeudeHoeheInM = fixComma( val.GebaeudeHoeheInM);
 	val.GebaeudeUmfangInMAusConject = fixComma( val.GebaeudeUmfangInMAusConject);
 	val.FassadenFlaeche = fixComma( val.FassadenFlaeche);
@@ -106,8 +107,9 @@ function fixData(val)
 	val.ZwischensummeBarrierefreiheitKosten = fixEuro( val.ZwischensummeBarrierefreiheitKosten);
 	val.zweiterRettungswegKosten = fixEuro( val.zweiterRettungswegKosten);
 	val.RaeumeKosten = fixEuro( val.RaeumeKosten);
+	val.Raeume2Kosten = fixEuro( val.Raeume2Kosten);
 	val.SanitaerKosten = fixEuro( val.SanitaerKosten);
-	val.Foo2 = fixEuro( val.Foo2);
+	val.GebaeudeGesamt = fixEuro( val.GebaeudeGesamt);
 
 	if( val.SanitaerSanierungsjahr === 0) {
 		val.SanitaerSanierungsjahr = '-';
@@ -227,21 +229,21 @@ function updateMapSelectItem( data)
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
 	strArea = 'Fenster Kosten: ' + data.FensterKosten + ' €<br>';
-	strArea += '<s>Sanierung notwendig: ' + (data.SanierungNotwendig === 1 ? 'ja' : 'nein') + '</s><br>';
+	strArea += 'Sanierung notwendig: ' + (data.SanierungFensterNotwendig === 1 ? 'ja' : 'nein') + '<br>';
 	strArea += 'Fenster Fläche: ' + data.FensterFlaeche + ' m²<br>';
-	strArea += '<s>Faktor Flächenanteil: ' + data.FaktorFlaechenanteil + '</s><br>';
-	strArea += '<s>Kostenpauschale: ' + data.Kostenpauschale + ' €/m²</s><br>';
+	strArea += 'Faktor Flächenanteil: ' + data.FensterFaktorFlaechenanteil + '<br>';
+	strArea += 'Kostenpauschale: ' + data.FensterKostenpauschale + ' €/m²<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
 	strArea = 'Fassaden Kosten: ' + data.FassadenKosten + ' €<br>';
-	strArea += '<s>Sanierung notwendig: ' + (data.SanierungNotwendig === 1 ? 'ja' : 'nein') + '</s><br>';
+	strArea += 'Sanierung notwendig: ' + (data.SanierungFassadenNotwendig === 1 ? 'ja' : 'nein') + '<br>';
 	strArea += 'Gebäude Höhe: ' + data.GebaeudeHoeheInM + ' m<br>';
 	strArea += 'Gebäude Umfang: ' + data.GebaeudeUmfangInMAusConject + ' m<br>';
 	strArea += 'Fassaden Fläche: ' + data.FassadenFlaeche + ' m²<br>';
 	strArea += 'Fassaden Fläche ohne Fenster: ' + data.FassadenFlaecheOhneFenster + ' m²<br>';
-	strArea += '<s>Faktor Flächenanteil: ' + data.FaktorFlaechenanteil + '</s><br>';
-	strArea += '<s>Kostenpauschale: ' + data.Kostenpauschale + ' €/m²</s><br>';
+	strArea += 'Faktor Flächenanteil: ' + data.FassadenFaktorFlaechenanteil + '<br>';
+	strArea += 'Kostenpauschale: ' + data.FassadenKostenpauschale + ' €/m²<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
@@ -249,7 +251,7 @@ function updateMapSelectItem( data)
 	strArea += 'Sanierung notwendig: ' + (data.SanierungDachNotwendig === 1 ? 'ja' : 'nein') + '<br>';
 	strArea += 'Dachart: ' + data.Dachart + '<br>';
 	strArea += 'Dachfläche: ' + data.Dachflaeche + ' m²<br>';
-	strArea += 'Kostenpauschale: ' + data['€'].Einheit + '  €/m²<br>';
+	strArea += 'Kostenpauschale: ' + data.DachKostenpauschale + ' €/m²<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
@@ -270,10 +272,10 @@ function updateMapSelectItem( data)
 
 	str += '<div class="info">' + strArea + '</div>';
 
-	strArea = '<s>Räume Kosten: ' + data.RaeumeKosten + ' €</s><br>';
-	strArea += '<s>Sanierung notwendig: ' + (data['SanierungNotw.'] === 1 ? 'ja' : 'nein') + '</s><br>';
+	strArea = 'Räume Kosten: ' + data.RaeumeKosten + ' €<br>';
+	strArea += 'Sanierung notwendig: ' + (data.SanierungRaeumeNotwendig === 1 ? 'ja' : 'nein') + '<br>';
 	strArea += 'Räume Nutzfläche: ' + data.RaeumeNutzflaecheBGF + ' m²<br>';
-	strArea += '<s>Räume Kostenpauschale: ' + data.RaeumeKostenpauschale + ' €/m²</s><br>';
+	strArea += 'Räume Kostenpauschale: ' + data.RaeumeKostenpauschale + ' €/m²<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
@@ -285,14 +287,14 @@ function updateMapSelectItem( data)
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
-	strArea = '<s>Räume Kosten: ' + data.RaeumeKosten + ' €</s><br>';
-	strArea += '<s>Sanierung notwendig: ' + (data['SanierungNotw.'] === 1 ? 'ja' : 'nein') + '</s><br>';
-	strArea += 'Räume Nutzfläche: ' + data.RaeumeNutzflaeche + ' m²<br>';
-	strArea += '<s>Räume Kostenpauschale: ' + data.RaeumeKostenpauschale + ' €/m²</s><br>';
+	strArea = 'Räume Kosten: ' + data.Raeume2Kosten + ' €<br>';
+	strArea += 'Sanierung notwendig: ' + (data.SanierungRaeume2Notwendig === 1 ? 'ja' : 'nein') + '<br>';
+	strArea += 'Räume Nutzfläche: ' + data.Raeume2Nutzflaeche + ' m²<br>';
+	strArea += 'Räume Kostenpauschale: ' + data.Raeume2Kostenpauschale + ' €/m²<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
-	strArea = 'Gesamt: ' + data.Foo2 + ' €<br>';
+	strArea = 'Gesamt: ' + data.GebaeudeGesamt + ' €<br>';
 
 	str += '<div class="info">' + strArea + '</div>';
 
