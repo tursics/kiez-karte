@@ -35,10 +35,44 @@ function initMap( elementName, lat, lng, zoom)
 function createMarker( data)
 {
 	try {
-		var iconMarker = L.AwesomeMarkers.icon({
+		var markerSchool = L.AwesomeMarkers.icon({
+//			icon: 'fa-child',
+//			icon: 'fa-graduation-cap',
+			icon: 'fa-user',
+//			icon: 'fa-users',
+			prefix: 'fa',
+			markerColor: 'blue'
+		});
+
+		var markerExtension = L.AwesomeMarkers.icon({
+//			icon: 'fa-plus',
+			icon: 'fa-user-plus',
+			prefix: 'fa',
+			markerColor: 'blue'
+		});
+
+		var markerSport = L.AwesomeMarkers.icon({
+			icon: 'fa-soccer-ball-o',
+			prefix: 'fa',
+			markerColor: 'orange'
+		});
+
+		var markerTraffic = L.AwesomeMarkers.icon({
+			icon: 'fa-car',
+			prefix: 'fa',
+			markerColor: 'purple'
+		});
+
+		var markerMulti = L.AwesomeMarkers.icon({
 			icon: 'fa-building-o',
 			prefix: 'fa',
-			markerColor: 'cadetblue'
+			markerColor: 'purple'
+		});
+
+		var markerOthers = L.AwesomeMarkers.icon({
+			icon: 'fa-building-o',
+			prefix: 'fa',
+			markerColor: 'red'
 		});
 
 		var layerGroup = L.featureGroup([]);
@@ -50,9 +84,19 @@ function createMarker( data)
 
 		$.each( data, function( key, val) {
 			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+				var isSchool  = val.Bauwerk.startsWith( 'Schul') || val.Bauwerk.startsWith( 'Hauptgebäude') || val.Bauwerk.startsWith( 'Altbau');
+				var isSport   = val.Bauwerk.startsWith( 'Sport');
+				var isExt     = val.Bauwerk.startsWith( 'MUR') || val.Bauwerk.startsWith( 'MEB');
+				var isMulti   = val.Bauwerk.startsWith( 'MZG');
+				var isTraffic = val.Schulname.indexOf( 'verkehrsschule') !== -1;
 				var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
 					data: fixData(val),
-					icon: iconMarker
+					icon: isTraffic ? markerTraffic :
+						isSchool ? markerSchool :
+						isSport ? markerSport :
+						isExt ? markerExtension :
+						isMulti ? markerMulti :
+						markerOthers
 				});
 				layerGroup.addLayer( marker);
 			}
@@ -139,6 +183,10 @@ $( document).on( "pageshow", "#pageMap", function()
 	// center the city hall
 	initMap( 'mapContainer', 52.515807, 13.479470, 16);
 
+	$( '#receipt .group').on( 'click', function( e) {
+		$(this).toggleClass('groupClosed');
+	});
+
 	if( showWelcome) {
 		showWelcome = false;
 		$( '#welcomeClose').on( 'click', function( e) {
@@ -179,7 +227,57 @@ function updateMapSelectData()
 
 function updateMapSelectItem( data)
 {
+	function setText( key, txt) {
+		var item = $( '#rec' + key);
+
+		if( item.parent().hasClass( 'number')) {
+			txt = '' + parseInt( txt);
+			var pos = txt.length;
+			while( pos > 3) {
+				pos -= 3;
+				txt = txt.slice(0, pos) + '.' + txt.slice(pos);
+			}
+		} else if( item.parent().hasClass( 'boolean')) {
+			txt = (txt === 1 ? 'ja' : 'nein');
+		}
+
+		item.text( txt);
+	}
+
+	for(var key in data) {
+		setText( key, data[key]);
+	}
+
+	setText( 'FensterKosten_', data.FensterFaktorFlaechenanteil * data.FensterFlaeche * data.FensterKostenpauschale);
+
+	var date = new Date(),
+		dateD = date.getDate(),
+		dateM = date.getMonth() + 1,
+		dateY = date.getFullYear(),
+		dateH = date.getHours(),
+		dateMin = date.getMinutes(),
+		dateSec = date.getSeconds();
+	if(dateD < 10) {
+		dateD = '0' + dateD;
+	}
+	if(dateM < 10) {
+		dateM = '0' + dateM;
+	}
+	if(dateH < 10) {
+		dateH = '0' + dateH;
+	}
+	if(dateMin < 10) {
+		dateMin = '0' + dateMin;
+	}
+	if(dateSec < 10) {
+		dateSec = '0' + dateSec;
+	}
+	setText( 'Now_', dateD + '.' + dateM + '.' + dateY + ' ' + dateH + ':' + dateMin + ':' + dateSec);
+
+	$( '#receipt').css( 'display', 'block');
+
 	// unused rows
+	//   Gebaeudenummer
 	//   ZeileVerknuepfung
 	//   Kapitel
 	//   loeschen
@@ -195,25 +293,7 @@ function updateMapSelectItem( data)
 	var str = '';
 	var strArea = '';
 
-	strArea = data.Schulname;
-
-	str += '<h2>' + strArea + '</h2>';
-
-	strArea = '- ' + data.Bauwerk + ' -<br>';
-//	strArea += data.Gebaeudenummer + '<br>';
-	strArea += data.Schulart + ' (' + data.Schulnummer + ')<br>';
-	strArea += data.Strasse + '<br>';
-	strArea += data.PLZ + ' Berlin<br>';
-
-	str += '<div style="padding:0 0 .5em 0;">' + strArea + '</div>';
-
-	strArea = 'Nutzungsfläche: ' + data.NF + ' m²<br>';
-	strArea += 'Geschossfläche: ' + data.GF + ' m²<br>';
-	strArea += 'Netto-Raumfläche: ' + data.NGF + ' m²<br>';
-	strArea += 'Brutto-Grundfläche: ' + data.BGF + ' m²<br>'; // == data.RaeumeNutzflaecheBGF
-	strArea += 'Grundstücksfläche: ' + data.Grundstuecksflaeche + ' m²<br>';
-
-	str += '<div class="info">' + strArea + '</div>';
+	str += 'Klick mal auf die Zeilen...';
 
 	strArea = 'Priorität Gesamt: ' + data.PrioritaetGesamt + '<br>';
 	strArea += 'BauPrio Bauwerk: ' + data.BauPrioBauwerk + '<br>';
@@ -225,14 +305,6 @@ function updateMapSelectItem( data)
 //	strArea += 'SchulPrio Ganztag Essen: ' + data.SchulPrioGanztagEssen + '<br>';
 //	strArea += 'SchulPrio Summe (ohne Wichtung): ' + data.SchulPrioSumme + '<br>';
 //	strArea += 'Priorität Wertung: ' + data.PrioritaetWertung + '<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Fenster Kosten: ' + data.FensterKosten + ' €<br>';
-	strArea += 'Sanierung notwendig: ' + (data.SanierungFensterNotwendig === 1 ? 'ja' : 'nein') + '<br>';
-	strArea += 'Fenster Fläche: ' + data.FensterFlaeche + ' m²<br>';
-	strArea += 'Faktor Flächenanteil: ' + data.FensterFaktorFlaechenanteil + '<br>';
-	strArea += 'Kostenpauschale: ' + data.FensterKostenpauschale + ' €/m²<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
@@ -293,10 +365,6 @@ function updateMapSelectItem( data)
 	strArea += 'Räume Kostenpauschale: ' + data.Raeume2Kostenpauschale + ' €/m²<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Gesamt: ' + data.GebaeudeGesamt + ' €<br>';
-
-	str += '<div class="info">' + strArea + '</div>';
 
 	$( '#mapSelectItem').html( str);
 	$( '#mapSelectItem').css( 'display', 'block');
