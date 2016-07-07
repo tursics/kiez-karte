@@ -249,6 +249,7 @@ function updateMapSelectItem( data)
 	}
 
 	setText( 'FensterKosten_', data.FensterFaktorFlaechenanteil * data.FensterFlaeche * data.FensterKostenpauschale);
+	setText( 'DachKosten_', data.Dachflaeche * data.DachKostenpauschale);
 
 	var date = new Date(),
 		dateD = date.getDate(),
@@ -316,27 +317,6 @@ function updateMapSelectItem( data)
 	strArea += 'Fassaden Fläche ohne Fenster: ' + data.FassadenFlaecheOhneFenster + ' m²<br>';
 	strArea += 'Faktor Flächenanteil: ' + data.FassadenFaktorFlaechenanteil + '<br>';
 	strArea += 'Kostenpauschale: ' + data.FassadenKostenpauschale + ' €/m²<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Dach Kosten: ' + data.DachKosten + ' €<br>';
-	strArea += 'Sanierung notwendig: ' + (data.SanierungDachNotwendig === 1 ? 'ja' : 'nein') + '<br>';
-	strArea += 'Dachart: ' + data.Dachart + '<br>';
-	strArea += 'Dachfläche: ' + data.Dachflaeche + ' m²<br>';
-	strArea += 'Kostenpauschale: ' + data.DachKostenpauschale + ' €/m²<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Barrierefreiheit Kosten: ' + data.ZwischensummeBarrierefreiheitKosten + ' €<br>';
-	strArea += 'Aufzug Kosten: ' + data.AufzugKosten + ' €<br>';
-	strArea += 'Rampe Anzahl: ' + data.RampeAnzahl + '<br>';
-	strArea += 'Rampe Kosten: ' + data.RampeKosten + ' €<br>';
-	strArea += 'Eingang Anzahl: ' + data.EingangAnzahl + '<br>';
-	strArea += 'Eingang Kosten: ' + data.EingangKosten + ' €<br>';
-	strArea += 'Sanierung Türbreiten notwendig: ' + (data.SanierungTuerbreitenNotwendig === 1 ? 'ja' : 'nein') + '<br>';
-	strArea += 'Türen Kosten: ' + data.TuerenKosten + ' €<br>';
-	strArea += 'Barrierefreie WC Anzahl: ' + data.BWCAnzahl + '<br>';
-	strArea += 'Barrierefreie WC Kosten: ' + data.BWCKosten + ' €<br>';
 
 	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 

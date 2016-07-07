@@ -49,11 +49,18 @@
 		#receipt .full { white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
 		#receipt .sub { padding-left: 1em; width: 21em; }
 		#receipt span.half    { display: inline-block; width: 15em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; }
-		#receipt span.number,
+		#receipt span.number, #receipt span.string,
 		#receipt span.boolean { display: inline-block; width:  7em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; text-align: right; }
 		#receipt .sub span.half { width: 14em; }
 		#receipt .empty { height: 1em; width: 22em; }
-		#receipt .group { cursor: pointer; }
+		#receipt .group { cursor: pointer; background-color: #fff;
+			-webkit-transition: background-color 200ms linear;
+			-moz-transition: background-color 200ms linear;
+			-ms-transition: background-color 200ms linear;
+			-o-transition: background-color 200ms linear;
+			transition: background-color 200ms linear;
+		}
+		#receipt .group:hover { background: #ffff99; }
 		#receipt .groupClosed { height: 1em; overflow-y: hidden; }
 
 		.receiptPart { cursor: pointer; }
@@ -100,6 +107,20 @@
 					<div><span class="half">Fenster</span><span class="number"><span id="recFensterKosten"></span> EUR</span></div>
 					<div class="sub"><span class="half"><span id="recFensterFaktorFlaechenanteil"></span>x <span id="recFensterFlaeche"></span> m² á <span id="recFensterKostenpauschale"></span> €/m²</span><span class="number"><span id="recFensterKosten_"></span> EUR</span></div>
 					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungFensterNotwendig"></span></span></div>
+				</div>
+				<div class="group groupClosed">
+					<div><span class="half">Dach (<span id="recDachart"></span>)</span><span class="number"><span id="recDachKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recDachflaeche"></span> m² á <span id="recDachKostenpauschale"></span> €/m²</span><span class="number"><span id="recDachKosten_"></span> EUR</span></div>
+					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungDachNotwendig"></span></span></div>
+				</div>
+				<div class="group groupClosed">
+					<div><span class="half">Barrierefreiheit</span><span class="number"><span id="recZwischensummeBarrierefreiheitKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half">Aufzug</span><span class="number"><span id="recAufzugKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recRampeAnzahl"></span> x Rampe</span><span class="number"><span id="recRampeKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recEingangAnzahl"></span> x Eingang</span><span class="number"><span id="recEingangKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half">Sanierung Türbreiten notwendig</span><span class="boolean"><span id="recSanierungTuerbreitenNotwendig"></span></span></div>
+					<div class="sub"><span class="half">Türen</span><span class="number"><span id="recTuerenKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recBWCAnzahl"></span> x Barrierefreie WC</span><span class="number"><span id="recBWCKosten"></span> EUR</span></div>
 				</div>
 
 				<div class="empty"></div>
