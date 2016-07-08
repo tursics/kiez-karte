@@ -94,12 +94,18 @@
 				<div class="full center"><span id="recPLZ"></span> Berlin</div>
 				<div class="empty"></div>
 				<div class="group groupClosed">
-					<div class="full bold">Gebäude: <span id="recBauwerk"></span></div>
+					<div class="full bold">Gebäude:&nbsp;&nbsp;&nbsp;<span id="recBauwerk"></span></div>
 					<div class="sub"><span class="half">Grundstücksfläche</span><span class="number"><span id="recGrundstuecksflaeche"></span> m²</span></div>
-					<div class="sub"><span class="half">Brutto-Grundfläche</span><span class="number"><span id="recBGF"></span> m²</span></div>
-					<div class="sub"><span class="half">Netto-Raumfläche</span><span class="number"><span id="recNGF"></span> m²</span></div>
-					<div class="sub"><span class="half">Nutzungsfläche</span><span class="number"><span id="recNF"></span> m²</span></div>
-					<div class="sub"><span class="half">Geschossfläche</span><span class="number"><span id="recGF"></span> m²</span></div>
+					<div class="sub"><span class="half">Bruttogeschossfläche</span><span class="number"><span id="recBGF"></span> m²</span></div>
+					<div class="sub"><span class="half">Nettogeschossfläche</span><span class="number"><span id="recNGF"></span> m²</span></div>
+					<div class="sub"><span class="half">Nutzfläche</span><span class="number"><span id="recNF"></span> m²</span></div>
+					<div class="sub"><span class="half">Grundfläche</span><span class="number"><span id="recGF"></span> m²</span></div>
+				</div>
+				<div class="group groupClosed">
+					<div class="full bold">Priorität: <span id="recPrioritaetGesamt"></span></div>
+					<div class="sub"><span class="half">Bauwerk</span><span class="number"><span id="recBauPrioBauwerk"></span></span></div>
+					<div class="sub"><span class="half">Gebäudetechnik</span><span class="number"><span id="recBauPrioTGA"></span></span></div>
+					<div class="sub"><span class="half">Summe (ohne Wichtung)</span><span class="number"><span id="recBauprioSumme"></span></span></div>
 				</div>
 				<div class="empty"></div>
 				<div class="full">--------------------------------------------</div>
@@ -109,6 +115,14 @@
 					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungFensterNotwendig"></span></span></div>
 				</div>
 				<div class="group groupClosed">
+					<div><span class="half">Fassade</span><span class="number"><span id="recFassadenKosten"></span> EUR</span></div>
+					<div class="sub"><span class="full"><span id="recGebaeudeHoeheInM"></span> m hoch x <span id="recGebaeudeUmfangInMAusConject"></span> m Umfang</span></div>
+					<div class="sub"><span class="full">= <span id="recFassadenFlaeche"></span> m² mit Fenster</span></div>
+					<div class="sub"><span class="full">= <span id="recFassadenFlaecheOhneFenster_"></span> m² ohne Fenster</span></div>
+					<div class="sub"><span class="half"><span id="recFassadenFaktorFlaechenanteil"></span>x <span id="recFassadenFlaecheOhneFenster"></span> m² á <span id="recFassadenKostenpauschale"></span> €/m²</span><span class="number"><span id="recFassadenKosten_"></span> EUR</span></div>
+					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungFassadenNotwendig"></span></span></div>
+				</div>
+				<div class="group groupClosed">
 					<div><span class="half">Dach (<span id="recDachart"></span>)</span><span class="number"><span id="recDachKosten"></span> EUR</span></div>
 					<div class="sub"><span class="half"><span id="recDachflaeche"></span> m² á <span id="recDachKostenpauschale"></span> €/m²</span><span class="number"><span id="recDachKosten_"></span> EUR</span></div>
 					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungDachNotwendig"></span></span></div>
@@ -116,32 +130,49 @@
 				<div class="group groupClosed">
 					<div><span class="half">Barrierefreiheit</span><span class="number"><span id="recZwischensummeBarrierefreiheitKosten"></span> EUR</span></div>
 					<div class="sub"><span class="half">Aufzug</span><span class="number"><span id="recAufzugKosten"></span> EUR</span></div>
-					<div class="sub"><span class="half"><span id="recRampeAnzahl"></span> x Rampe</span><span class="number"><span id="recRampeKosten"></span> EUR</span></div>
-					<div class="sub"><span class="half"><span id="recEingangAnzahl"></span> x Eingang</span><span class="number"><span id="recEingangKosten"></span> EUR</span></div>
-					<div class="sub"><span class="half">Sanierung Türbreiten notwendig</span><span class="boolean"><span id="recSanierungTuerbreitenNotwendig"></span></span></div>
-					<div class="sub"><span class="half">Türen</span><span class="number"><span id="recTuerenKosten"></span> EUR</span></div>
-					<div class="sub"><span class="half"><span id="recBWCAnzahl"></span> x Barrierefreie WC</span><span class="number"><span id="recBWCKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recRampeAnzahl"></span>x Rampe</span><span class="number"><span id="recRampeKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recEingangAnzahl"></span>x Eingang</span><span class="number"><span id="recEingangKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recBWCAnzahl"></span>x barrierefreie Toilette</span><span class="number"><span id="recBWCKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half">Türbreiten anpassen</span><span class="number"><span id="recTuerenKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half">Sanierung Türen notwendig</span><span class="boolean"><span id="recSanierungTuerbreitenNotwendig"></span></span></div>
 				</div>
-
-				<div class="empty"></div>
-				<div class="full">noch</div>
-				<div class="full">nicht</div>
-				<div class="full">fertig</div>
-
+				<div class="group groupClosed">
+					<div><span class="half">Zweiter Rettungsweg</span><span class="number"><span id="reczweiterRettungswegKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half">Zweiter Rettungsweg</span><span class="number"><span id="reczweiterRettungswegKosten_"></span> EUR</span></div>
+				</div>
+				<div class="group groupClosed">
+					<div><span class="half">Sanitär</span><span class="number"><span id="recSanitaerKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recSanitaerflaeche"></span> m² Sanitärräume</div>
+					<div class="sub"><span class="half"><span id="recbereitsSanierteFlaecheInProzent"></span>% im Jahr <span id="recSanitaerSanierungsjahr"></span> saniert</div>
+					<div class="sub"><span class="half">noch zu sanieren: <span id="recFlaecheNichtSaniert"></span> m²</div>
+				</div>
+				<div class="group groupClosed">
+					<div><span class="half">Räume</span><span class="number"><span id="recRaeumeKosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recBGF_"></span> m² Bruttogeschossfläche</span></div>
+					<div class="sub"><span class="half"><span id="recRaeumeNutzflaecheBGF"></span> m² á <span id="recRaeumeKostenpauschale"></span> €/m²</span><span class="number"><span id="recRaeumeKosten_"></span> EUR</span></div>
+					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungRaeumeNotwendig"></span></span></div>
+					<div class="empty"></div>
+					<div><span class="half">Räume (alternativ)</span><span class="number"><span id="recRaeume2Kosten"></span> EUR</span></div>
+					<div class="sub"><span class="half"><span id="recRaeume2NF_"></span> m² Nutzfläche - Sanitär</span></div>
+					<div class="sub"><span class="half"><span id="recRaeume2Nutzflaeche"></span> m² á <span id="recRaeume2Kostenpauschale"></span> €/m²</span><span class="number"><span id="recRaeume2Kosten_"></span> EUR</span></div>
+					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungRaeume2Notwendig"></span></span></div>
+				</div>
 				<div class="full">--------------------------------------------</div>
-				<div class="bold"><span class="half">SUMME</span><span class="number"><span id="recGebaeudeGesamt"></span> EUR</span></div>
+				<div class="group groupClosed">
+					<div class="bold"><span class="half">SUMME</span><span class="number"><span id="recGebaeudeGesamt"></span> EUR</span></div>
+					<div class="sub"><span class="half">Summe der Einzelposten</span><span class="number"><span id="recGebaeudeGesamt_"></span> EUR</span></div>
+				</div>
 				<div class="full">============================================</div>
+				<div class="empty"></div>
 				<div><span class="half">bis Ende 2016 verbaut</span><span class="number">- EUR</span></div>
 				<div><span class="half">Gelder bereits gesichert</span><span class="number">- EUR</span></div>
 				<div><span class="half">Restbetrag</span><span class="number">- EUR</span></div>
 				<div class="empty"></div>
 				<div class="full" id="recNow_"></div>
-				<div class="full">Sie wurden beraten von Herr T...</div>
 				<div class="empty"></div>
-				<div class="full center">Vielen Dank für Ihren Einkauf</div>
-				<div class="full center">Auf Wiedersehen</div>
-
-<!--
+				<div class="full center">Vielen Dank für Ihren Einkauf!</div>
+<!--			<div class="full center">Auf Wiedersehen</div>
+				<div class="full">Sie wurden beraten von Herr T...</div>
 				---------------<br>
 				Ihr Apothekenteam<br>
 				---------------<br>

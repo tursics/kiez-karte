@@ -232,11 +232,18 @@ function updateMapSelectItem( data)
 
 		if( item.parent().hasClass( 'number')) {
 			txt = '' + parseInt( txt);
+			var sign = '';
+			if( txt[0] == '-') {
+				sign = '-';
+				txt = txt.slice( 1);
+			}
+
 			var pos = txt.length;
 			while( pos > 3) {
 				pos -= 3;
 				txt = txt.slice(0, pos) + '.' + txt.slice(pos);
 			}
+			txt = sign + txt;
 		} else if( item.parent().hasClass( 'boolean')) {
 			txt = (txt === 1 ? 'ja' : 'nein');
 		}
@@ -250,6 +257,15 @@ function updateMapSelectItem( data)
 
 	setText( 'FensterKosten_', data.FensterFaktorFlaechenanteil * data.FensterFlaeche * data.FensterKostenpauschale);
 	setText( 'DachKosten_', data.Dachflaeche * data.DachKostenpauschale);
+	setText( 'FassadenKosten_', data.FassadenFaktorFlaechenanteil * (data.FassadenFlaecheOhneFenster < 0 ? 0 : data.FassadenFlaecheOhneFenster) * data.FassadenKostenpauschale);
+	setText( 'RaeumeKosten_', data.RaeumeNutzflaecheBGF * data.RaeumeKostenpauschale);
+	setText( 'Raeume2NF_', data.NF - data.Sanitaerflaeche);
+	setText( 'Raeume2Kosten_', data.Raeume2Nutzflaeche * data.Raeume2Kostenpauschale);
+	setText( 'GebaeudeGesamt_', data.FensterKosten + data.FassadenKosten + data.DachKosten + data.ZwischensummeBarrierefreiheitKosten + data.zweiterRettungswegKosten + data.RaeumeKosten + data.SanitaerKosten);
+
+	setText( 'zweiterRettungswegKosten_', data.zweiterRettungswegKosten);
+	setText( 'FassadenFlaecheOhneFenster_', data.FassadenFlaecheOhneFenster);
+	setText( 'BGF_', data.BGF);
 
 	var date = new Date(),
 		dateD = date.getDate(),
@@ -270,14 +286,41 @@ function updateMapSelectItem( data)
 	if(dateMin < 10) {
 		dateMin = '0' + dateMin;
 	}
-	if(dateSec < 10) {
-		dateSec = '0' + dateSec;
+	setText( 'Now_', dateD + '.' + dateM + '.' + dateY + ' ' + dateH + ':' + dateMin);
+
+	switch(data.PrioritaetGesamt) {
+	case 1:
+		setText( 'PrioritaetGesamt', '1 (dringend)');
+		break;
+	case 2:
+		setText( 'PrioritaetGesamt', '2 (sehr hoch)');
+		break;
+	case 3:
+		setText( 'PrioritaetGesamt', '3 (hoch)');
+		break;
+	case 4:
+		setText( 'PrioritaetGesamt', '4 (normal)');
+		break;
+	case 5:
+		setText( 'PrioritaetGesamt', '5 (niedrig)');
+		break;
+	case 6:
+		setText( 'PrioritaetGesamt', '6 (minimal)');
+		break;
+	default:
+		setText( 'PrioritaetGesamt', data.PrioritaetGesamt);
+		break;
 	}
-	setText( 'Now_', dateD + '.' + dateM + '.' + dateY + ' ' + dateH + ':' + dateMin + ':' + dateSec);
 
 	$( '#receipt').css( 'display', 'block');
 
 	// unused rows
+	//   BauPrioAussen
+	//   SchulPrioFachraum
+	//   SchulPrioSanitaer
+	//   SchulPrioGanztagEssen
+	//   SchulPrioSumme
+	//   PrioritaetWertung
 	//   Gebaeudenummer
 	//   ZeileVerknuepfung
 	//   Kapitel
@@ -295,56 +338,6 @@ function updateMapSelectItem( data)
 	var strArea = '';
 
 	str += 'Klick mal auf die Zeilen...';
-
-	strArea = 'Priorität Gesamt: ' + data.PrioritaetGesamt + '<br>';
-	strArea += 'BauPrio Bauwerk: ' + data.BauPrioBauwerk + '<br>';
-	strArea += 'BauPrio Gebäudetechnik: ' + data.BauPrioTGA + '<br>';
-//	strArea += 'BauPrio Außen: ' + data.BauPrioAussen + '<br>';
-	strArea += 'Bauprio Summe (ohne Wichtung): ' + data.BauprioSumme + '<br>';
-//	strArea += 'SchulPrio Fachraum: ' + data.SchulPrioFachraum + '<br>';
-//	strArea += 'SchulPrio Sanitär: ' + data.SchulPrioSanitaer + '<br>';
-//	strArea += 'SchulPrio Ganztag Essen: ' + data.SchulPrioGanztagEssen + '<br>';
-//	strArea += 'SchulPrio Summe (ohne Wichtung): ' + data.SchulPrioSumme + '<br>';
-//	strArea += 'Priorität Wertung: ' + data.PrioritaetWertung + '<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Fassaden Kosten: ' + data.FassadenKosten + ' €<br>';
-	strArea += 'Sanierung notwendig: ' + (data.SanierungFassadenNotwendig === 1 ? 'ja' : 'nein') + '<br>';
-	strArea += 'Gebäude Höhe: ' + data.GebaeudeHoeheInM + ' m<br>';
-	strArea += 'Gebäude Umfang: ' + data.GebaeudeUmfangInMAusConject + ' m<br>';
-	strArea += 'Fassaden Fläche: ' + data.FassadenFlaeche + ' m²<br>';
-	strArea += 'Fassaden Fläche ohne Fenster: ' + data.FassadenFlaecheOhneFenster + ' m²<br>';
-	strArea += 'Faktor Flächenanteil: ' + data.FassadenFaktorFlaechenanteil + '<br>';
-	strArea += 'Kostenpauschale: ' + data.FassadenKostenpauschale + ' €/m²<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Zweiter Rettungsweg Kosten: ' + data.zweiterRettungswegKosten + ' €<br>';
-
-	str += '<div class="info">' + strArea + '</div>';
-
-	strArea = 'Räume Kosten: ' + data.RaeumeKosten + ' €<br>';
-	strArea += 'Sanierung notwendig: ' + (data.SanierungRaeumeNotwendig === 1 ? 'ja' : 'nein') + '<br>';
-	strArea += 'Räume Nutzfläche: ' + data.RaeumeNutzflaecheBGF + ' m²<br>';
-	strArea += 'Räume Kostenpauschale: ' + data.RaeumeKostenpauschale + ' €/m²<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Sanitär Kosten: ' + data.SanitaerKosten + ' €<br>';
-	strArea += 'Sanitärfläche: ' + data.Sanitaerflaeche + ' m²<br>';
-	strArea += 'Sanitär Sanierungsjahr: ' + data.SanitaerSanierungsjahr + '<br>';
-	strArea += 'Bereits sanierte Fläche: ' + data.bereitsSanierteFlaecheInProzent + ' %<br>';
-	strArea += 'Fläche nicht saniert: ' + data.FlaecheNichtSaniert + ' m²<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
-
-	strArea = 'Räume Kosten: ' + data.Raeume2Kosten + ' €<br>';
-	strArea += 'Sanierung notwendig: ' + (data.SanierungRaeume2Notwendig === 1 ? 'ja' : 'nein') + '<br>';
-	strArea += 'Räume Nutzfläche: ' + data.Raeume2Nutzflaeche + ' m²<br>';
-	strArea += 'Räume Kostenpauschale: ' + data.Raeume2Kostenpauschale + ' €/m²<br>';
-
-	str += '<div class="info receiptPart receiptPartClosed">' + strArea + '</div>';
 
 	$( '#mapSelectItem').html( str);
 	$( '#mapSelectItem').css( 'display', 'block');
