@@ -2,6 +2,7 @@
 */
 
 var map = null;
+var layerPopup = null;
 var showWelcome = false;
 
 var dataAge = -1;
@@ -80,6 +81,12 @@ function createMarker( data)
 
 		layerGroup.addEventListener( 'click', function( evt) {
 			updateMapSelectItem( evt.layer.options.data);
+		});
+		layerGroup.addEventListener( 'mouseover', function( evt) {
+			updateMapHoverItem( [evt.latlng.lat, evt.latlng.lng], evt.layer.options.data, evt.layer.options.icon);
+		});
+		layerGroup.addEventListener( 'mouseout', function( evt) {
+			updateMapVoidItem( evt.layer.options.data);
 		});
 
 		$.each( data, function( key, val) {
@@ -225,25 +232,33 @@ function updateMapSelectData()
 
 // -----------------------------------------------------------------------------
 
+function formatNumber( txt)
+{
+	txt = '' + parseInt( txt);
+	var sign = '';
+	if( txt[0] == '-') {
+		sign = '-';
+		txt = txt.slice( 1);
+	}
+
+	var pos = txt.length;
+	while( pos > 3) {
+		pos -= 3;
+		txt = txt.slice(0, pos) + '.' + txt.slice(pos);
+	}
+
+	return sign + txt;
+}
+
+// -----------------------------------------------------------------------------
+
 function updateMapSelectItem( data)
 {
 	function setText( key, txt) {
 		var item = $( '#rec' + key);
 
 		if( item.parent().hasClass( 'number')) {
-			txt = '' + parseInt( txt);
-			var sign = '';
-			if( txt[0] == '-') {
-				sign = '-';
-				txt = txt.slice( 1);
-			}
-
-			var pos = txt.length;
-			while( pos > 3) {
-				pos -= 3;
-				txt = txt.slice(0, pos) + '.' + txt.slice(pos);
-			}
-			txt = sign + txt;
+			txt = formatNumber( txt);
 		} else if( item.parent().hasClass( 'boolean')) {
 			txt = (txt === 1 ? 'ja' : 'nein');
 		}
@@ -341,10 +356,37 @@ function updateMapSelectItem( data)
 
 	$( '#mapSelectItem').html( str);
 	$( '#mapSelectItem').css( 'display', 'block');
+}
 
-	$( '.receiptPart').on( 'click', function( e) {
-		$(this).toggleClass('receiptPartClosed');
-	});
+// -----------------------------------------------------------------------------
+
+function updateMapHoverItem( coordinates, data, icon)
+{
+	var options = {
+		closeButton: false,
+		offset: L.point(0,-32),
+		className: 'printerLabel'
+	};
+
+	var str = '';
+	str += '<div class="top ' + icon.options.markerColor + '">' + data.Schulname + '</div>';
+	str += '<div class="middle">€' + formatNumber(data.GebaeudeGesamt) + '</div>';
+	str += '<div class="bottom ' + icon.options.markerColor + '">' + data.Bauwerk + '</div>';
+
+	layerPopup = L.popup(options)
+		.setLatLng(coordinates)
+		.setContent(str)
+		.openOn(map);
+}
+
+// -----------------------------------------------------------------------------
+
+function updateMapVoidItem( data)
+{
+	if (layerPopup && map) {
+		map.closePopup(layerPopup);
+		layerPopup = null;
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -403,9 +445,6 @@ function setAge( age)
 function onShowData( dataId, ageId)
 {
 	if( dataId < dataVec.length) {
-		var colorOut = {color: '#155764'};
-		var colorOver = {color: '#8C9C88'};
-
 		setAge( -1);
 
 		for( var i = 0; i < dataGeoSet.length; ++i) {
@@ -430,14 +469,6 @@ function onShowData( dataId, ageId)
 		layerGroup.addEventListener( 'click', function( evt) {
 			updateMapSelectItem( evt.layer.options.data);
 		});
-//		layerGroup.addEventListener( 'mouseover', function( evt) {
-//			evt.target.set( 'brush', colorOver);
-//			map.update( -1, 0);
-//		});
-//		layerGroup.addEventListener( 'mouseout', function( evt) {
-//			evt.target.set( 'brush', colorOut);
-//			map.update( -1, 0);
-//		});
 		layerGroup.addTo(map);
 
 		updateMapSelectData();
@@ -451,7 +482,6 @@ function onShowData( dataId, ageId)
 				$.each( data, function( key, val) {
 					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
-//							brush: colorOut,
 							data: val
 						});
 						layerGroup.addLayer( marker);

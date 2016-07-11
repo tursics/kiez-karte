@@ -33,6 +33,7 @@
 	<link rel="stylesheet" href="scripts/leaflet-0.7.3/leaflet.css" />
 	<link rel="stylesheet" href="scripts/index.css" />
 	<link rel="stylesheet" href="scripts/leaflet.awesome-markers-2.0.2/leaflet.awesome-markers.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat">
 
 	<script src="scripts/leaflet-0.7.3/leaflet.js"></script>
 	<script src="scripts/jquery.mobile-1.4.2/jquery-1.11.1.min.js"></script>
@@ -42,16 +43,16 @@
 	<script src="scripts/leaflet.awesome-markers-2.0.2/leaflet.awesome-markers.min.js"></script>
 
 	<style>
-		.normal { font-size: 13px; font-family: "Inconsolata"; font-style: normal; font-weight: 400; }
-		.bold { font-size: 13px; font-family: "Inconsolata"; font-style: normal; font-weight: 700; }
+		.normal { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 400; }
+		.bold { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 700; }
 		.center { text-align:center; }
 		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; display: none; }
 		#receipt .full { white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
 		#receipt .sub { padding-left: 1em; width: 21em; }
-		#receipt span.half    { display: inline-block; width: 15em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; }
+		#receipt span.half    { display: inline-block; width: 14.5em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; }
 		#receipt span.number, #receipt span.string,
-		#receipt span.boolean { display: inline-block; width:  7em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; text-align: right; }
-		#receipt .sub span.half { width: 14em; }
+		#receipt span.boolean { display: inline-block; width:  7.5em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; text-align: right; }
+		#receipt .sub span.half { width: 13.5em; }
 		#receipt .empty { height: 1em; width: 22em; }
 		#receipt .group { cursor: pointer; background-color: #fff;
 			-webkit-transition: background-color 200ms linear;
@@ -63,23 +64,21 @@
 		#receipt .group:hover { background: #ffff99; }
 		#receipt .groupClosed { height: 1em; overflow-y: hidden; }
 
+		.printerLabel .leaflet-popup-content-wrapper {
+			background: url("data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2OTYuMjcyODMiIGhlaWdodD0iMzI3LjAzNjcxIiB2ZXJzaW9uPSIxLjEiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMuODA0ODAzNCwtMjYyLjc2OTM5KSI+PHBhdGggZD0ibTY4NC4xMTQgNDc1LjMzOTgxYzE1Ljc1NTEzLTQyLjc2NzI5IDguMjE1MTctOTEuMDEyMjItMTQuMTQ2MDgtMTI5Ljk5NTkxLTEzLjY0NzA5LTI1LjIyMjA0LTE5Ljk0NzQ3LTUzLjk0MjA5LTE5LjM5NDU3LTgyLjUzNzgtMjA0LjIwNjcyIDAuMjAzNTctNDA4LjQyMDA1LTAuNTY5MjUtNjEyLjYyMTE2MyAwLjgwMzk1IDIuMTExNTcxIDM3LjYwMDEzLTEzLjgzNTA2NiA3Mi4wNDk3LTI5Ljk0NTQ2NzYgMTA0LjkwMzk2LTE4LjM3NzgyMTQgNDEuNjU4MjMtMTQuODY3NjM2IDkyLjE4NTMzIDcuNDUwOTA3NiAxMzEuNzE4ODUgMTUuNjYwOTk2IDI3LjI4MzQzIDIyLjIzNjE1NSA1OC4zOTkzNyAyMy4yNzQ5MTEgODkuNTczMjQgMjAzLjg0MzI0MiAwIDQwNy42ODY0NzIgMCA2MTEuNTI5NzEyIDAtMS41MTU4My00MS44MDA2MyAxOS4zNjA3LTgxLjYyNTk2IDMzLjg1MTc1LTExNC40NjYyOXoiIHN0eWxlPSJmaWxsLW9wYWNpdHk6MTtmaWxsOiNmZmYiLz48L2c+PC9zdmc+");
+			background-size: 150px 70px; width: 150px; height: 70px; box-shadow: none; font-family: 'Montserrat', sans-serif; font-size: 12px;
+		}
+		.printerLabel .leaflet-popup-content-wrapper .leaflet-popup-content { overflow: hidden; white-space: nowrap; margin: 5px 10px; width: 130px !important; text-align: center; }
+		.printerLabel .leaflet-popup-tip-container {}
+		.printerLabel .top, .printerLabel .bottom { overflow-x: hidden; text-overflow: ellipsis; }
+		.printerLabel .middle { font-size: 20px; }
+		.printerLabel div.blue { color: #38aadd; }
+		.printerLabel div.orange { color: #f69730; }
+		.printerLabel div.purple { color: #d252b9; }
+
 		.receiptPart { cursor: pointer; }
 		.receiptPartClosed { height: 1em; overflow-y: hidden; }
 	</style>
-
-	<script type="text/javascript">
-		(function() {
-			var link_element = document.createElement("link"),
-				s = document.getElementsByTagName("script")[0];
-			if (window.location.protocol !== "http:" && window.location.protocol !== "https:") {
-				link_element.href = "http:";
-			}
-			link_element.href += "//fonts.googleapis.com/css?family=Inconsolata:400,700";
-			link_element.rel = "stylesheet";
-			link_element.type = "text/css";
-			s.parentNode.insertBefore(link_element, s);
-		})();
-	</script>
 </head>
 <body>
 	<div data-role="page" id="pageMap" style="overflow-y:hidden;">
@@ -148,12 +147,12 @@
 				</div>
 				<div class="group groupClosed">
 					<div><span class="half">Räume</span><span class="number"><span id="recRaeumeKosten"></span> EUR</span></div>
-					<div class="sub"><span class="half"><span id="recBGF_"></span> m² Bruttogeschossfläche</span></div>
+					<div class="sub"><span class="full"><span id="recBGF_"></span> m² Bruttogeschossfläche</span></div>
 					<div class="sub"><span class="half"><span id="recRaeumeNutzflaecheBGF"></span> m² á <span id="recRaeumeKostenpauschale"></span> €/m²</span><span class="number"><span id="recRaeumeKosten_"></span> EUR</span></div>
 					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungRaeumeNotwendig"></span></span></div>
 					<div class="empty"></div>
 					<div><span class="half">Räume (alternativ)</span><span class="number"><span id="recRaeume2Kosten"></span> EUR</span></div>
-					<div class="sub"><span class="half"><span id="recRaeume2NF_"></span> m² Nutzfläche - Sanitär</span></div>
+					<div class="sub"><span class="full"><span id="recRaeume2NF_"></span> m² Nutzfläche - Sanitär</span></div>
 					<div class="sub"><span class="half"><span id="recRaeume2Nutzflaeche"></span> m² á <span id="recRaeume2Kostenpauschale"></span> €/m²</span><span class="number"><span id="recRaeume2Kosten_"></span> EUR</span></div>
 					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungRaeume2Notwendig"></span></span></div>
 				</div>
