@@ -37,15 +37,19 @@
 
 	<script src="scripts/leaflet-0.7.3/leaflet.js"></script>
 	<script src="scripts/jquery.mobile-1.4.2/jquery-1.11.1.min.js"></script>
-	<script src="scripts/data.js"></script>
 	<script src="scripts/school.js"></script>
 	<script src="scripts/jquery.mobile-1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	<script src="scripts/jquery.autocomplete-1.2.25/jquery.autocomplete.min.js"></script>
 	<script src="scripts/leaflet.awesome-markers-2.0.2/leaflet.awesome-markers.min.js"></script>
 
 	<style>
 		.normal { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 400; }
 		.bold { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 700; }
 		.center { text-align:center; }
+
+		#receiptBox { position: absolute; top: 10px; left: 10px; width: 20em; max-width: 20em; }
+		#searchBox { position: absolute; top: 10px; right: 10px; width: 20em; max-width: 20em; display: none; }
+
 		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; display: none; }
 		#receipt .full { white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
 		#receipt .sub { padding-left: 1em; width: 21em; }
@@ -65,8 +69,8 @@
 		#receipt .groupClosed { height: 1em; overflow-y: hidden; }
 
 		.printerLabel .leaflet-popup-content-wrapper {
-			background: url("data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2OTYuMjcyODMiIGhlaWdodD0iMzI3LjAzNjcxIiB2ZXJzaW9uPSIxLjEiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMuODA0ODAzNCwtMjYyLjc2OTM5KSI+PHBhdGggZD0ibTY4NC4xMTQgNDc1LjMzOTgxYzE1Ljc1NTEzLTQyLjc2NzI5IDguMjE1MTctOTEuMDEyMjItMTQuMTQ2MDgtMTI5Ljk5NTkxLTEzLjY0NzA5LTI1LjIyMjA0LTE5Ljk0NzQ3LTUzLjk0MjA5LTE5LjM5NDU3LTgyLjUzNzgtMjA0LjIwNjcyIDAuMjAzNTctNDA4LjQyMDA1LTAuNTY5MjUtNjEyLjYyMTE2MyAwLjgwMzk1IDIuMTExNTcxIDM3LjYwMDEzLTEzLjgzNTA2NiA3Mi4wNDk3LTI5Ljk0NTQ2NzYgMTA0LjkwMzk2LTE4LjM3NzgyMTQgNDEuNjU4MjMtMTQuODY3NjM2IDkyLjE4NTMzIDcuNDUwOTA3NiAxMzEuNzE4ODUgMTUuNjYwOTk2IDI3LjI4MzQzIDIyLjIzNjE1NSA1OC4zOTkzNyAyMy4yNzQ5MTEgODkuNTczMjQgMjAzLjg0MzI0MiAwIDQwNy42ODY0NzIgMCA2MTEuNTI5NzEyIDAtMS41MTU4My00MS44MDA2MyAxOS4zNjA3LTgxLjYyNTk2IDMzLjg1MTc1LTExNC40NjYyOXoiIHN0eWxlPSJmaWxsLW9wYWNpdHk6MTtmaWxsOiNmZmYiLz48L2c+PC9zdmc+");
-			background-size: 150px 70px; width: 150px; height: 70px; box-shadow: none; font-family: 'Montserrat', sans-serif; font-size: 12px;
+			background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2OTguMjgzIiBoZWlnaHQ9IjMyOS4wMzEiPjxwYXRoIGQ9Ik02ODguOTIgMjEzLjU2YzE1Ljc1Ni00Mi43NyA4LjIxNi05MS4wMTQtMTQuMTQ2LTEyOS45OTdDNjYxLjEyNyA1OC4zNCA2NTQuODI3IDI5LjYyIDY1NS4zOCAxLjAyNWMtMjA0LjIwNy4yMDQtNDA4LjQyLS41Ny02MTIuNjIuODA0IDIuMTEgMzcuNi0xMy44MzYgNzIuMDUtMjkuOTQ3IDEwNC45MDMtMTguMzc4IDQxLjY1OC0xNC44NjcgOTIuMTg1IDcuNDUgMTMxLjcyQzM1LjkyNiAyNjUuNzM0IDQyLjUgMjk2Ljg1IDQzLjU0IDMyOC4wMjRoNjExLjUzYy0xLjUxNy00MS44IDE5LjM2LTgxLjYyNiAzMy44NS0xMTQuNDY2eiIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1vcGFjaXR5PSIuNTAyIi8+PC9zdmc+");
+			background-size: 152px 71px; background-repeat: no-repeat; width: 150px; height: 69px; box-shadow: none; font-family: 'Montserrat', sans-serif; font-size: 12px;
 		}
 		.printerLabel .leaflet-popup-content-wrapper .leaflet-popup-content { overflow: hidden; white-space: nowrap; margin: 5px 10px; width: 130px !important; text-align: center; }
 		.printerLabel .leaflet-popup-tip-container {}
@@ -76,16 +80,20 @@
 		.printerLabel div.orange { color: #f69730; }
 		.printerLabel div.purple { color: #d252b9; }
 
-		.receiptPart { cursor: pointer; }
-		.receiptPartClosed { height: 1em; overflow-y: hidden; }
+		#receiptInfo { background: #ffff99; color: #555; display:none; border: 1px solid #555; margin: -1px 1em; padding: .5em .7em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; }
+
+		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+		.autocomplete-selected { background: #F0F0F0; }
+		.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+		.autocomplete-group { padding: 2px 5px; }
+		.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 	</style>
 </head>
 <body>
 	<div data-role="page" id="pageMap" style="overflow-y:hidden;">
 		<div role="main" class="ui-content" id="mapContainer"></div>
-		<div id="mapSelect">
-			<div id="mapSelectInfo"></div>
-			<div id="mapSelectData"></div>
+		<div id="receiptBox">
 			<div id="receipt" class="normal">
 				<div class="full center bold" id="recSchulname"></div>
 				<div class="full center"><span id="recSchulart"></span> (<span id="recSchulnummer"></span>)</div>
@@ -163,10 +171,10 @@
 				</div>
 				<div class="full">============================================</div>
 				<div class="empty"></div>
-				<div><span class="half">bis Ende 2016 verbaut</span><span class="number">- EUR</span></div>
+<!--				<div><span class="half">bis Ende 2016 verbaut</span><span class="number">- EUR</span></div>
 				<div><span class="half">Gelder bereits gesichert</span><span class="number">- EUR</span></div>
 				<div><span class="half">Restbetrag</span><span class="number">- EUR</span></div>
-				<div class="empty"></div>
+				<div class="empty"></div> -->
 				<div class="full" id="recNow_"></div>
 				<div class="empty"></div>
 				<div class="full center">Vielen Dank für Ihren Einkauf!</div>
@@ -177,7 +185,10 @@
 				---------------<br>
 				</div> -->
 			</div>
-			<div id="mapSelectItem"></div>
+			<div id="receiptInfo"><i class="fa fa-info-circle" aria-hidden="true"></i> Noch mehr Informationen erscheinen, wenn du auf die einzelnen Zeilen klickst.</div>
+		</div>
+		<div id="searchBox" class="normal">
+			<input type="text" name="schools" id="autocomplete"/>
 		</div>
 	</div>
 </body>

@@ -3,10 +3,6 @@
 
 var map = null;
 var layerPopup = null;
-var showWelcome = false;
-
-var dataAge = -1;
-var dataGeoSet = new Array();
 
 // -----------------------------------------------------------------------------
 
@@ -27,8 +23,46 @@ function initMap( elementName, lat, lng, zoom)
 		var dataUrl = 'data/gebaeudescan.json';
 		$.getJSON( dataUrl, function( data) {
 			createMarker( data);
+			initSearchBox( data);
 		});
 	}
+}
+
+// -----------------------------------------------------------------------------
+
+function initSearchBox( data)
+{
+	var schools = [];
+
+	try {
+		$.each( data, function( key, val) {
+			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+				schools.push({ value: val.Schulname, data: val.Gebaeudenummer });
+			}
+		});
+	} catch( e) {
+		console.log(e);
+	}
+
+	schools.sort(function(a, b) {
+		if( a.value == b.value) {
+			return a.data > b.data ? 1 : 0;
+		}
+
+		return a.value > b.value ? 1 : 0;
+	});
+
+	$('#autocomplete').autocomplete({
+		lookup: schools,
+		onSelect: function (suggestion) {
+			alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+		},
+		formatResult: function (suggestion, currentValue) {
+			console.log( suggestion);
+			console.log( currentValue);
+			return suggestion.value;
+		}
+	});
 }
 
 // -----------------------------------------------------------------------------
@@ -177,10 +211,6 @@ $( document).on( "pagecreate", "#pageMap", function()
 {
 	// center the city hall
 //	initMap( 'mapContainer', 52.515807, 13.479470, 16);
-
-	updateMapSelectData();
-
-//	showWelcome = true;
 });
 
 // -----------------------------------------------------------------------------
@@ -193,42 +223,7 @@ $( document).on( "pageshow", "#pageMap", function()
 	$( '#receipt .group').on( 'click', function( e) {
 		$(this).toggleClass('groupClosed');
 	});
-
-	if( showWelcome) {
-		showWelcome = false;
-		$( '#welcomeClose').on( 'click', function( e) {
-			$( '#popupWelcome').popup( 'close');
-		});
-		$( '#popupWelcome').popup( 'open');
-	}
 });
-
-// -----------------------------------------------------------------------------
-
-function updateMapSelectData()
-{
-	var str = '';
-
-	if( dataGeoSet.length > 0) {
-		str += '<ul data-role="listview" data-inset="false" data-split-icon="minus" data-split-theme="d" id="mapSelectDataList">';
-		for( var i = 0; i < dataGeoSet.length; ++i) {
-			var idx = dataGeoSet[ i].id;
-			var ageStr = 'age' + dataGeoSet[ i].age;
-			str += '<li><a href="#" border=0><i class="fa ' + dataVec[idx].icon + '"></i> ' + dataVec[idx][ageStr] + '</a>';
-			str += '<a href="#" onClick="onRemoveData(' + i + ');" border=0>Entfernen</a></li>';
-		}
-		str += '</ul>';
-	} else {
-		if( dataAge >= 0) {
-			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-up" style="color:#155764;"></i> Wähle ein Thema aus</div>';
-		} else {
-			str += '<div id="mapSelectDataEmpty"><i class="fa fa-hand-o-up" style="color:#155764;"></i> Benutze das Menü links oben!</div>';
-		}
-	}
-
-//	$( '#mapSelectData').html( str);
-	$( '#mapSelectDataList').listview();
-}
 
 // -----------------------------------------------------------------------------
 
@@ -349,13 +344,7 @@ function updateMapSelectItem( data)
 	//   Foo6
 	//   Foo7
 
-	var str = '';
-	var strArea = '';
-
-	str += 'Klick mal auf die Zeilen...';
-
-	$( '#mapSelectItem').html( str);
-	$( '#mapSelectItem').css( 'display', 'block');
+	$( '#receiptInfo').css( 'display', 'block');
 }
 
 // -----------------------------------------------------------------------------
@@ -387,128 +376,6 @@ function updateMapVoidItem( data)
 		map.closePopup(layerPopup);
 		layerPopup = null;
     }
-}
-
-// -----------------------------------------------------------------------------
-
-function updateMapSelectInfo()
-{
-	var str = '';
-
-	if( dataAge >= 0) {
-		str += '<div>';
-		if( dataAge < 6) {
-			str += '<i class="fa fa-bug" style="padding-right:0.7em;"></i>Angebote für Babys und Kleinkinder<br>';
-		} else if( dataAge < 18) {
-			str += '<i class="fa fa-child" style="padding-right:0.7em;"></i>Angebote für Schulkinder<br>';
-		} else if( dataAge < 30) {
-			str += '<i class="fa fa-female" style="padding-right:0.7em;"></i>Angebote für die Familienplanung<br>';
-		} else if( dataAge < 65) {
-			str += '<i class="fa fa-male" style="padding-right:0.7em;"></i>Angebote für Familien<br>';
-		} else {
-			str += '<i class="fa fa-wheelchair" style="padding-right:0.7em;"></i>Angebote für ältere Bürger<br>';
-		}
-
-		str += '</div>';
-		str += '<ul data-role="listview" data-inset="false" data-icon="plus" id="mapSelectInfoList">';
-
-		var ageStr = 'age' + dataAge;
-		for( var i = 0; i < dataVec.length; ++i) {
-			if( dataVec[i][ageStr].length > 0) {
-				str += '<li><a href="#" onClick="onShowData(' + i + ',' + dataAge + ');" border=0><i class="fa ' + dataVec[i].icon + '"></i> ' + dataVec[i][ageStr] + '</a></li>';
-			}
-		}
-
-		str += '</ul>';
-	}
-
-//	$( '#mapSelectInfo').html( str);
-	$( '#mapSelectInfoList').listview();
-}
-
-// -----------------------------------------------------------------------------
-
-function setAge( age)
-{
-	if( dataAge != age) {
-		dataAge = age;
-	} else {
-		dataAge = -1;
-	}
-
-	updateMapSelectInfo();
-	updateMapSelectData();
-}
-
-// -----------------------------------------------------------------------------
-
-function onShowData( dataId, ageId)
-{
-	if( dataId < dataVec.length) {
-		setAge( -1);
-
-		for( var i = 0; i < dataGeoSet.length; ++i) {
-			if( dataId == dataGeoSet[ i].id) {
-				dataGeoSet[ i].age = ageId;
-				dataGeoSet.push( dataGeoSet[ i]);
-				dataGeoSet.splice( i, 1);
-
-				updateMapSelectData();
-				return;
-			}
-		}
-
-		dataGeoSet.push({
-			id: dataId,
-			age: ageId,
-			layerGroup: L.featureGroup([])
-		});
-
-		var layerGroup = dataGeoSet[ dataGeoSet.length - 1].layerGroup;
-
-		layerGroup.addEventListener( 'click', function( evt) {
-			updateMapSelectItem( evt.layer.options.data);
-		});
-		layerGroup.addTo(map);
-
-		updateMapSelectData();
-
-		var dataUrl = dataVec[ dataId].url;
-		if( 0 != dataUrl.indexOf( 'http://')) {
-			dataUrl = 'data/' + dataUrl;
-		}
-		$.getJSON( dataUrl, function( data) {
-			try {
-				$.each( data, function( key, val) {
-					if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
-						var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
-							data: val
-						});
-						layerGroup.addLayer( marker);
-					}
-				});
-
-				if( layerGroup.getLayers().length > 0) {
-					map.fitBounds( layerGroup.getBounds());
-				}
-			} catch( e) {
-//				alert( e);
-			}
-		});
-	}
-}
-
-// -----------------------------------------------------------------------------
-
-function onRemoveData( dataId)
-{
-	if( dataId < dataGeoSet.length) {
-		map.removeLayer( dataGeoSet[ dataId].layerGroup);
-		dataGeoSet.splice( dataId, 1);
-	}
-
-	setAge( -1);
-	updateMapSelectData();
 }
 
 // -----------------------------------------------------------------------------
