@@ -76,18 +76,23 @@
 		.printerLabel .leaflet-popup-tip-container {}
 		.printerLabel .top, .printerLabel .bottom { overflow-x: hidden; text-overflow: ellipsis; }
 		.printerLabel .middle { font-size: 20px; }
-		.printerLabel div.blue { color: #38aadd; }
-		.printerLabel div.orange { color: #f69730; }
-		.printerLabel div.purple { color: #d252b9; }
+		.printerLabel div.blue, .autocomplete-suggestion div.blue { color: #38aadd; }
+		.autocomplete-icon.backblue { background: #38aadd; }
+		.printerLabel div.orange, .autocomplete-suggestion div.orange { color: #f69730; }
+		.autocomplete-icon.backorange { background: #f69730; }
+		.printerLabel div.purple, .autocomplete-suggestion div.purple { color: #d252b9; }
+		.autocomplete-icon.backpurple { background: #d252b9; }
 
 		#receiptInfo { background: #ffff99; color: #555; display:none; border: 1px solid #555; margin: -1px 1em; padding: .5em .7em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; }
 
-		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
-		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+		.autocomplete-suggestions { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 400; border: 1px solid #555; background: #FFF; overflow: auto; }
+		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; border-bottom: 1px solid #ddd; }
 		.autocomplete-selected { background: #F0F0F0; }
-		.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+		.autocomplete-suggestions strong { font-weight: normal; background: #ffff99; color: #555; }
 		.autocomplete-group { padding: 2px 5px; }
 		.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+		.autocomplete-icon { display: inline-block; float: left; width: 2.4em; height: 2.4em; color: white; text-shadow: none; border-radius: 50%; margin-right: .5em; }
+		.autocomplete-icon i { font-size: 1.4em; width: 1.75em; text-align: center; line-height: 1.8em; }
 	</style>
 </head>
 <body>
@@ -166,7 +171,7 @@
 				</div>
 				<div class="full">--------------------------------------------</div>
 				<div class="group groupClosed">
-					<div class="bold"><span class="half">SUMME</span><span class="number"><span id="recGebaeudeGesamt"></span> EUR</span></div>
+					<div><span class="half">SUMME</span><span class="number"><span id="recGebaeudeGesamt"></span> EUR</span></div>
 					<div class="sub"><span class="half">Summe der Einzelposten</span><span class="number"><span id="recGebaeudeGesamt_"></span> EUR</span></div>
 				</div>
 				<div class="full">============================================</div>

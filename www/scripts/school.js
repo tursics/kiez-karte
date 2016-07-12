@@ -37,7 +37,7 @@ function initSearchBox( data)
 	try {
 		$.each( data, function( key, val) {
 			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
-				schools.push({ value: val.Schulname, data: val.Gebaeudenummer });
+				schools.push({ value: val.Schulname, data: val.Gebaeudenummer, color: '', desc: val.Bauwerk });
 			}
 		});
 	} catch( e) {
@@ -45,11 +45,11 @@ function initSearchBox( data)
 	}
 
 	schools.sort(function(a, b) {
-		if( a.value == b.value) {
-			return a.data > b.data ? 1 : 0;
+		if( a.value === b.value) {
+			return a.data > b.data ? 1 : -1;
 		}
 
-		return a.value > b.value ? 1 : 0;
+		return a.value > b.value ? 1 : -1;
 	});
 
 	$('#autocomplete').autocomplete({
@@ -58,9 +58,30 @@ function initSearchBox( data)
 			alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
 		},
 		formatResult: function (suggestion, currentValue) {
-			console.log( suggestion);
-			console.log( currentValue);
-			return suggestion.value;
+			var isSchool  = suggestion.desc.startsWith( 'Schul') || suggestion.desc.startsWith( 'Hauptgebäude') || suggestion.desc.startsWith( 'Altbau');
+			var isSport   = suggestion.desc.startsWith( 'Sport');
+			var isExt     = suggestion.desc.startsWith( 'MUR') || suggestion.desc.startsWith( 'MEB');
+			var isMulti   = suggestion.desc.startsWith( 'MZG');
+			var isTraffic = suggestion.value.indexOf( 'verkehrsschule') !== -1;
+
+			var color = isTraffic ? 'purple' :
+						isSchool ? 'blue' :
+						isSport ? 'orange' :
+						isExt ? 'blue' :
+						isMulti ? 'purple' :
+						'red';
+			var icon  = isTraffic ? 'fa-car' :
+						isSchool ? 'fa-user' :
+						isSport ? 'fa-soccer-ball-o' :
+						isExt ? 'fa-user-plus' :
+						isMulti ? 'fa-building-o' :
+						'fa-building-o';
+
+			var str = '';
+			str += '<div class="autocomplete-icon back' + color + '"><i class="fa ' + icon + '" aria-hidden="true"></i></div>';
+			str += '<div>' + suggestion.value.replace( new RegExp( currentValue, 'gi'), '<strong>' + currentValue + '</strong>') + '</div>';
+			str += '<div class="' + color + '">' + suggestion.desc + '</div>';
+			return str;
 		}
 	});
 }
