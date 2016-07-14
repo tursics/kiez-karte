@@ -216,6 +216,7 @@ function fixData(val)
 	val.Dachflaeche = fixComma( val.Dachflaeche);
 	val.BWCAnzahl = fixComma( val.BWCAnzahl);
 	val.RaeumeNutzflaecheBGF = fixComma( val.RaeumeNutzflaecheBGF);
+	val.Sanitaerflaeche = fixComma( val.Sanitaerflaeche);
 	val.bereitsSanierteFlaecheInProzent = fixComma( val.bereitsSanierteFlaecheInProzent);
 
 	val.FensterKosten = fixEuro( val.FensterKosten);
@@ -424,38 +425,51 @@ function createStatistics( data)
 		Bauwerk: 'Bezirk', Dachart: 'Diverse',
 		Schulart: 'Bezirk', Schulname: 'Lichtenberg', Schulnummer: '', Strasse: '', PLZ: '',
 		Gebaeudenummer: 1100000, lat: 52.515807, lng: 13.479470,
-		GebaeudeHoeheInM: 0, GebaeudeUmfangInMAusConject: 0, FensterKostenpauschale: 0,
+		GebaeudeHoeheInM: 0, GebaeudeUmfangInMAusConject: 0, FensterKostenpauschale: 0, FassadenKostenpauschale: 0, DachKostenpauschale: 0,
+		RaeumeKostenpauschale: 0, Raeume2Kostenpauschale: 0,
 		SanierungDachNotwendig: 1, SanierungFassadenNotwendig: 1, SanierungFensterNotwendig: 1,
 		SanierungRaeume2Notwendig: 1, SanierungRaeumeNotwendig: 1, SanierungTuerbreitenNotwendig: 1,
-		SanitaerSanierungsjahr: ''
+		SanitaerSanierungsjahr: '-'
 	};
 	var sum = [
 		'AufzugKosten',
 		'BGF','BWCAnzahl','BWCKosten',
-		'DachKosten','Dachflaeche',
+		'DachKosten',
 		'EingangAnzahl','EingangKosten',
-		'FassadenFlaeche','FassadenFlaecheOhneFenster','FassadenKosten',
+		'FassadenKosten',
 		'FensterKosten','FlaecheNichtSaniert',
 		'GF','GebaeudeGesamt','Grundstuecksflaeche','NF','NGF',
-		'Raeume2Kosten','Raeume2Nutzflaeche','RaeumeKosten','RaeumeNutzflaecheBGF',
+		'Raeume2Kosten','RaeumeKosten',
 		'RampeAnzahl','RampeKosten',
 		'SanitaerKosten','Sanitaerflaeche',
-		'TuerenKosten','ZwischensummeBarrierefreiheitKosten','bereitsSanierteFlaecheInProzent',
+		'ZwischensummeBarrierefreiheitKosten',
 		'zweiterRettungswegKosten'
 	];
 	var sumCond = [
-		{calc: 'FensterFlaeche', condition: 'FensterKosten' /*'SanierungFensterNotwendig'*/}
+		{calc: 'FensterFlaeche', condition: 'FensterKosten' /*'SanierungFensterNotwendig'*/},
+		{calc: 'FassadenFlaeche', condition: 'FassadenKosten' /*'SanierungFassadenNotwendig'*/},
+		{calc: 'FassadenFlaecheOhneFenster', condition: 'FassadenKosten' /*'SanierungFassadenNotwendig'*/},
+		{calc: 'Dachflaeche', condition: 'DachKosten' /*'SanierungDachNotwendig'*/},
+		{calc: 'TuerenKosten', condition: 'SanierungTuerbreitenNotwendig'},
+		{calc: 'RaeumeNutzflaecheBGF', condition: 'RaeumeKosten' /*'SanierungRaeumeNotwendig'*/},
+		{calc: 'Raeume2Nutzflaeche', condition: 'Raeume2Kosten' /*'SanierungRaeume2Notwendig'*/}
 	];
-	var average = ['DachKostenpauschale','FassadenFaktorFlaechenanteil','FassadenKostenpauschale',
+	var average = ['FassadenFaktorFlaechenanteil',
 		'FensterFaktorFlaechenanteil',
 		'BauPrioBauwerk','BauPrioTGA','BauprioSumme','PrioritaetGesamt',
-		'Raeume2Kostenpauschale','RaeumeKostenpauschale'
+		'bereitsSanierteFlaecheInProzent'
 	];
 
 	for(var id in sum) {
 		obj[sum[id]] = 0;
 	}
 	obj.FensterFlaeche = 0;
+	obj.FassadenFlaeche = 0;
+	obj.FassadenFlaecheOhneFenster = 0;
+	obj.Dachflaeche = 0;
+	obj.TuerenKosten = 0;
+	obj.RaeumeNutzflaecheBGF = 0;
+	obj.Raeume2Nutzflaeche = 0;
 	for(var id in average) {
 		obj[average[id]] = 0;
 	}
@@ -488,6 +502,11 @@ function createStatistics( data)
 		}
 
 		obj.FensterKostenpauschale = parseInt( obj.FensterKosten / obj.FensterFaktorFlaechenanteil / obj.FensterFlaeche * 100) / 100;
+		obj.FassadenKostenpauschale = parseInt( obj.FassadenKosten / obj.FassadenFaktorFlaechenanteil / obj.FassadenFlaecheOhneFenster * 100) / 100;
+		obj.DachKostenpauschale = parseInt( obj.DachKosten / obj.Dachflaeche * 100) / 100;
+		obj.RaeumeKostenpauschale = parseInt( obj.RaeumeKosten / obj.RaeumeNutzflaecheBGF * 100) / 100;
+		obj.Raeume2Kostenpauschale = parseInt( obj.Raeume2Kosten / obj.Raeume2Nutzflaeche * 100) / 100;
+		obj.bereitsSanierteFlaecheInProzent = parseInt( obj.bereitsSanierteFlaecheInProzent);
 
 		data.push(obj);
 	} catch( e) {
