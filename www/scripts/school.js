@@ -3,6 +3,7 @@
 
 var map = null;
 var layerPopup = null;
+var layerGroup = null;
 
 // -----------------------------------------------------------------------------
 
@@ -37,7 +38,9 @@ function initSearchBox( data)
 	try {
 		$.each( data, function( key, val) {
 			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
-				schools.push({ value: val.Schulname, data: val.Gebaeudenummer, color: '', desc: val.Bauwerk });
+				var name = val.Schulname;
+				name += ' (' + val.Schulnummer + ')';
+				schools.push({ value: name, data: val.Gebaeudenummer, color: '', desc: val.Bauwerk });
 			}
 		});
 	} catch( e) {
@@ -55,7 +58,7 @@ function initSearchBox( data)
 	$('#autocomplete').autocomplete({
 		lookup: schools,
 		onSelect: function (suggestion) {
-			alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+			selectSuggestion( suggestion.data);
 		},
 		formatResult: function (suggestion, currentValue) {
 			var isSchool  = suggestion.desc.startsWith( 'Schul') || suggestion.desc.startsWith( 'Hauptgebäude') || suggestion.desc.startsWith( 'Altbau');
@@ -131,7 +134,7 @@ function createMarker( data)
 			markerColor: 'red'
 		});
 
-		var layerGroup = L.featureGroup([]);
+		layerGroup = L.featureGroup([]);
 		layerGroup.addTo(map);
 
 		layerGroup.addEventListener( 'click', function( evt) {
@@ -241,6 +244,7 @@ $( document).on( "pageshow", "#pageMap", function()
 	// center the city hall
 	initMap( 'mapContainer', 52.515807, 13.479470, 16);
 
+	$( '#autocomplete').val( '');
 	$( '#receipt .group').on( 'click', function( e) {
 		$(this).toggleClass('groupClosed');
 	});
@@ -397,6 +401,18 @@ function updateMapVoidItem( data)
 		map.closePopup(layerPopup);
 		layerPopup = null;
     }
+}
+
+// -----------------------------------------------------------------------------
+
+function selectSuggestion( selection)
+{
+	$.each( layerGroup._layers, function( key, val) {
+		if( val.options.data.Gebaeudenummer === selection) {
+			map.panTo( new L.LatLng( val.options.data.lat, val.options.data.lng));
+			updateMapSelectItem( val.options.data);
+		}
+	});
 }
 
 // -----------------------------------------------------------------------------

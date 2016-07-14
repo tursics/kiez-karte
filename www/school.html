@@ -48,7 +48,7 @@
 		.center { text-align:center; }
 
 		#receiptBox { position: absolute; top: 10px; left: 10px; width: 20em; max-width: 20em; }
-		#searchBox { position: absolute; top: 10px; right: 10px; width: 20em; max-width: 20em; display: none; }
+		#searchBox { position: absolute; top: 10px; right: 10px; width: 20em; max-width: 20em; }
 
 		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; display: none; }
 		#receipt .full { white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
@@ -82,17 +82,34 @@
 		.autocomplete-icon.backorange { background: #f69730; }
 		.printerLabel div.purple, .autocomplete-suggestion div.purple { color: #d252b9; }
 		.autocomplete-icon.backpurple { background: #d252b9; }
+		.autocomplete-suggestion div.blue, .autocomplete-suggestion div.orange, .autocomplete-suggestion div.purple { font-size: 12px; }
 
 		#receiptInfo { background: #ffff99; color: #555; display:none; border: 1px solid #555; margin: -1px 1em; padding: .5em .7em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; }
+		#searchBox div { background: #fff; border: 1px solid #555; text-shadow: none; border-radius: 0; box-shadow: none; float: right; margin: 0; font-size:13px; }
+		#searchBox div:nth-child(2) { border-right: none; border-radius: 1.2em 0 0 1.2em; height: 2.2em; }
+		#searchBox div:nth-child(1) { border-left: none; border-radius: 0 1.2em 1.2em 0; width: 20em; }
+		#searchBox div i { padding: .6em .6em 0 .6em; color: #aaa; }
+		#searchBox input { font-size: 13px; font-family: 'Montserrat', sans-serif; font-style: normal; font-weight: 400; }
+		#searchBox input::-webkit-input-placeholder { color: #aaa; }
+		#searchBox input::-moz-placeholder { color: #aaa; }
+		#searchBox input:-ms-input-placeholder { color: #aaa; }
+		#searchBox input:-moz-placeholder { color: #aaa; }
 
-		.autocomplete-suggestions { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 400; border: 1px solid #555; background: #FFF; overflow: auto; }
-		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; border-bottom: 1px solid #ddd; }
-		.autocomplete-selected { background: #F0F0F0; }
+		.autocomplete-suggestions { font-size: 13px; font-family: 'Montserrat', sans-serif; font-style: normal; font-weight: 400; border: 1px solid #555; background: #FFF; overflow: auto; text-shadow: none; margin-left: -1em; }
+		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; border-bottom: 1px solid #ddd;
+			-webkit-transition: background-color 200ms linear;
+			-moz-transition: background-color 200ms linear;
+			-ms-transition: background-color 200ms linear;
+			-o-transition: background-color 200ms linear;
+			transition: background-color 200ms linear;
+		}
+		.autocomplete-suggestion div { text-overflow: ellipsis; overflow-x: hidden; }
+		.autocomplete-selected { background: #ffff99; }
 		.autocomplete-suggestions strong { font-weight: normal; background: #ffff99; color: #555; }
 		.autocomplete-group { padding: 2px 5px; }
 		.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
-		.autocomplete-icon { display: inline-block; float: left; width: 2.4em; height: 2.4em; color: white; text-shadow: none; border-radius: 50%; margin-right: .5em; }
-		.autocomplete-icon i { font-size: 1.4em; width: 1.75em; text-align: center; line-height: 1.8em; }
+		.autocomplete-icon { display: inline-block; float: left; width: 32px; height: 32px; color: white; text-shadow: none; border-radius: 50%; margin-right: .5em; }
+		.autocomplete-icon i { font-size: 1.4em; width: 32px; text-align: center; line-height: 32px; }
 	</style>
 </head>
 <body>
@@ -192,8 +209,9 @@
 			</div>
 			<div id="receiptInfo"><i class="fa fa-info-circle" aria-hidden="true"></i> Noch mehr Informationen erscheinen, wenn du auf die einzelnen Zeilen klickst.</div>
 		</div>
-		<div id="searchBox" class="normal">
-			<input type="text" name="schools" id="autocomplete"/>
+		<div id="searchBox">
+			<input type="text" name="schools" id="autocomplete" placeholder="Geben Sie einen Schulnamen ein" />
+			<div><i class="fa fa-search" aria-hidden="true"></i></div>
 		</div>
 	</div>
 </body>
