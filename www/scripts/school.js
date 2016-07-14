@@ -23,13 +23,14 @@ function initMap( elementName, lat, lng, zoom)
 
 		var dataUrl = 'data/gebaeudescan.json';
 		$.getJSON( dataUrl, function( data) {
+			createStatistics( data);
 			createMarker( data);
 			initSearchBox( data);
 		});
 	}
 }
 
-// -----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
 function initSearchBox( data)
 {
@@ -39,7 +40,9 @@ function initSearchBox( data)
 		$.each( data, function( key, val) {
 			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 				var name = val.Schulname;
-				name += ' (' + val.Schulnummer + ')';
+				if( '' !== val.Schulnummer) {
+					name += ' (' + val.Schulnummer + ')';
+				}
 				schools.push({ value: name, data: val.Gebaeudenummer, color: '', desc: val.Bauwerk });
 			}
 		});
@@ -61,28 +64,31 @@ function initSearchBox( data)
 			selectSuggestion( suggestion.data);
 		},
 		formatResult: function (suggestion, currentValue) {
-			var isSchool  = suggestion.desc.startsWith( 'Schul') || suggestion.desc.startsWith( 'Hauptgebäude') || suggestion.desc.startsWith( 'Altbau');
-			var isSport   = suggestion.desc.startsWith( 'Sport');
-			var isExt     = suggestion.desc.startsWith( 'MUR') || suggestion.desc.startsWith( 'MEB');
-			var isMulti   = suggestion.desc.startsWith( 'MZG');
-			var isTraffic = suggestion.value.indexOf( 'verkehrsschule') !== -1;
+			var isSchool   = suggestion.desc.startsWith( 'Schul') || suggestion.desc.startsWith( 'Hauptgebäude') || suggestion.desc.startsWith( 'Altbau');
+			var isSport    = suggestion.desc.startsWith( 'Sport');
+			var isExt      = suggestion.desc.startsWith( 'MUR') || suggestion.desc.startsWith( 'MEB');
+			var isMulti    = suggestion.desc.startsWith( 'MZG');
+			var isDistrict = suggestion.desc.startsWith( 'Bezirk');
+			var isTraffic  = suggestion.value.indexOf( 'verkehrsschule') !== -1;
 
 			var color = isTraffic ? 'purple' :
 						isSchool ? 'blue' :
 						isSport ? 'orange' :
 						isExt ? 'blue' :
 						isMulti ? 'purple' :
+						isDistrict ? 'gray' :
 						'red';
 			var icon  = isTraffic ? 'fa-car' :
 						isSchool ? 'fa-user' :
 						isSport ? 'fa-soccer-ball-o' :
 						isExt ? 'fa-user-plus' :
 						isMulti ? 'fa-building-o' :
+						isDistrict ? 'fa-institution' :
 						'fa-building-o';
 
 			var str = '';
 			str += '<div class="autocomplete-icon back' + color + '"><i class="fa ' + icon + '" aria-hidden="true"></i></div>';
-			str += '<div>' + suggestion.value.replace( new RegExp( currentValue, 'gi'), '<strong>' + currentValue + '</strong>') + '</div>';
+			str += '<div>' + suggestion.value.replace( new RegExp( currentValue.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'gi'), '<strong>' + currentValue + '</strong>') + '</div>';
 			str += '<div class="' + color + '">' + suggestion.desc + '</div>';
 			return str;
 		}
@@ -149,11 +155,12 @@ function createMarker( data)
 
 		$.each( data, function( key, val) {
 			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
-				var isSchool  = val.Bauwerk.startsWith( 'Schul') || val.Bauwerk.startsWith( 'Hauptgebäude') || val.Bauwerk.startsWith( 'Altbau');
-				var isSport   = val.Bauwerk.startsWith( 'Sport');
-				var isExt     = val.Bauwerk.startsWith( 'MUR') || val.Bauwerk.startsWith( 'MEB');
-				var isMulti   = val.Bauwerk.startsWith( 'MZG');
-				var isTraffic = val.Schulname.indexOf( 'verkehrsschule') !== -1;
+				var isSchool   = val.Bauwerk.startsWith( 'Schul') || val.Bauwerk.startsWith( 'Hauptgebäude') || val.Bauwerk.startsWith( 'Altbau');
+				var isSport    = val.Bauwerk.startsWith( 'Sport');
+				var isExt      = val.Bauwerk.startsWith( 'MUR') || val.Bauwerk.startsWith( 'MEB');
+				var isMulti    = val.Bauwerk.startsWith( 'MZG');
+				var isDistrict = val.Bauwerk.startsWith( 'Bezirk');
+				var isTraffic  = val.Schulname.indexOf( 'verkehrsschule') !== -1;
 				var marker = L.marker([parseFloat( val.lat), parseFloat( val.lng)],{
 					data: fixData(val),
 					icon: isTraffic ? markerTraffic :
@@ -161,7 +168,9 @@ function createMarker( data)
 						isSport ? markerSport :
 						isExt ? markerExtension :
 						isMulti ? markerMulti :
-						markerOthers
+						markerOthers,
+					opacity: isDistrict ? 0 : 1,
+					clickable: isDistrict ? 0 : 1
 				});
 				layerGroup.addLayer( marker);
 			}
@@ -189,6 +198,8 @@ function fixData(val)
 			return 0;
 		} else if( item === null) {
 			return 0;
+		} else if( 'number' === typeof item) {
+			return item;
 		} else if( 'T€' === item.substring( item.length - 2)) {
 			return parseInt( item.substring( 0, item.length - 2).replace('.', '').replace(',', '.')) * 1000;
 		}
@@ -197,6 +208,8 @@ function fixData(val)
 
 	val.NGF = fixComma( val.NGF);
 	val.BGF = fixComma( val.BGF);
+	val.NF = fixComma( val.NF);
+	val.Grundstuecksflaeche = fixComma( val.Grundstuecksflaeche);
 	val.GebaeudeHoeheInM = fixComma( val.GebaeudeHoeheInM);
 	val.GebaeudeUmfangInMAusConject = fixComma( val.GebaeudeUmfangInMAusConject);
 	val.FassadenFlaeche = fixComma( val.FassadenFlaeche);
@@ -401,6 +414,85 @@ function updateMapVoidItem( data)
 		map.closePopup(layerPopup);
 		layerPopup = null;
     }
+}
+
+// -----------------------------------------------------------------------------
+
+function createStatistics( data)
+{
+	var obj = {
+		Bauwerk: 'Bezirk', Dachart: 'Diverse',
+		Schulart: 'Bezirk', Schulname: 'Lichtenberg', Schulnummer: '', Strasse: '', PLZ: '',
+		Gebaeudenummer: 1100000, lat: 52.515807, lng: 13.479470,
+		GebaeudeHoeheInM: 0, GebaeudeUmfangInMAusConject: 0, FensterKostenpauschale: 0,
+		SanierungDachNotwendig: 1, SanierungFassadenNotwendig: 1, SanierungFensterNotwendig: 1,
+		SanierungRaeume2Notwendig: 1, SanierungRaeumeNotwendig: 1, SanierungTuerbreitenNotwendig: 1,
+		SanitaerSanierungsjahr: ''
+	};
+	var sum = [
+		'AufzugKosten',
+		'BGF','BWCAnzahl','BWCKosten',
+		'DachKosten','Dachflaeche',
+		'EingangAnzahl','EingangKosten',
+		'FassadenFlaeche','FassadenFlaecheOhneFenster','FassadenKosten',
+		'FensterKosten','FlaecheNichtSaniert',
+		'GF','GebaeudeGesamt','Grundstuecksflaeche','NF','NGF',
+		'Raeume2Kosten','Raeume2Nutzflaeche','RaeumeKosten','RaeumeNutzflaecheBGF',
+		'RampeAnzahl','RampeKosten',
+		'SanitaerKosten','Sanitaerflaeche',
+		'TuerenKosten','ZwischensummeBarrierefreiheitKosten','bereitsSanierteFlaecheInProzent',
+		'zweiterRettungswegKosten'
+	];
+	var sumCond = [
+		{calc: 'FensterFlaeche', condition: 'FensterKosten' /*'SanierungFensterNotwendig'*/}
+	];
+	var average = ['DachKostenpauschale','FassadenFaktorFlaechenanteil','FassadenKostenpauschale',
+		'FensterFaktorFlaechenanteil',
+		'BauPrioBauwerk','BauPrioTGA','BauprioSumme','PrioritaetGesamt',
+		'Raeume2Kostenpauschale','RaeumeKostenpauschale'
+	];
+
+	for(var id in sum) {
+		obj[sum[id]] = 0;
+	}
+	obj.FensterFlaeche = 0;
+	for(var id in average) {
+		obj[average[id]] = 0;
+	}
+
+	try {
+		$.each( data, function( key, val) {
+			var val = fixData(val);
+			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+				for(var id in val) {
+					if( -1 < $.inArray( id, sum)) {
+						obj[id] += parseInt(val[id]);
+					} else if( -1 < $.inArray( id, average)) {
+						obj[id] += parseInt(val[id]);
+					} else {
+						for(var cond in sumCond) {
+							if(( sumCond[cond].calc === id) && (0 !== val[sumCond[cond].condition])) {
+								obj[id] += parseInt(val[id]);
+							}
+						}
+					}
+				}
+			}
+		});
+
+		var len = data.length;
+		for(var id in obj) {
+			if( -1 < $.inArray( id, average)) {
+				obj[id] = parseInt( obj[id] / len * 10) / 10;
+			}
+		}
+
+		obj.FensterKostenpauschale = parseInt( obj.FensterKosten / obj.FensterFaktorFlaechenanteil / obj.FensterFlaeche * 100) / 100;
+
+		data.push(obj);
+	} catch( e) {
+		console.log(e);
+	}
 }
 
 // -----------------------------------------------------------------------------
