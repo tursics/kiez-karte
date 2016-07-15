@@ -4,6 +4,7 @@
 var map = null;
 var layerPopup = null;
 var layerGroup = null;
+var budget = null;
 
 // -----------------------------------------------------------------------------
 
@@ -26,6 +27,12 @@ function initMap( elementName, lat, lng, zoom)
 			createStatistics( data);
 			createMarker( data);
 			initSearchBox( data);
+
+			var budgetUrl = 'data/gebaeudesanierungen.json';
+			$.getJSON( budgetUrl, function( budgetData) {
+				budget = budgetData;
+				logStatistics( data, budgetData);
+			});
 		});
 	}
 }
@@ -206,7 +213,7 @@ function fixData(val)
 		return item;
 	}
 
-	val.NGF = fixComma( val.NGF);
+	val.NGF = parseInt( val.NGF);
 	val.BGF = fixComma( val.BGF);
 	val.NF = fixComma( val.NF);
 	val.Grundstuecksflaeche = fixComma( val.Grundstuecksflaeche);
@@ -215,7 +222,7 @@ function fixData(val)
 	val.FassadenFlaeche = fixComma( val.FassadenFlaeche);
 	val.Dachflaeche = fixComma( val.Dachflaeche);
 	val.BWCAnzahl = fixComma( val.BWCAnzahl);
-	val.RaeumeNutzflaecheBGF = fixComma( val.RaeumeNutzflaecheBGF);
+	val.RaeumeNutzflaecheBGF = parseInt( val.RaeumeNutzflaecheBGF);
 	val.Sanitaerflaeche = fixComma( val.Sanitaerflaeche);
 	val.bereitsSanierteFlaecheInProzent = fixComma( val.bereitsSanierteFlaecheInProzent);
 
@@ -261,6 +268,9 @@ $( document).on( "pageshow", "#pageMap", function()
 	$( '#autocomplete').val( '');
 	$( '#receipt .group').on( 'click', function( e) {
 		$(this).toggleClass('groupClosed');
+	});
+	$( '#receiptClose').on( 'click', function( e) {
+		$( '#receiptBox').css( 'display', 'none');
 	});
 });
 
@@ -361,8 +371,6 @@ function updateMapSelectItem( data)
 		break;
 	}
 
-	$( '#receipt').css( 'display', 'block');
-
 	// unused rows
 	//   BauPrioAussen
 	//   SchulPrioFachraum
@@ -383,7 +391,7 @@ function updateMapSelectItem( data)
 	//   Foo6
 	//   Foo7
 
-	$( '#receiptInfo').css( 'display', 'block');
+	$( '#receiptBox').css( 'display', 'block');
 }
 
 // -----------------------------------------------------------------------------
@@ -422,27 +430,19 @@ function updateMapVoidItem( data)
 function createStatistics( data)
 {
 	var obj = {
-		Bauwerk: 'Bezirk', Dachart: 'Diverse',
-		Schulart: 'Bezirk', Schulname: 'Lichtenberg', Schulnummer: '', Strasse: '', PLZ: '',
-		Gebaeudenummer: 1100000, lat: 52.515807, lng: 13.479470,
-		GebaeudeHoeheInM: 0, GebaeudeUmfangInMAusConject: 0, FensterKostenpauschale: 0, FassadenKostenpauschale: 0, DachKostenpauschale: 0,
-		RaeumeKostenpauschale: 0, Raeume2Kostenpauschale: 0,
-		SanierungDachNotwendig: 1, SanierungFassadenNotwendig: 1, SanierungFensterNotwendig: 1,
-		SanierungRaeume2Notwendig: 1, SanierungRaeumeNotwendig: 1, SanierungTuerbreitenNotwendig: 1,
-		SanitaerSanierungsjahr: '-'
+		Bauwerk: 'Bezirk', Dachart: 'Diverse', Schulart: 'Bezirk', Schulname: 'Lichtenberg',
+		Schulnummer: '', Strasse: '', PLZ: '', Gebaeudenummer: 1100000, lat: 52.515807,
+		lng: 13.479470, GebaeudeHoeheInM: 0, GebaeudeUmfangInMAusConject: 0,
+		FensterKostenpauschale: 0, FassadenKostenpauschale: 0, DachKostenpauschale: 0,
+		RaeumeKostenpauschale: 0, Raeume2Kostenpauschale: 0, SanierungDachNotwendig: 1,
+		SanierungFassadenNotwendig: 1, SanierungFensterNotwendig: 1, SanierungRaeume2Notwendig: 1,
+		SanierungRaeumeNotwendig: 1, SanierungTuerbreitenNotwendig: 1, SanitaerSanierungsjahr: '-'
 	};
 	var sum = [
-		'AufzugKosten',
-		'BGF','BWCAnzahl','BWCKosten',
-		'DachKosten',
-		'EingangAnzahl','EingangKosten',
-		'FassadenKosten',
-		'FensterKosten','FlaecheNichtSaniert',
-		'GF','GebaeudeGesamt','Grundstuecksflaeche','NF','NGF',
-		'Raeume2Kosten','RaeumeKosten',
-		'RampeAnzahl','RampeKosten',
-		'SanitaerKosten','Sanitaerflaeche',
-		'ZwischensummeBarrierefreiheitKosten',
+		'AufzugKosten','BGF','BWCAnzahl','BWCKosten','DachKosten','EingangAnzahl','EingangKosten',
+		'FassadenKosten','FensterKosten','FlaecheNichtSaniert','GF','GebaeudeGesamt',
+		'Grundstuecksflaeche','NF','NGF','Raeume2Kosten','RaeumeKosten','RampeAnzahl',
+		'RampeKosten','SanitaerKosten','Sanitaerflaeche','ZwischensummeBarrierefreiheitKosten',
 		'zweiterRettungswegKosten'
 	];
 	var sumCond = [
@@ -454,10 +454,9 @@ function createStatistics( data)
 		{calc: 'RaeumeNutzflaecheBGF', condition: 'RaeumeKosten' /*'SanierungRaeumeNotwendig'*/},
 		{calc: 'Raeume2Nutzflaeche', condition: 'Raeume2Kosten' /*'SanierungRaeume2Notwendig'*/}
 	];
-	var average = ['FassadenFaktorFlaechenanteil',
-		'FensterFaktorFlaechenanteil',
-		'BauPrioBauwerk','BauPrioTGA','BauprioSumme','PrioritaetGesamt',
-		'bereitsSanierteFlaecheInProzent'
+	var average = [
+		'FassadenFaktorFlaechenanteil','FensterFaktorFlaechenanteil','BauPrioBauwerk','BauPrioTGA',
+		'BauprioSumme','PrioritaetGesamt','bereitsSanierteFlaecheInProzent'
 	];
 
 	for(var id in sum) {
@@ -509,6 +508,42 @@ function createStatistics( data)
 		obj.bereitsSanierteFlaecheInProzent = parseInt( obj.bereitsSanierteFlaecheInProzent);
 
 		data.push(obj);
+	} catch( e) {
+		console.log(e);
+	}
+}
+
+// -----------------------------------------------------------------------------
+
+function logStatistics( data, budgetData)
+{
+	try {
+		var sumDiff = 0;
+		$.each( data, function( key, val) {
+			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+				var sum1 = val.GebaeudeGesamt;
+				var sum2 = val.FensterKosten + val.FassadenKosten + val.DachKosten + val.ZwischensummeBarrierefreiheitKosten + val.zweiterRettungswegKosten + val.RaeumeKosten + val.SanitaerKosten;
+				var diff = sum1 - sum2;
+				var isSport = val.Bauwerk.startsWith( 'Sport');
+
+/*				if( isSport) {
+					sumDiff += diff;
+					if( diff > 1000) {
+						console.log( val.Schulname + ': ' + val.Bauwerk);
+						console.log( sum1/1000 + 'T€ - ' + sum2/1000 + 'T€ = ' + diff/1000 + 'T€');
+					}
+				}*/
+/*				if( !isSport) {
+					sumDiff += diff;
+					if( diff > 1000) {
+						console.log( val.Schulname + ': ' + val.Bauwerk);
+						console.log( sum1/1000 + 'T€ - ' + sum2/1000 + 'T€ = ' + diff/1000 + 'T€');
+					}
+				}*/
+			}
+		});
+//		console.log('Sum: ' + sumDiff/1000000 + ' mio');
+//		console.log(budgetData);
 	} catch( e) {
 		console.log(e);
 	}

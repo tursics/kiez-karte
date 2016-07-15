@@ -47,10 +47,10 @@
 		.bold { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 700; }
 		.center { text-align:center; }
 
-		#receiptBox { position: absolute; top: 10px; left: 10px; width: 20em; max-width: 20em; }
+		#receiptBox { position: absolute; top: 10px; left: 10px; width: 20em; max-width: 20em; display:none; }
 		#searchBox { position: absolute; top: 10px; right: 10px; width: 20em; max-width: 20em; }
 
-		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; display: none; }
+		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; }
 		#receipt .full { white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
 		#receipt .sub { padding-left: 1em; width: 21em; }
 		#receipt span.half    { display: inline-block; width: 14.5em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; }
@@ -88,7 +88,17 @@
 		.autocomplete-icon.backgray { background: #a3a3a3; }
 		.autocomplete-suggestion div.blue, .autocomplete-suggestion div.orange, .autocomplete-suggestion div.purple, .autocomplete-suggestion div.red, .autocomplete-suggestion div.gray { font-size: 12px; }
 
-		#receiptInfo { background: #ffff99; color: #555; display:none; border: 1px solid #555; margin: -1px 1em; padding: .5em .7em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; }
+		#receiptClose { background: #fff; color: #555; border: 1px solid #555; margin: 0; padding: .3em .5em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; position: absolute; top: -5px; right: -5px; border-radius: 50%;
+			-webkit-transition: background-color 200ms linear;
+			-moz-transition: background-color 200ms linear;
+			-ms-transition: background-color 200ms linear;
+			-o-transition: background-color 200ms linear;
+			transition: background-color 200ms linear;
+		}
+		#receiptClose:hover { background: #ffff99; }
+
+		#receiptInfo { background: #ffff99; color: #555; border: 1px solid #555; margin: -1px 1em; padding: .5em .7em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; }
+
 		#searchBox div { background: #fff; border: 1px solid #555; text-shadow: none; border-radius: 0; box-shadow: none; float: right; margin: 0; font-size:13px; }
 		#searchBox div:nth-child(2) { border-right: none; border-radius: 1.2em 0 0 1.2em; height: 2.2em; }
 		#searchBox div:nth-child(1) { border-left: none; border-radius: 0 1.2em 1.2em 0; width: 20em; }
@@ -120,6 +130,7 @@
 	<div data-role="page" id="pageMap" style="overflow-y:hidden;">
 		<div role="main" class="ui-content" id="mapContainer"></div>
 		<div id="receiptBox">
+			<div id="receiptClose"><i class="fa fa-close" aria-hidden="true"></i></div>
 			<div id="receipt" class="normal">
 				<div class="full center bold" id="recSchulname"></div>
 				<div class="full center"><span id="recSchulart"></span> (<span id="recSchulnummer"></span>)</div>
