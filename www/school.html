@@ -52,6 +52,7 @@
 
 		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; }
 		#receipt .full { white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
+		#receipt .fullwrap { white-space: normal; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
 		#receipt .sub { padding-left: 1em; width: 21em; }
 		#receipt span.half    { display: inline-block; width: 14.5em; white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; }
 		#receipt span.number, #receipt span.string,
@@ -208,10 +209,11 @@
 				</div>
 				<div class="full">============================================</div>
 				<div class="empty"></div>
+				<div class="group groupClosed" id="thisYear"></div>
 <!--				<div><span class="half">bis Ende 2016 verbaut</span><span class="number">- EUR</span></div>
 				<div><span class="half">Gelder bereits gesichert</span><span class="number">- EUR</span></div>
-				<div><span class="half">Restbetrag</span><span class="number">- EUR</span></div>
-				<div class="empty"></div> -->
+				<div><span class="half">Restbetrag</span><span class="number">- EUR</span></div> -->
+				<div class="empty"></div>
 				<div class="full" id="recNow_"></div>
 				<div class="empty"></div>
 				<div class="full center">Vielen Dank für Ihren Einkauf!</div>

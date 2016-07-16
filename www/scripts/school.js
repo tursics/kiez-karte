@@ -392,6 +392,25 @@ function updateMapSelectItem( data)
 	//   Foo7
 
 	$( '#receiptBox').css( 'display', 'block');
+
+	var strThisYear = '';
+	var intThisYear = 0;
+	for(var id in budget) {
+		var item = budget[id];
+		if( item.Gebaeudenummer === data.Gebaeudenummer) {
+			var kosten = parseFloat( String( item.Kostenansatz).replace('.', '').replace('.', '').replace(',', '.'));
+			if( isNaN(kosten)) {
+				kosten = 0;
+			}
+			intThisYear += kosten;
+			strThisYear += '<div class="sub"><span class="fullwrap">' + item.Beschreibung + '</span></div>';
+			strThisYear += '<div class="sub"><span class="half">' + item.Programm + ' ' + item.Jahr + '</span><span class="number">' + formatNumber( kosten) + ' EUR</span></div>';
+		}
+	}
+	if( strThisYear.length > 0) {
+		strThisYear = '<div><span class="half">Bau- und Sanierungsprogramme</span><span class="number">' + formatNumber( intThisYear) + ' EUR</span></div>' + strThisYear;
+	}
+	$('#thisYear').html(strThisYear);
 }
 
 // -----------------------------------------------------------------------------
