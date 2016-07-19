@@ -351,22 +351,22 @@ function updateMapSelectItem( data)
 
 	switch(data.PrioritaetGesamt) {
 	case 1:
-		setText( 'PrioritaetGesamt', '1 (kurzfrist. Handlungsbedarf)');
+		setText( 'PrioritaetGesamt', 'kurzfrist. Handlungsbedarf');
 		break;
 	case 2:
-		setText( 'PrioritaetGesamt', '2 (in den nächsten 3 Jahren)');
+		setText( 'PrioritaetGesamt', 'in den nächsten 3 Jahren');
 		break;
 	case 3:
-		setText( 'PrioritaetGesamt', '3 (in den nächsten 10 Jahren)');
+		setText( 'PrioritaetGesamt', 'in den nächsten 10 Jahren');
 		break;
 	case 4:
-		setText( 'PrioritaetGesamt', '4 (wünschenswert)');
+		setText( 'PrioritaetGesamt', 'wünschenswert');
 		break;
 	case 5:
-		setText( 'PrioritaetGesamt', '5 (niedrig)');
+		setText( 'PrioritaetGesamt', 'niedrig');
 		break;
 	case 6:
-		setText( 'PrioritaetGesamt', '6 (minimal)');
+		setText( 'PrioritaetGesamt', 'minimal');
 		break;
 	default:
 		setText( 'PrioritaetGesamt', data.PrioritaetGesamt);
