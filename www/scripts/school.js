@@ -25,6 +25,7 @@ function initMap( elementName, lat, lng, zoom)
 
 		var dataUrl = 'data/gebaeudescan.json';
 		$.getJSON( dataUrl, function( data) {
+			data = enrichMissingData( data);
 			createStatistics( data);
 			createMarker( data);
 			initSearchBox( data);
@@ -321,7 +322,7 @@ function updateMapSelectItem( data)
 	setText( 'RaeumeKosten_', data.RaeumeNutzflaecheBGF * data.RaeumeKostenpauschale);
 	setText( 'Raeume2NF_', data.NF - data.Sanitaerflaeche);
 	setText( 'Raeume2Kosten_', data.Raeume2Nutzflaeche * data.Raeume2Kostenpauschale);
-	setText( 'GebaeudeGesamt_', data.FensterKosten + data.FassadenKosten + data.DachKosten + data.ZwischensummeBarrierefreiheitKosten + data.zweiterRettungswegKosten + data.RaeumeKosten + data.SanitaerKosten);
+	setText( 'GebaeudeGesamt_', data.FensterKosten + data.FassadenKosten + data.DachKosten + data.ZwischensummeBarrierefreiheitKosten + data.zweiterRettungswegKosten + data.RaeumeKosten + data.SanitaerKosten + data.Aussenanlagen);
 
 	setText( 'zweiterRettungswegKosten_', data.zweiterRettungswegKosten);
 	setText( 'FassadenFlaecheOhneFenster_', data.FassadenFlaecheOhneFenster);
@@ -350,16 +351,16 @@ function updateMapSelectItem( data)
 
 	switch(data.PrioritaetGesamt) {
 	case 1:
-		setText( 'PrioritaetGesamt', '1 (dringend)');
+		setText( 'PrioritaetGesamt', '1 (kurzfrist. Handlungsbedarf)');
 		break;
 	case 2:
-		setText( 'PrioritaetGesamt', '2 (sehr hoch)');
+		setText( 'PrioritaetGesamt', '2 (in den nächsten 3 Jahren)');
 		break;
 	case 3:
-		setText( 'PrioritaetGesamt', '3 (hoch)');
+		setText( 'PrioritaetGesamt', '3 (in den nächsten 10 Jahren)');
 		break;
 	case 4:
-		setText( 'PrioritaetGesamt', '4 (normal)');
+		setText( 'PrioritaetGesamt', '4 (wünschenswert)');
 		break;
 	case 5:
 		setText( 'PrioritaetGesamt', '5 (niedrig)');
@@ -463,7 +464,7 @@ function createStatistics( data)
 		'FassadenKosten','FensterKosten','FlaecheNichtSaniert','GF','GebaeudeGesamt',
 		'Grundstuecksflaeche','NF','NGF','Raeume2Kosten','RaeumeKosten','RampeAnzahl',
 		'RampeKosten','SanitaerKosten','Sanitaerflaeche','ZwischensummeBarrierefreiheitKosten',
-		'zweiterRettungswegKosten'
+		'zweiterRettungswegKosten','Aussenanlagen'
 	];
 	var sumCond = [
 		{calc: 'FensterFlaeche', condition: 'FensterKosten' /*'SanierungFensterNotwendig'*/},
@@ -535,6 +536,34 @@ function createStatistics( data)
 
 // -----------------------------------------------------------------------------
 
+function enrichMissingData( data)
+{
+	try {
+		$.each( data, function( key, value) {
+			var val = fixData(value);
+			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
+				var sum1 = val.GebaeudeGesamt;
+				var sum2 = val.FensterKosten + val.FassadenKosten + val.DachKosten + val.ZwischensummeBarrierefreiheitKosten + val.zweiterRettungswegKosten + val.RaeumeKosten + val.SanitaerKosten;
+				var diff = sum1 - sum2;
+				var isSport = val.Bauwerk.startsWith( 'Sport');
+				var isSchool = !isSport && (val.Bauwerk.indexOf( 'chul') !== -1);
+
+				if( isSchool && (diff > 1000)) {
+					val.Aussenanlagen = diff;
+				} else {
+					val.Aussenanlagen = 0;
+				}
+			}
+		});
+	} catch( e) {
+		console.log(e);
+	}
+
+	return data;
+}
+
+// -----------------------------------------------------------------------------
+
 function logStatistics( data, budgetData)
 {
 	try {
@@ -542,22 +571,55 @@ function logStatistics( data, budgetData)
 		$.each( data, function( key, val) {
 			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 				var sum1 = val.GebaeudeGesamt;
-				var sum2 = val.FensterKosten + val.FassadenKosten + val.DachKosten + val.ZwischensummeBarrierefreiheitKosten + val.zweiterRettungswegKosten + val.RaeumeKosten + val.SanitaerKosten;
+				var sum2 = val.FensterKosten + val.FassadenKosten + val.DachKosten + val.ZwischensummeBarrierefreiheitKosten + val.zweiterRettungswegKosten + val.RaeumeKosten + val.SanitaerKosten +  + val.Aussenanlagen;
 				var diff = sum1 - sum2;
 				var isSport = val.Bauwerk.startsWith( 'Sport');
+				var isSchool = !isSport && (val.Bauwerk.indexOf( 'chul') !== -1);
 
-/*				if( isSport) {
+				if( isSport) {
 					sumDiff += diff;
 					if( diff > 1000) {
-						console.log( val.Schulname + ': ' + val.Bauwerk);
-						console.log( sum1/1000 + 'T€ - ' + sum2/1000 + 'T€ = ' + diff/1000 + 'T€');
+						if( diff == 2100000) {
+							// 743 <= val.GF <= 765
+//							console.log( val.Schulname + ': ' + val.GF);
+						} else if( diff == 3200000) {
+							// 1160 <= val.GF <= 1174 + 1783
+//							console.log( val.Schulname + ': ' + val.GF);
+						} else {
+//							console.log( val.Schulname + ': ' + val.Bauwerk);
+//							console.log( sum1/1000 + 'T€ - ' + sum2/1000 + 'T€ = ' + diff/1000 + 'T€');
+//							console.log( val.Schulname + ': ' + val.GF);
+/*
+827T€
+Randow-Schule: 756
+
+1800T€
+Friedrichsfelder Schule: 436
+1800T€
+Lew-Tolstoi-Schule: 454
+1840T€
+Mildred-Harnack-Schule: 850
+
+2137T€
+Manfred-von-Ardenne-Gymnasium: 757
+2184T€
+Manfred-von-Ardenne-Gymnasium: 757
+2195T€
+Alexander-Puschkin-Schule: 757
+2484T€
+Filiale Paul-Schmidt-Schule: 756
+
+3360T€
+Alexander-Puschkin-Schule: 1167
+*/
+						}
 					}
-				}*/
+				}
 /*				if( !isSport) {
 					sumDiff += diff;
 					if( diff > 1000) {
-						console.log( val.Schulname + ': ' + val.Bauwerk);
-						console.log( sum1/1000 + 'T€ - ' + sum2/1000 + 'T€ = ' + diff/1000 + 'T€');
+//						console.log( val.Schulname + ': ' + val.Bauwerk);
+//						console.log( sum1/1000 + 'T€ - ' + sum2/1000 + 'T€ = ' + diff/1000 + 'T€');
 					}
 				}*/
 			}
