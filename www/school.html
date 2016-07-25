@@ -48,7 +48,13 @@
 		.center { text-align:center; }
 
 		#receiptBox { position: absolute; top: 10px; left: 10px; width: 20em; max-width: 20em; display:none; }
-		#searchBox { position: absolute; top: 10px; right: 10px; width: 20em; max-width: 20em; }
+		#searchBox { position: absolute; top: 40%; right: 10px; width: 20em; max-width: 20em;
+			-webkit-transition: top 200ms linear;
+			-moz-transition: top 200ms linear;
+			-ms-transition: top 200ms linear;
+			-o-transition: top 200ms linear;
+			transition: top 200ms linear;
+		}
 
 		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; }
 		#receipt .full { white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis; width: 22em; }
@@ -100,10 +106,15 @@
 
 		#receiptInfo { background: #ffff99; color: #555; border: 1px solid #555; margin: -1px 1em; padding: .5em .7em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; }
 
-		#searchBox div { background: #fff; border: 1px solid #555; text-shadow: none; border-radius: 0; box-shadow: none; float: right; margin: 0; font-size:13px; }
-		#searchBox div:nth-child(2) { border-right: none; border-radius: 1.2em 0 0 1.2em; height: 2.2em; }
-		#searchBox div:nth-child(1) { border-left: none; border-radius: 0 1.2em 1.2em 0; width: 20em; }
-		#searchBox div i { padding: .6em .6em 0 .6em; color: #aaa; }
+		#searchBox { background: rgba(255,255,255,.7); border-left: 2px solid #38aadd; padding: .5em; font-family: 'Montserrat', sans-serif; font-style: normal; }
+		#searchBox h3 { margin: 0; }
+		#searchBox .sample { font-size: 13px; padding: .5em 0; color: #999; }
+		#searchBox .sample a { font-weight: 300; color: #38aadd; text-decoration: none; border-bottom: 2px solid transparent; }
+		#searchBox .sample a:hover { border-bottom-color: #38aadd; }
+		#searchBox .searchInput div { background: #fff; border: 1px solid #555; text-shadow: none; border-radius: 0; box-shadow: none; float: right; margin: 0; font-size:13px; }
+		#searchBox .searchInput div:nth-child(2) { border-right: none; border-radius: 1.2em 0 0 1.2em; height: 2.2em; }
+		#searchBox .searchInput div:nth-child(1) { border-left: none; border-radius: 0 1.2em 1.2em 0; width: 20em; }
+		#searchBox .searchInput i { padding: .6em .6em 0 .6em; color: #aaa; }
 		#searchBox input { font-size: 13px; font-family: 'Montserrat', sans-serif; font-style: normal; font-weight: 400; }
 		#searchBox input::-webkit-input-placeholder { color: #aaa; }
 		#searchBox input::-moz-placeholder { color: #aaa; }
@@ -203,15 +214,20 @@
 					<div class="sub"><span class="half">Sanierung notwendig</span><span class="boolean"><span id="recSanierungRaeume2Notwendig"></span></span></div>
 				</div>
 				<div class="group groupClosed">
+					<div><span class="half">Baukosten</span><span class="number"><span id="recBaukosten"></span> EUR</span></div>
+					<div class="sub"><span class="half">Pauschale Baukosten</span><span class="number"><span id="recBaukosten_"></span> EUR</span></div>
+				</div>
+				<div class="group groupClosed">
 					<div><span class="half">Außenanlagen</span><span class="number"><span id="recAussenanlagen">-</span> EUR</span></div>
 					<div class="sub"><span class="half">Schulhof</span><span class="number"></div>
 					<div class="sub"><span class="half">Sportplatz</span><span class="number"></div>
 				</div>
 				<div class="full">--------------------------------------------</div>
-				<div class="group groupClosed">
+				<div><span class="half">SUMME</span><span class="number"><span id="recGebaeudeGesamt"></span> EUR</span></div>
+<!--				<div class="group groupClosed">
 					<div><span class="half">SUMME</span><span class="number"><span id="recGebaeudeGesamt"></span> EUR</span></div>
 					<div class="sub"><span class="half">Summe der Einzelposten</span><span class="number"><span id="recGebaeudeGesamt_"></span> EUR</span></div>
-				</div>
+				</div> -->
 				<div class="full">============================================</div>
 				<div class="empty"></div>
 				<div class="group groupClosed" id="thisYear"></div>
@@ -222,6 +238,7 @@
 				<div class="full" id="recNow_"></div>
 				<div class="empty"></div>
 				<div class="full center">Vielen Dank für Ihren Einkauf!</div>
+				<div class="full center">Sanieren Sie bald wieder</div>
 <!--			<div class="full center">Auf Wiedersehen</div>
 				<div class="full">Sie wurden beraten von Herr T...</div>
 				---------------<br>
@@ -232,8 +249,14 @@
 			<div id="receiptInfo"><i class="fa fa-info-circle" aria-hidden="true"></i> Noch mehr Informationen erscheinen, wenn du auf die einzelnen Zeilen klickst.</div>
 		</div>
 		<div id="searchBox">
-			<input type="text" name="schools" id="autocomplete" placeholder="Geben Sie einen Schulnamen ein" />
-			<div><i class="fa fa-search" aria-hidden="true"></i></div>
+			<h3>Wie kaputt ist Ihre Schule?</h3>
+			<div class="sample">
+				Zum Beispiel: <a href="#">Obersee-Schule</a>, <a href="#">Lichtenberg</a>
+			</div>
+			<div class="searchInput">
+				<input type="text" name="schools" id="autocomplete" placeholder="Geben Sie einen Schulnamen ein" />
+				<div><i class="fa fa-search" aria-hidden="true"></i></div>
+			</div>
 		</div>
 	</div>
 </body>

@@ -8,6 +8,13 @@ var budget = null;
 
 // -----------------------------------------------------------------------------
 
+function mapAction()
+{
+	$('#searchBox').css( 'top', '10px');
+}
+
+// -----------------------------------------------------------------------------
+
 function initMap( elementName, lat, lng, zoom)
 {
 	if( null == map) {
@@ -22,6 +29,11 @@ function initMap( elementName, lat, lng, zoom)
 			.setView( [lat, lng], zoom);
 
 		map.addControl( L.control.zoom({ position: 'bottomright'}));
+//		map.on('click', mapAction);
+//		map.on('mousedown', mapAction);
+		map.on('dragstart', mapAction);
+		map.on('zoomstart', mapAction);
+		map.on('autopanstart', mapAction);
 
 		var dataUrl = 'data/gebaeudescan.json';
 		$.getJSON( dataUrl, function( data) {
@@ -67,6 +79,7 @@ function initSearchBox( data)
 		return a.value > b.value ? 1 : -1;
 	});
 
+	$('#autocomplete').focus(mapAction);
 	$('#autocomplete').autocomplete({
 		lookup: schools,
 		onSelect: function (suggestion) {
@@ -274,6 +287,14 @@ $( document).on( "pageshow", "#pageMap", function()
 	$( '#receiptClose').on( 'click', function( e) {
 		$( '#receiptBox').css( 'display', 'none');
 	});
+	$( '#searchBox .sample a:nth-child(1)').on( 'click', function( e) {
+		$( '#autocomplete').val( 'Obersee-Schule (11G19)');
+		selectSuggestion( 1111901);
+	});
+	$( '#searchBox .sample a:nth-child(2)').on( 'click', function( e) {
+		$( '#autocomplete').val( 'Lichtenberg');
+		selectSuggestion( 1100000);
+	});
 });
 
 // -----------------------------------------------------------------------------
@@ -312,6 +333,8 @@ function updateMapSelectItem( data)
 		item.text( txt);
 	}
 
+	mapAction();
+
 	for(var key in data) {
 		setText( key, data[key]);
 	}
@@ -322,11 +345,12 @@ function updateMapSelectItem( data)
 	setText( 'RaeumeKosten_', data.RaeumeNutzflaecheBGF * data.RaeumeKostenpauschale);
 	setText( 'Raeume2NF_', data.NF - data.Sanitaerflaeche);
 	setText( 'Raeume2Kosten_', data.Raeume2Nutzflaeche * data.Raeume2Kostenpauschale);
-	setText( 'GebaeudeGesamt_', data.FensterKosten + data.FassadenKosten + data.DachKosten + data.ZwischensummeBarrierefreiheitKosten + data.zweiterRettungswegKosten + data.RaeumeKosten + data.SanitaerKosten + data.Aussenanlagen);
+	setText( 'GebaeudeGesamt_', data.FensterKosten + data.FassadenKosten + data.DachKosten + data.ZwischensummeBarrierefreiheitKosten + data.zweiterRettungswegKosten + data.RaeumeKosten + data.SanitaerKosten + data.Baukosten + data.Aussenanlagen);
 
 	setText( 'zweiterRettungswegKosten_', data.zweiterRettungswegKosten);
 	setText( 'FassadenFlaecheOhneFenster_', data.FassadenFlaecheOhneFenster);
 	setText( 'BGF_', data.BGF);
+	setText( 'Baukosten_', data.Baukosten);
 
 	var date = new Date(),
 		dateD = date.getDate(),
@@ -464,7 +488,7 @@ function createStatistics( data)
 		'FassadenKosten','FensterKosten','FlaecheNichtSaniert','GF','GebaeudeGesamt',
 		'Grundstuecksflaeche','NF','NGF','Raeume2Kosten','RaeumeKosten','RampeAnzahl',
 		'RampeKosten','SanitaerKosten','Sanitaerflaeche','ZwischensummeBarrierefreiheitKosten',
-		'zweiterRettungswegKosten','Aussenanlagen'
+		'zweiterRettungswegKosten','Baukosten','Aussenanlagen'
 	];
 	var sumCond = [
 		{calc: 'FensterFlaeche', condition: 'FensterKosten' /*'SanierungFensterNotwendig'*/},
@@ -548,10 +572,13 @@ function enrichMissingData( data)
 				var isSport = val.Bauwerk.startsWith( 'Sport');
 				var isSchool = !isSport && (val.Bauwerk.indexOf( 'chul') !== -1);
 
+				val.Aussenanlagen = 0;
+				val.Baukosten = 0;
+
 				if( isSchool && (diff > 1000)) {
 					val.Aussenanlagen = diff;
-				} else {
-					val.Aussenanlagen = 0;
+				} else if( isSport && (diff > 1000)) {
+					val.Baukosten = diff;
 				}
 			}
 		});
@@ -571,7 +598,7 @@ function logStatistics( data, budgetData)
 		$.each( data, function( key, val) {
 			if((typeof val.lat != 'undefined') && (typeof val.lng != 'undefined')) {
 				var sum1 = val.GebaeudeGesamt;
-				var sum2 = val.FensterKosten + val.FassadenKosten + val.DachKosten + val.ZwischensummeBarrierefreiheitKosten + val.zweiterRettungswegKosten + val.RaeumeKosten + val.SanitaerKosten +  + val.Aussenanlagen;
+				var sum2 = val.FensterKosten + val.FassadenKosten + val.DachKosten + val.ZwischensummeBarrierefreiheitKosten + val.zweiterRettungswegKosten + val.RaeumeKosten + val.SanitaerKosten + val.Baukosten + val.Aussenanlagen;
 				var diff = sum1 - sum2;
 				var isSport = val.Bauwerk.startsWith( 'Sport');
 				var isSchool = !isSport && (val.Bauwerk.indexOf( 'chul') !== -1);
@@ -579,7 +606,10 @@ function logStatistics( data, budgetData)
 				if( isSport) {
 					sumDiff += diff;
 					if( diff > 1000) {
-						if( diff == 2100000) {
+						if( diff == 1800000) {
+							// 436 <= val.GF <= 454
+//							console.log( val.Schulname + ': ' + val.GF);
+						} else if( diff == 2100000) {
 							// 743 <= val.GF <= 765
 //							console.log( val.Schulname + ': ' + val.GF);
 						} else if( diff == 3200000) {
@@ -587,16 +617,14 @@ function logStatistics( data, budgetData)
 //							console.log( val.Schulname + ': ' + val.GF);
 						} else {
 //							console.log( val.Schulname + ': ' + val.Bauwerk);
+//							console.log( val.Schulname + ': ' + val.GF+ ' qm');
 //							console.log( sum1/1000 + 'T€ - ' + sum2/1000 + 'T€ = ' + diff/1000 + 'T€');
-//							console.log( val.Schulname + ': ' + val.GF);
+//							console.log( val.Grundstuecksflaeche + ' qm Grundstück');
+//							console.log( parseInt(diff / (val.Grundstuecksflaeche - val.GF)) + ' €/qm');
 /*
 827T€
 Randow-Schule: 756
 
-1800T€
-Friedrichsfelder Schule: 436
-1800T€
-Lew-Tolstoi-Schule: 454
 1840T€
 Mildred-Harnack-Schule: 850
 
