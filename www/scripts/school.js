@@ -10,7 +10,8 @@ var budget = null;
 
 function mapAction()
 {
-	$('#searchBox').css( 'top', '10px');
+	$('#headerBox').removeClass( 'big');
+	$('#searchBox').css( 'top', '50px');
 }
 
 // -----------------------------------------------------------------------------

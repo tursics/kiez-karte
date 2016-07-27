@@ -33,7 +33,7 @@
 	<link rel="stylesheet" href="scripts/leaflet-0.7.3/leaflet.css" />
 	<link rel="stylesheet" href="scripts/index.css" />
 	<link rel="stylesheet" href="scripts/leaflet.awesome-markers-2.0.2/leaflet.awesome-markers.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Montserrat|Noto+Serif">
 
 	<script src="scripts/leaflet-0.7.3/leaflet.js"></script>
 	<script src="scripts/jquery.mobile-1.4.2/jquery-1.11.1.min.js"></script>
@@ -47,13 +47,21 @@
 		.bold { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 700; }
 		.center { text-align:center; }
 
-		#receiptBox { position: absolute; top: 10px; left: 10px; width: 20em; max-width: 20em; display:none; }
+		#receiptBox { position: absolute; top: 50px; left: 10px; width: 20em; max-width: 20em; display:none; }
 		#searchBox { position: absolute; top: 40%; right: 10px; width: 20em; max-width: 20em;
 			-webkit-transition: top 200ms linear;
 			-moz-transition: top 200ms linear;
 			-ms-transition: top 200ms linear;
 			-o-transition: top 200ms linear;
 			transition: top 200ms linear;
+		}
+		#headerBox { position: absolute; top: 0; width: 100%; }
+		#headerBox h1 {
+			-webkit-transition: font-size 200ms linear;
+			-moz-transition: font-size 200ms linear;
+			-ms-transition: font-size 200ms linear;
+			-o-transition: font-size 200ms linear;
+			transition: font-size 200ms linear;
 		}
 
 		#receipt { background-color: #FFF; border: 1px solid #555; color: #555; margin: 0; padding: 1.5em 1em !important; line-height: 1em; }
@@ -121,6 +129,13 @@
 		#searchBox input:-ms-input-placeholder { color: #aaa; }
 		#searchBox input:-moz-placeholder { color: #aaa; }
 
+		#headerBox { background: rgba(255,255,255,.7); text-align: left; padding: .4em 0 .4em 2em; font-family: 'Montserrat', sans-serif; font-style: normal; }
+		#headerBox.big { text-align: center; border-bottom: 2px solid #38aadd; padding: 1em 0; }
+		#headerBox h1 { margin: 0; font-size: 20px; }
+		#headerBox.big h1 { margin: 0 0 .3em 0; font-size: 42px; }
+		#headerBox div { font-family: 'Noto Serif', serif; font-size: 18px; display: none; }
+		#headerBox.big div { display: block; }
+
 		.autocomplete-suggestions { font-size: 13px; font-family: 'Montserrat', sans-serif; font-style: normal; font-weight: 400; border: 1px solid #555; background: #FFF; overflow: auto; text-shadow: none; margin-left: -1em; }
 		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; border-bottom: 1px solid #ddd;
 			-webkit-transition: background-color 200ms linear;
@@ -141,6 +156,10 @@
 <body>
 	<div data-role="page" id="pageMap" style="overflow-y:hidden;">
 		<div role="main" class="ui-content" id="mapContainer"></div>
+		<div id="headerBox" class="big">
+			<h1>Wo unsere Kinder lernen</h1>
+			<div>Viele Schulen in Berlin sind marode. Wie teuer die Sanierung<br>wird, können sie auf dieser Karte erkunden.</div>
+		</div>
 		<div id="receiptBox">
 			<div id="receiptClose"><i class="fa fa-close" aria-hidden="true"></i></div>
 			<div id="receipt" class="normal">
@@ -230,7 +249,7 @@
 				</div> -->
 				<div class="full">============================================</div>
 				<div class="empty"></div>
-				<div class="group groupClosed" id="thisYear"></div>
+<!--				<div class="group groupClosed" id="thisYear"></div> -->
 <!--				<div><span class="half">bis Ende 2016 verbaut</span><span class="number">- EUR</span></div>
 				<div><span class="half">Gelder bereits gesichert</span><span class="number">- EUR</span></div>
 				<div><span class="half">Restbetrag</span><span class="number">- EUR</span></div> -->
