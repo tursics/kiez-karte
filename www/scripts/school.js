@@ -11,7 +11,7 @@ var budget = null;
 function mapAction()
 {
 	$('#headerBox').removeClass( 'big');
-	$('#searchBox').css( 'top', '50px');
+	$('#searchBox').removeClass( 'big');
 }
 
 // -----------------------------------------------------------------------------

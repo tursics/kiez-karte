@@ -47,8 +47,8 @@
 		.bold { font-size: 13px; font-family: 'Inconsolata', monospace; font-style: normal; font-weight: 700; }
 		.center { text-align:center; }
 
-		#receiptBox { position: absolute; top: 50px; left: 10px; width: 20em; max-width: 20em; display:none; }
-		#searchBox { position: absolute; top: 40%; right: 10px; width: 20em; max-width: 20em;
+		#receiptBox { position: absolute; top: 55px; left: 10px; width: 20em; max-width: 20em; display:none; }
+		#searchBox { position: absolute; top: 40px; right: 0; width: 20em; max-width: 20em;
 			-webkit-transition: top 200ms linear;
 			-moz-transition: top 200ms linear;
 			-ms-transition: top 200ms linear;
@@ -114,7 +114,8 @@
 
 		#receiptInfo { background: #ffff99; color: #555; border: 1px solid #555; margin: -1px 1em; padding: .5em .7em !important; font-family: 'Montserrat', sans-serif; font-size: 13px; }
 
-		#searchBox { background: rgba(255,255,255,.7); border-left: 2px solid #38aadd; padding: .5em; font-family: 'Montserrat', sans-serif; font-style: normal; }
+		#searchBox { background: rgba(255,255,255,.7); border-left: 2px solid #38aadd; border-top: 1px solid #38aadd60; padding: .5em; font-family: 'Montserrat', sans-serif; font-style: normal; }
+		#searchBox.big { top: 40%; border-top: 1px solid transparent; }
 		#searchBox h3 { margin: 0; }
 		#searchBox .sample { font-size: 13px; padding: .5em 0; color: #999; }
 		#searchBox .sample a { font-weight: 300; color: #38aadd; text-decoration: none; border-bottom: 2px solid transparent; }
@@ -129,8 +130,8 @@
 		#searchBox input:-ms-input-placeholder { color: #aaa; }
 		#searchBox input:-moz-placeholder { color: #aaa; }
 
-		#headerBox { background: rgba(255,255,255,.7); text-align: left; padding: .4em 0 .4em 2em; font-family: 'Montserrat', sans-serif; font-style: normal; }
-		#headerBox.big { text-align: center; border-bottom: 2px solid #38aadd; padding: 1em 0; }
+		#headerBox { background: rgba(255,255,255,.7); text-align: left; padding: 7px 0 7px 2em; line-height: 26px; font-family: 'Montserrat', sans-serif; font-style: normal; }
+		#headerBox.big { text-align: center; border-bottom: 2px solid #38aadd; padding: 1em 0; line-height: 1.3; }
 		#headerBox h1 { margin: 0; font-size: 20px; }
 		#headerBox.big h1 { margin: 0 0 .3em 0; font-size: 42px; }
 		#headerBox div { font-family: 'Noto Serif', serif; font-size: 18px; display: none; }
@@ -158,7 +159,7 @@
 		<div role="main" class="ui-content" id="mapContainer"></div>
 		<div id="headerBox" class="big">
 			<h1>Wo unsere Kinder lernen</h1>
-			<div>Viele Schulen in Berlin sind marode. Wie teuer die Sanierung<br>wird, können sie auf dieser Karte erkunden.</div>
+			<div>Viele Schulen in Berlin sind marode. Wie teuer die Sanierung<br>wirklich wird, können sie auf dieser Karte erkunden.</div>
 		</div>
 		<div id="receiptBox">
 			<div id="receiptClose"><i class="fa fa-close" aria-hidden="true"></i></div>
@@ -249,7 +250,7 @@
 				</div> -->
 				<div class="full">============================================</div>
 				<div class="empty"></div>
-<!--				<div class="group groupClosed" id="thisYear"></div> -->
+				<div class="group groupClosed" id="thisYear"></div>
 <!--				<div><span class="half">bis Ende 2016 verbaut</span><span class="number">- EUR</span></div>
 				<div><span class="half">Gelder bereits gesichert</span><span class="number">- EUR</span></div>
 				<div><span class="half">Restbetrag</span><span class="number">- EUR</span></div> -->
@@ -267,7 +268,7 @@
 			</div>
 			<div id="receiptInfo"><i class="fa fa-info-circle" aria-hidden="true"></i> Noch mehr Informationen erscheinen, wenn du auf die einzelnen Zeilen klickst.</div>
 		</div>
-		<div id="searchBox">
+		<div id="searchBox" class="big">
 			<h3>Wie kaputt ist Ihre Schule?</h3>
 			<div class="sample">
 				Zum Beispiel: <a href="#">Obersee-Schule</a>, <a href="#">Lichtenberg</a>
