@@ -1,0 +1,117 @@
+[
+{
+	"name":"HomeInspection",
+	"path":"http://daten.berlin.de/datensaetze/pr%C3%BCfberichte-der-berliner-heimaufsicht",
+	"filetype":"gjson",
+	"dict":{
+		"id":"id",
+		"_wgs84_lat":"lat",
+		"_wgs84_lon":"lng",
+		"einrichtung_name":"title",
+		"einrichtung_wohnform":"livingclass",
+		"einrichtung_versorgungsform":"supportform",
+		"einrichtung_platzzahl":"places",
+		"einrichtung_strasse":"street",
+		"einrichtung_hnr":"streetnumber",
+		"einrichtung_bezirk":"district",
+		"einrichtung_plz":"zip",
+		"einrichtung_ort":"city",
+		"einrichtung_telefon":"phone",
+		"einrichtung_fax":"fax",
+		"einrichtung_email":"email",
+		"traeger_name":"operator",
+		"traeger_strasse":"operatorstreet",
+		"traeger_hnr":"operatorstreetnumber",
+		"traeger_plz":"operatorzip",
+		"traeger_ort":"operatorcity",
+		"traeger_telefon":"operatorphone",
+		"pruefung_1":"audit1",
+		"pruefung_2":"audit2",
+		"pruefung_3":"audit3",
+		"pruefung_4":"audit4",
+		"pruefung_5":"audit5",
+		"pruefung_6":"audit6",
+		"pruefung_7":"audit7",
+		"pruefung_8":"audit8",
+		"pruefung_9":"audit9",
+		"pruefung_10":"audit10"
+	},
+	"ignore":["pruefung_1_gegendarstellung_1","pruefung_1_ergaenzender_bericht_1","pruefung_1_gegendarstellung_2","pruefung_1_ergaenzender_bericht_2","pruefung_1_gegendarstellung_3","pruefung_2_gegendarstellung_1","pruefung_2_ergaenzender_bericht_1","pruefung_2_gegendarstellung_2","pruefung_2_ergaenzender_bericht_2","pruefung_2_gegendarstellung_3","pruefung_3_gegendarstellung_1","pruefung_3_ergaenzender_bericht_1","pruefung_3_gegendarstellung_2","pruefung_3_ergaenzender_bericht_2","pruefung_3_gegendarstellung_3","pruefung_4_gegendarstellung_1","pruefung_4_ergaenzender_bericht_1","pruefung_4_gegendarstellung_2","pruefung_4_ergaenzender_bericht_2","pruefung_4_gegendarstellung_3","pruefung_5_gegendarstellung_1","pruefung_5_ergaenzender_bericht_1","pruefung_5_gegendarstellung_2","pruefung_5_ergaenzender_bericht_2","pruefung_5_gegendarstellung_3","pruefung_6_gegendarstellung_1","pruefung_6_ergaenzender_bericht_1","pruefung_6_gegendarstellung_2","pruefung_6_ergaenzender_bericht_2","pruefung_6_gegendarstellung_3","pruefung_7_gegendarstellung_1","pruefung_7_ergaenzender_bericht_1","pruefung_7_gegendarstellung_2","pruefung_7_ergaenzender_bericht_2","pruefung_7_gegendarstellung_3","pruefung_8_gegendarstellung_1","pruefung_8_ergaenzender_bericht_1","pruefung_8_gegendarstellung_2","pruefung_8_ergaenzender_bericht_2","pruefung_8_gegendarstellung_3","pruefung_9_gegendarstellung_1","pruefung_9_ergaenzender_bericht_1","pruefung_9_gegendarstellung_2","pruefung_9_ergaenzender_bericht_2","pruefung_9_gegendarstellung_3","pruefung_10_gegendarstellung_1","pruefung_10_ergaenzender_bericht_1","pruefung_10_gegendarstellung_2","pruefung_10_ergaenzender_bericht_2","pruefung_10_gegendarstellung_3"]
+},
+{
+	"name":"Restrooms",
+	"path":"http://daten.berlin.de/datensaetze/%C3%B6ffentliche-toiletten-im-bezirk",
+	"filetype":"gjson",
+	"dict":{
+		"id":"id",
+		"einrichtung":"class",
+		"benennung":"title",
+		"plz":"zip",
+		"strasse":"street",
+		"zusatz_oertlichkeit":"notes",
+		"benutzung":"fee",
+		"oeffnungszeiten":"openinghours",
+		"barrierefreiheit":"accessibility",
+		"_wgs84_lat":"lat",
+		"_wgs84_lon":"lng"
+	},
+	"ignore":[]
+},
+{
+	"name":"WaterQuality",
+	"path":"http://daten.berlin.de/datensaetze/liste-der-badestellen-badegew%C3%A4sserqualit%C3%A4t",
+	"filetype":"gjson",
+	"dict":{
+		"id":"id",
+		"badname":"title",
+		"bezirk":"district",
+		"dat":"date",
+		"cb":"coliformbacteria",
+		"eco":"ecoli",
+		"ente":"enterococcus",
+		"sicht":"viewdepth",
+		"latitude":"lat",
+		"longitude":"lng",
+		"algen":"algae",
+		"wasserqualitaet":"waterquality"
+	},
+	"ignore":["farbe","badestellelink","profil","profillink","rss_name","bsl"]
+},
+{
+	"name":"PublicFestivals",
+	"path":"http://daten.berlin.de/datensaetze/stra%C3%9Fen-und-volksfeste",
+	"filetype":"json",
+	"dict":{
+		"id":"id",
+		"bezirk":"district",
+		"bezeichnung":"title",
+		"strasse":"address",
+		"plz":"zip",
+		"von":"openingstartdate",
+		"bis":"openingenddate",
+		"zeit":"openinghours",
+		"veranstalter":"operator",
+		"mail":"email",
+		"www":"web",
+		"bemerkungen":"notes"
+	},
+	"ignore":[]
+},
+{
+	"name":"JunkMarkets",
+	"path":"http://daten.berlin.de/datensaetze/wochen-und-tr%C3%B6delm%C3%A4rkte",
+	"filetype":"json",
+	"dict":{
+		"id":"id",
+		"bezirk":"district",
+		"location":"address",
+		"tage":"openingdays",
+		"zeiten":"openinghours",
+		"betreiber":"operator",
+		"e_mail":"email",
+		"www":"web",
+		"bemerkungen":"notes"
+	},
+	"ignore":[]
+}
+]
